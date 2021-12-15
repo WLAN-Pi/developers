@@ -33,7 +33,7 @@ Currently, VSC is checking `uname -a`, so let’s trick VSC server install, sinc
 
 ## Workaround
 
-First validate where uname is on the $PATH:
+First validate where `uname` is on the $PATH:
 
 ```bash
 wlanpi@wlanpi-cm4-emmc-waves:[/usr/local/bin]: which uname
@@ -42,7 +42,9 @@ wlanpi@wlanpi-cm4-emmc-waves:[/usr/local/bin]: $PATH
 -bash: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/wlanpi/pipx/bin: No such file or directory
 ```
 
-Put a file with the following contents somewhere in your $PATH before /usr/bin (for example into /usr/local/bin/uname).
+We need to create a file with the following contents in a location someone on your `$PATH` before `/usr/bin`.
+
+In this example, I'm going to use `/usr/local/bin/uname`.
 
 Example:
 
@@ -63,7 +65,9 @@ Make sure it is executable:
 chmod +x /usr/local/bin/uname
 ```
 
-Verify before trying to install VSC again:
+Ok, great. We should be wrapping `uname` and replacing `aarch64` with `armv7l` whenever `uname` is called.
+
+Time to verify before trying to install VSC via Remote-SSH again:
 
 ```bash
 wlanpi@wlanpi-cm4-emmc-waves:[~]: /usr/local/bin/uname -a
@@ -80,4 +84,6 @@ rm -rf ~/.vscode-server
 
 Now you should be able to create a new Remote-SSH session from your host to the WLAN Pi.
 
-VSC should install with no problems your host running an arm64 kernel with armhf userland.
+And VSC should install with no problems your host running an arm64 kernel with armhf userland. :crossed_fingers:
+
+:metal:
