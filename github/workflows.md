@@ -6,7 +6,9 @@ There are two primary workflows around packaging and deployment.
 
 They are similar with slight differences.
 
-The core of the logic for each is in [sbuild-debian-package](github.com/wlan-pi/sbuild-debian-package) maintained by [Daniel Finimundi](https://github.com/danielmundi).
+The core of the build logic for each is in [sbuild-debian-package](github.com/wlan-pi/sbuild-debian-package) maintained by [Daniel Finimundi](https://github.com/danielmundi).
+
+For the workflow files on GitHub, they are primarily maintained by [Josh Schmelzle](https://github.com/joshschmelzle) and [Jiri Brejcha](https://github.com/jiribrejcha).
 
 ### Build and Archive Debian Package
 
