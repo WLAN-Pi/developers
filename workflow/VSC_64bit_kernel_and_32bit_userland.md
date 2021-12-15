@@ -1,18 +1,20 @@
 # Visual Studio Code (VSC) Remote-SSH Installation Troubleshooting
 
-## Seeing `node not found` or VSC not able to launch on the Remote-SSH?
+## Seeing `node not found` or VSC not launching in the Remote-SSH session?
 
 Something like this during install:
 
 ```bash
-> /home/wlanpi/.vscode-server/bin/f4af3cbf5a99787542e2a30fe1fd37cd644cc31f/server.sh: 12: /home/wlanpi/.vscode-server/bin/f4af3cbf5a99787542e2a30fe1fd37cd644cc31f/server.sh: /home/wlanpi/.vscode-server/bin/f4af3cbf5a99787542e2a30fe1fd37cd644cc31f/node: not found
+> /home/wlanpi/.vscode-server/bin/f4af3cbf5a99787542e2a30fe1fd37cd644cc31f/server.sh: 
+12: /home/wlanpi/.vscode-server/bin/f4af3cbf5a99787542e2a30fe1fd37cd644cc31f/server.sh: 
+/home/wlanpi/.vscode-server/bin/f4af3cbf5a99787542e2a30fe1fd37cd644cc31f/node: not found
 ```
 
 Or perhaps you're seeing `Waiting for server log...` and the install just times out with no useful information.
 
 This can occur if the device is using an arm64 kernel with an armhf (32bit) userland.
 
-Here’s a different workaround while we wait for a better fix (which would be for vscode to check getconf LONG_BIT or file /usr/bin/ls instead of uname -a):
+Here’s a different workaround while we wait for a better fix (which would be for VSC to check `getconf LONG_BIT` or `file /usr/bin/ls` instead of `uname -a`):
 
 Example:
 
@@ -25,9 +27,11 @@ wlanpi@wlanpi-cm4-emmc-waves:[~]: uname -a
 Linux wlanpi-cm4-emmc-waves 5.15.0-v8-WLAN_Pi+ #2 SMP PREEMPT Fri Nov 5 11:55:13 CDT 2021 aarch64 GNU/Linux
 ```
 
-## Problem?
+## Problem
 
 Currently, VSC is checking `uname -a`, so let’s trick VSC server install, since we’ve got 32 bit userland.
+
+## Workaround
 
 First validate where uname is on the $PATH:
 
@@ -74,4 +78,6 @@ OK, now we need to remove the old install files.
 rm -rf ~/.vscode-server
 ```
 
-Now you should be able to create a new Remote-SSH session from your host to the WLAN Pi. VSC install should be successful on your arm64 kernel with armhf userland.
+Now you should be able to create a new Remote-SSH session from your host to the WLAN Pi.
+
+VSC should install with no problems your host running an arm64 kernel with armhf userland.
