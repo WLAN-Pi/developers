@@ -9,10 +9,11 @@ There is a need to have a straight forward guide reflecting WLAN Pi's style guid
 - [Anti-patterns](ANTIPATTERNS.md)
 - [Contributing](CONTRIBUTING.md)
 - [Debchange](DCH.md)
+- [Developer Workflow](WORKFLOW.md)
 - [Git](GIT.md)
+- [Manpages](MANPAGES.MD)
 - [Packaging](PACKAGING.md)
 - [Python](PYTHON.md)
-- [Developer Workflow](WORKFLOW.md)
 
 ## Feedback Loop
 
