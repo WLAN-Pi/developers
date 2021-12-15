@@ -5,6 +5,7 @@ A collection of documentation for WLAN Pi developers and newcomers including sty
 ## Table of contents
 
 * [architecture](architecture)
+- [code of conduct](CODE_OF_CONDUCT.md)
 * [github](github)
 * [style](style)
 * [workflow](workflow)

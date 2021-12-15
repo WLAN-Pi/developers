@@ -4,7 +4,6 @@ Welcome to the WLAN Pi Developer Architecture Documentation for the WLAN Pi.
 
 ## Table of Contents
 
-- [Code of Conduct](CODE_OF_CONDUCT.md)
 - [Filesystem Hierarchy Structure](FHS.md)
 - [Maintainers](MAINTAINERS.md)
 - [Packaging](PACKAGING.md)
