@@ -56,7 +56,7 @@ Add:
 
 ```bash
 #!/bin/sh
-exec /bin/uname “$@” | sed ‘s/aarch64/armv7l/’
+exec /bin/uname "$@" | sed 's/aarch64/armv7l/'
 ```
 
 Make sure it is executable:
