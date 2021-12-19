@@ -15,7 +15,7 @@ A collection of documentation for WLAN Pi developers and newcomers including sty
     - [Debchange](style/DCH.md)
     - [Developer Workflow](style/WORKFLOW.md)
     - [Git](style/GIT.md)
-    - [Manpages]style/(MANPAGES.MD)
+    - [Manpages](style/MANPAGES.MD)
     - [Packaging](style/PACKAGING.md)
     - [Python](style/PYTHON.md)
 * workflow
