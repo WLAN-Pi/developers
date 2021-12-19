@@ -12,11 +12,11 @@ A collection of documentation for WLAN Pi developers and newcomers including sty
 * style
     - [Anti-patterns](style/ANTIPATTERNS.md)
     - [Contributing](style/CONTRIBUTING.md)
-    - [Debchange](style/DCH.md)
     - [Developer Workflow](style/WORKFLOW.md)
     - [Git](style/GIT.md)
     - [Manpages](style/MANPAGES.MD)
     - [Packaging](style/PACKAGING.md)
+    - [Debchange](style/DCH.md)
     - [Python](style/PYTHON.md)
 * workflow
     - [Development Setup](workflow/development-setup.md)
