@@ -64,7 +64,7 @@ wlanpi-app_0.0.1~rc1_arm64.changes
 wlanpi-app_0.0.1~rc1_arm64.deb
 ```
 
-### debchange - usage
+### debchange
 
 To update the version number of a newly updated package, the [debchange (dch)](DCH.md) utility should be used. See our [dch document](DCH.md)
 
