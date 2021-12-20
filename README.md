@@ -4,11 +4,26 @@ A collection of documentation for WLAN Pi developers and newcomers including sty
 
 ## Table of contents
 
-* [architecture](architecture)
+* architecture
+    - [Filesystem Hierarchy Structure](architectureFHS.md)
+    - [Maintainers](architectureMAINTAINERS.md)
+    - [Packaging](architecturePACKAGING.md)
+    - [Security](architectureSECURITY.md)
+* style
+    - [Anti-patterns](style/ANTIPATTERNS.md)
+    - [Contributing](style/CONTRIBUTING.md)
+    - [Developer Workflow](style/WORKFLOW.md)
+    - [Git](style/GIT.md)
+    - [Manpages](style/MANPAGES.MD)
+    - [Packaging](style/PACKAGING.md)
+    - [Debchange](style/DCH.md)
+    - [Python](style/PYTHON.md)
+* workflow
+    - [Development Setup](workflow/development-setup.md)
+    - [Visual Studio Code (VSC) Remote-SSH Installation Troubleshooting](workflow/VSC_64bit_kernel_and_32bit_userland.md)
+* github
+    - [Actions and Workflows](github/workflows.md)
 * [code of conduct](CODE_OF_CONDUCT.md)
-* [github](github)
-* [style](style)
-* [workflow](workflow)
 
 ## Feedback Loop
 
