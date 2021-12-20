@@ -28,15 +28,15 @@ There is some controversy around this.
 
 #### Maintainer Controversy
 
-These packages are provided by WLAN Pi and included as part of the WLAN Pi image, hence, they are not "add-on" packages see [dir-or-file-in-etc-opt](https://lintian.debian.org/tags/dir-or-file-in-etc-opt). "Add-on" packages are those who are not provided by WLAN Pi.
+WLAN Pi builds, packages, and maintains several Debian packages, which are included as part of the WLAN Pi image. Hence they are not "add-on" packages. "Add-on" packages are those that are not provided by WLAN Pi and added by the end user to the host running the WLAN Pi OS.
 
-However, the team has settled on not conforming to policy and using `/opt` as the root installation directory for our applications.
+However, the team has settled on using `/opt` as the root installation directory for our applications. Note that this will cause many [dir-or-file-in-etc-opt](https://lintian.debian.org/tags/dir-or-file-in-etc-opt) errors during application build.
 
-This is subject to change in the future if there is a scope increase of distributing WLAN Pi packages beyond our maintained package archive. `/opt` is only one of the many changes that would be required. If one was to get a package into the Debian archive, the package must follow a proper source package format compiling with Debian policy.
+Note, this is subject to change in the future, especially if there is a scope increase of distributing WLAN Pi packages beyond our maintained package archive on [packagecloud](http://packagecloud.io/wlanpi/). `/opt` is likely only one of the many changes that would be required. If one was to get a package into the Debian archive, the package must follow a proper source package format that compiles with Debian policy.
 
 #### Debian Community Controversy
 
-See [debian bug 888549](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=888549) and note that as of writing chrome-gnome-shell does not use `/opt`. `/usr/share` is where you will likely find packages installed from Debian. If it is installed from Debian, it is not "add-on" software.
+See [debian bug 888549](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=888549), which is about `chrome-gnome-shell` using `/opt`. However, note that as of writing chrome-gnome-shell does not use `/opt`. And `/usr/share` is where you will likely find packages installed from Debian. To be clear, if the package is installed from the Debian package archive, it is not "add-on" software.
 
 ### /etc/{app}
 
@@ -44,9 +44,9 @@ Configuration files for applications must be placed in `/etc`. `/etc/{app}` is p
 
 ### /var/log
 
-Any logs for applications should be setup to auto rotate and placed in `/var/log` or `/var/log/{app}`.
+Any logs for applications should be set up to auto-rotate and placed in `/var/log` or `/var/log/{app}`.
 
-The same applies with variable data.
+The same applies to variable data.
 
 ## Read More
 
