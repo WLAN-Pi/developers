@@ -5,10 +5,10 @@ A collection of documentation for WLAN Pi developers and newcomers including sty
 ## Table of contents
 
 * architecture
-    - [Filesystem Hierarchy Structure](architectureFHS.md)
-    - [Maintainers](architectureMAINTAINERS.md)
-    - [Packaging](architecturePACKAGING.md)
-    - [Security](architectureSECURITY.md)
+    - [Filesystem Hierarchy Structure](architecture/FHS.md)
+    - [Maintainers](architecture/MAINTAINERS.md)
+    - [Packaging](architecture/PACKAGING.md)
+    - [Security](architecture/SECURITY.md)
 * style
     - [Anti-patterns](style/ANTIPATTERNS.md)
     - [Contributing](style/CONTRIBUTING.md)
