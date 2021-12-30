@@ -24,6 +24,7 @@ A collection of documentation for WLAN Pi developers and newcomers including sty
     - [Update from Packagecloud Dev Branch](workflow/update-from-dev.md)
 * github
     - [Actions and Workflows](github/workflows.md)
+    - [Squash](github/squash.md)
 * [code of conduct](CODE_OF_CONDUCT.md)
 
 ## Feedback Loop
