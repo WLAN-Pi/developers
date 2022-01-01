@@ -22,6 +22,7 @@ A collection of documentation for WLAN Pi developers and newcomers including sty
     - [Development Setup](workflow/development-setup.md)
     - [Visual Studio Code (VSC) Remote-SSH Installation Troubleshooting](workflow/VSC_64bit_kernel_and_32bit_userland.md)
     - [Update from Packagecloud Dev Branch](workflow/update-from-dev.md)
+    - [Developing on Windows](workflow/dev-on-windows.md)
 * github
     - [Actions and Workflows](github/workflows.md)
     - [Squash](github/squash.md)
