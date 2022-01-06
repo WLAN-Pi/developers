@@ -5,27 +5,29 @@ A collection of documentation for WLAN Pi developers and newcomers including sty
 ## Table of contents
 
 * architecture
-    - [Filesystem Hierarchy Structure](architecture/FHS.md)
-    - [Maintainers](architecture/MAINTAINERS.md)
-    - [Packaging](architecture/PACKAGING.md)
-    - [Security](architecture/SECURITY.md)
+  * [Filesystem Hierarchy Structure](architecture/FHS.md)
+  * [Maintainers](architecture/MAINTAINERS.md)
+  * [Packaging](architecture/PACKAGING.md)
+  * [Security](architecture/SECURITY.md)
 * style
-    - [Anti-patterns](style/ANTIPATTERNS.md)
-    - [Contributing](style/CONTRIBUTING.md)
-    - [Developer Workflow](style/WORKFLOW.md)
-    - [Git](style/GIT.md)
-    - [Manpages](style/MANPAGES.MD)
-    - [Packaging](style/PACKAGING.md)
-    - [Debchange](style/DCH.md)
-    - [Python](style/PYTHON.md)
+  * [Anti-patterns](style/ANTIPATTERNS.md)
+  * [Contributing](style/CONTRIBUTING.md)
+  * [Developer Workflow](style/WORKFLOW.md)
+  * [Git](style/GIT.md)
+  * [Manpages](style/MANPAGES.MD)
+  * [Packaging](style/PACKAGING.md)
+  * [Debchange](style/DCH.md)
+  * [Python](style/PYTHON.md)
 * workflow
-    - [Development Setup](workflow/development-setup.md)
-    - [Visual Studio Code (VSC) Remote-SSH Installation Troubleshooting](workflow/VSC_64bit_kernel_and_32bit_userland.md)
-    - [Update from Packagecloud Dev Branch](workflow/update-from-dev.md)
-    - [Developing on Windows](workflow/dev-on-windows.md)
-* github
-    - [Actions and Workflows](github/workflows.md)
-    - [Squash](github/squash.md)
+  * [Development Setup](workflow/development-setup.md)
+  * [Visual Studio Code (VSC) Remote-SSH Installation Troubleshooting](workflow/VSC_64bit_kernel_and_32bit_userland.md)
+  * [Update from Packagecloud Dev Branch](workflow/update-from-dev.md)
+  * [Developing on Windows](workflow/dev-on-windows.md)
+* git and github
+  * [Actions and Workflows](git_and_github/workflows.md)
+  * [Pull Requests](git_and_github/pr.md)
+  * [`git pull --rebase`](git_and_github/gitpullrebase.md)
+  * [Squash](git_and_github/squash.md)
 * [code of conduct](CODE_OF_CONDUCT.md)
 
 ## Feedback Loop
