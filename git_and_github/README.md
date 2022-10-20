@@ -5,6 +5,10 @@ Welcome to the WLAN Pi GitHub Documentation page.
 ## Table of Contents
 
 - [Actions and Workflows](workflows.md)
+- [Git](git.md)
+- [Pull Rebase](pullrebase.md)
+- [Pull Requests](pr.md)
+- [Squash](squash.md)
 
 ## Feedback Loop
 

@@ -18,7 +18,6 @@ git config --global pull.rebase true
 
 If you use the global setting, `git pull` will always run with `git pull --rebase` and git rebase whenever `git pull` is run.
 
-
 ## Rationale
 
 * git pull without rebase will create merge. Most of the time we don't want that.
