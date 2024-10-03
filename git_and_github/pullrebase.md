@@ -1,6 +1,6 @@
 # `git pull --rebase`
 
-When working with code locally, it is recommended to use git pull rebase.
+When working with code locally, you can use `git pull rebase` to update your local code.
 
 ## How to git pull rebase
 
@@ -26,6 +26,14 @@ If you use the global setting, `git pull` will always run with `git pull --rebas
 * At PR we have to merge anyways.
 
 Hence, without git rebase, you may get merge. So, as much as possible, try to use git rebase with pull locally.
+
+## Should we use rebase?
+
+Feel free to rebase on your own commits locally that are not shared.
+
+Rule of thumb is rebase locally, but never rebase on remote.
+
+We don't want to re-write git history on shared commits.
 
 ## More reading
 
