@@ -1,5 +1,9 @@
 # Tips for Working with debchange
 
+## requires
+
+`debchange` or `dch` is available in the `devscripts` package: `sudo apt install devscripts` 
+
 ## debchange - a tool for maintaining the source package changelog file
 
 While you could edit the changelog directly, it is recommended to use `debchange` or its alias `dch` to assist in the modification of the changelog.
