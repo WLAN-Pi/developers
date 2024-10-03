@@ -11,7 +11,7 @@ A collection of documentation for WLAN Pi developers and newcomers including sty
   * [Security](architecture/SECURITY.md)
 * Git and GitHub
   * [Git](git_and_github/git.md)
-  * [Pull Requests](git_and_github/pr.md)
+  * [Pull Requests and Issues](git_and_github/gh-pr-and-issues.md)
   * [`git pull --rebase`](git_and_github/pullrebase.md)
   * [Squash](git_and_github/squash.md)
   * [Actions and Workflows](git_and_github/workflows.md)

@@ -1,10 +1,10 @@
 # Squash and Merge
 
-The default action for maintainers on Pull Requests (PRs) should be to "Squash and Merge".
+The default action for maintainers on Pull Requests (PRs) should be to "Squash and Merge" unless you want to preserve the git commits in the PR.
 
 ![image](https://user-images.githubusercontent.com/13954434/147787801-ff71b529-2453-481e-ba86-901ba7775f22.png)
 
-Please clean up any commit messages that are not relevant or meaningful.
+But, please do clean up any commit messages that are not relevant or meaningful.
 
 ## Resources
 
