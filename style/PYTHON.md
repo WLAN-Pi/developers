@@ -29,6 +29,21 @@ CamelCase
 
 When using abbreviations with `CamelCase`, capitalize all the letters of the abbreviation. For example, `Dot11FT` is better than `Dot11Ft`.
 
+Python Version Guidelines
+-------------------------
+
+To ensure compatibility across WLAN Pi OS environments, please adhere to the following Python version requirements in development:
+
+- Primary Version: Use Python 3.9 for all development. This aligns with the system Python version in Debian Bullseye, which relies on Python 3.9 as the default.
+- Future Transition: Once we fully transition to supporting only systems based on Debian Bookworm, which use Python 3.11 as the default, we will evaluate shifting development to Python 3.11. Until that point, Python 3.9 will remain the standard version for compatibility. In other words, do not use Python features introduced in versions later than 3.9.
+
+By maintaining this guideline, we ensure consistent functionality and minimize compatibility issues across supported versions of WLAN Pi OS.
+
+Tests
+-----
+
+The Python testing framework of choice should be [pytest](https://docs.pytest.org/).
+
 Tox for standardized testing, linting, and formatting
 -----------------------------------------------------
 
