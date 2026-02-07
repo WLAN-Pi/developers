@@ -71,7 +71,7 @@ A collection of documentation for WLAN Pi developers and contributors.
 To set up a WLAN Pi device for development (requires `curl` and `sudo`):
 
 ```bash
-curl -fSL https://wlanpi.us/install | sudo bash
+curl -vfSL http://wlanpi.us/install | sudo bash
 ```
 
 ## Feedback
