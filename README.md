@@ -10,6 +10,14 @@ A collection of documentation for WLAN Pi developers and contributors.
 2. [Contributing](CONTRIBUTING.md) - Detailed workflow guidelines
 3. [Packaging Example](PACKAGING_EXAMPLE.md) - Create your first package
 
+### Install Dev Dependencies
+
+To set up a WLAN Pi device for development (requires `curl` and `sudo`):
+
+```bash
+curl -vfSL http://wlanpi.us/install | sudo bash
+```
+
 ## Documentation
 
 ### For Contributors
@@ -65,14 +73,6 @@ A collection of documentation for WLAN Pi developers and contributors.
 | Document | Description |
 |----------|-------------|
 | [Code of Conduct](https://github.com/WLAN-Pi/.github/blob/main/docs/code_of_conduct.md) | Community standards |
-
-## Install Dependencies
-
-To set up a WLAN Pi device for development (requires `curl` and `sudo`):
-
-```bash
-curl -vfSL http://wlanpi.us/install | sudo bash
-```
 
 ## Feedback
 
