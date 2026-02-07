@@ -6,7 +6,7 @@ This guide covers how to contribute code to WLAN Pi projects. For setting up you
 
 - A GitHub account
 - Basic familiarity with git (see [Git Basics](#git-basics) below if needed)
-- Access to a WLAN Pi device for testing (optional but recommended)
+- Access to a WLAN Pi device for testing your changes (technically optional but highly recommended)
 
 ## Git basics
 

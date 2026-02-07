@@ -196,7 +196,7 @@ sudo journalctl -u wlanpi-service -f
 - **WLAN Pros Slack**: [wi-fipros.slack.com](https://wi-fipros.slack.com)
 - **Dev Slack**: [wlanpi.slack.com](https://wlanpi.slack.com) 
 - **GitHub issues**: Open an issue in the relevant repository
-- ****: Contact a team member listed on [GitHub](https://github.com/orgs/WLAN-Pi/people)
+- **Core member**: Contact a team member listed on [GitHub](https://github.com/orgs/WLAN-Pi/people)
 
 ## Documentation index
 
