@@ -77,9 +77,41 @@ Examples:
 - Ensure CI checks pass before requesting review
 - Link to related issues
 
+### PR Checklist
+
+Before submitting your PR:
+
+- [ ] **Keep your PR small** - Easier to review and merge. Your PR should only do one thing.
+- [ ] **Use descriptive titles** - Start with `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, or `chore:`. Follow with a summary in present tense.
+  - Example: `fix: address profiler crash on Rx of certain (re)assoc frames`
+- [ ] **Test your changes** - Describe how to test and validate your contribution
+- [ ] **Update documentation** - Include any necessary documentation updates (README, man pages, usage guides)
+
+### Breaking changes
+
+If you're adding breaking changes, document them in your PR description:
+
+```
+1. Who is affected
+2. What needs migrated
+3. Why this breaking change
+4. Severity
+```
+
+### Increasing acceptance likelihood
+
+To increase the likelihood of your PR being accepted:
+
+- Follow standards for style and code quality (see [Style Guide](style/README.md))
+- Include documentation updates
+- Write tests
+- Keep your change as focused as possible
+- Write [good commit messages](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
+- Reference the issue your PR closes (e.g., "closes #42")
+
 ### Merging
 
-Maintainers will likely squash and then merge your PR when approved. This keeps the git history clean while preserving your contribution, but depends on if the maintainer wants the option to cherry-pick certain commits in your content..
+Maintainers will likely squash and then merge your PR when approved. This keeps the git history clean while preserving your contribution.
 
 ## Code Review
 
@@ -100,6 +132,34 @@ Found a bug? Have a feature idea? Create an issue first:
 4. Explain the use case for features
 
 Even if you're already working on a fix, create an issue to document it.
+
+### Good Bug Reports
+
+When filing bug reports, please include:
+
+**1. How to reproduce the issue**
+- Provide a small code sample that can be run immediately
+- Or describe what you're doing, how often it happens, your environment, etc.
+
+**2. What you expected to happen**
+- What does "success" look like for your code?
+
+**3. What actually happens**
+- Don't just say "it doesn't work" or "it fails"
+- Describe the failure: exception message, how actual result differs from expected
+
+**4. Version and installation info**
+- What version you're using
+- How you installed it
+
+**5. Location in code (if known)**
+- This helps other developers resolve the bug faster
+
+If you don't provide this information, resolution will take longer. If we ask for clarification and you don't respond, we may close the issue without fixing it.
+
+### Issue Templates
+
+When opening a new issue, always fill out the issue template. Not doing so may result in your issue not being managed in a timely fashion.
 
 ## Security guidelines
 
