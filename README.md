@@ -64,7 +64,7 @@ A collection of documentation for WLAN Pi developers and contributors.
 
 | Document | Description |
 |----------|-------------|
-| [Code of Conduct](CODE_OF_CONDUCT.md) | Community standards |
+| [Code of Conduct](https://github.com/WLAN-Pi/.github/blob/main/docs/code_of_conduct.md) | Community standards |
 
 ## Install Dependencies
 
