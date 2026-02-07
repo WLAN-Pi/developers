@@ -1,6 +1,6 @@
 # Development Setup Instructions
 
-## Initial Setup
+## Initial setup
 
 The following steps are the initial instructions to clone the codebase locally and setup a virtualenv. Note that these are taken from the wlanpi-chat-bot package, but apply to any of the wlanpi python based packages.
 

@@ -1,56 +1,92 @@
-# Filesystem Hierarchy Structure Policy for the WLAN Pi
+# Filesystem Hierarchy Structure (FHS) Policy
 
-The context of this document is in regards the [package archives](https://packagecloud.io/wlanpi/) managed by the core WLAN Pi team, and does not consider the scope of any changes which may be required to upload packages to other package archives.
+This document defines the standard filesystem layout for WLAN Pi Debian packages distributed through our [package archive](https://packagecloud.io/wlanpi/).
 
-## Single File Configurations
+**Scope:** These standards apply to all packages maintained by the core WLAN Pi team. If you plan to distribute packages through other archives (e.g., official Debian), additional requirements may apply.
 
-Standalone configuration files should be placed in the `/etc` directory. Examples include `/etc/wlanpi-release` and `/etc/wlanpi-state`.
+## Single file configurations
+
+Standalone configuration files should be placed directly in `/etc`. Examples:
+
+- `/etc/wlanpi-release`
+- `/etc/wlanpi-state`
 
 ## Applications
 
-### Naming Convention
+### Naming convention
 
-Naming for WLAN Pi applications should include the `wlanpi-` prefix to minimize conflicts with packages from other package archives. For example, names like `chat-bot` or `profiler` are generic names which means `wlanpi-chat-bot` or `wlanpi-profiler` makes sense to avoid conflicts.
+All WLAN Pi application packages should use the `wlanpi-` prefix to avoid conflicts with packages from other archives and to ensure consistent build stamps.
 
-To maintain consistency on package build stamps, the `wlanpi-` prefix is required.
+**Correct:** `wlanpi-profiler`, `wlanpi-chat-bot`  
+**Incorrect:** `profiler`, `chat-bot`
 
-### dh_virtualenv
+This prefix is mandatory for all packages in our archive.
 
-The majority of the custom applications provided by the WLAN Pi use dh_virtualenv (a debhelper wrapper providing per-package virtualenvs).
+## Directory structure
 
-Applications should follow the following file system structure:
+### /opt/wlanpi-{app}
 
-### /opt/{app}
+Applications are installed in `/opt/wlanpi-{app}`. This includes:
 
-The core static files for the application should be located in `/opt/{app}`. This includes non-variable and non-configuration items. Those should be placed in other locations.
+- Application binaries
+- Python virtualenv (via dh_virtualenv)
+- Static application files
 
-There is some controversy around this.
+**Rationale:** We use `/opt` because:
 
-#### Maintainer Controversy
+- Applications are bundled with dependencies via dh_virtualenv (isolated virtualenvs)
+- This prevents conflicts with system Python packages
+- Simplifies complete application removal
+- Consistent with "add-on software" definition in FHS 3.0
 
-WLAN Pi builds, packages, and maintains several Debian packages, which are included as part of the WLAN Pi image. Hence they are not "add-on" packages. "Add-on" packages are those that are not provided by WLAN Pi and added by the end user to the host running the WLAN Pi OS.
+**Note:** Using `/opt` will cause `dir-or-file-in-etc-opt` lintian warnings. These are expected and acceptable for our use case.
 
-However, the team has settled on using `/opt` as the root installation directory for our applications. Note that this will cause many [dir-or-file-in-etc-opt](https://lintian.debian.org/tags/dir-or-file-in-etc-opt) errors during application build.
+### /etc/wlanpi-{app}
 
-Note, this is subject to change in the future, especially if there is a scope increase of distributing WLAN Pi packages beyond our maintained package archive on [packagecloud](http://packagecloud.io/wlanpi/). `/opt` is likely only one of the many changes that would be required. If one was to get a package into the Debian archive, the package must follow a proper source package format that compiles with Debian policy.
+Configuration files must be placed in `/etc/wlanpi-{app}/`. 
 
-#### Debian Community Controversy
+**Why not /opt?** Package managers will not preserve user modifications to files in `/opt` during upgrades. Configuration in `/etc` is properly handled by dpkg.
 
-See [debian bug 888549](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=888549), which is about `chrome-gnome-shell` using `/opt`. However, note that as of writing chrome-gnome-shell does not use `/opt`. And `/usr/share` is where you will likely find packages installed from Debian. To be clear, if the package is installed from the Debian package archive, it is not "add-on" software.
+Example:
+```
+/etc/wlanpi-profiler/
+└── config.ini
+```
 
-### /etc/{app}
+### /var/log/wlanpi-{app}
 
-Configuration files for applications must be placed in `/etc`. `/etc/{app}` is preferred. If they are placed in `/opt`, the package manager will not preserve user changes during upgrades.
+Application logs go in `/var/log/wlanpi-{app}/` with automatic log rotation configured.
 
-### /var/log
+Variable data (databases, caches) should also be placed in `/var/lib/wlanpi-{app}/`.
 
-Any logs for applications should be set up to auto-rotate and placed in `/var/log` or `/var/log/{app}`.
+## Complete example
 
-The same applies to variable data.
+For a package named `wlanpi-example`:
 
-## Read More
+```
+/opt/wlanpi-example/           # Application (via dh_virtualenv)
+├── bin/
+│   └── wlanpi-example
+├── lib/
+│   └── python3.x/
+│       └── site-packages/
+│           └── example/
 
-- [Linux Foundation: Filesystem Hierarchy System 3.0](https://refspecs.linuxfoundation.org/FHS_3.0/fhs/index.html)
-- [Debian Policy: 9.1.1. File System Structure](https://www.debian.org/doc/debian-policy/ch-opersys.html#file-system-structure)
-- [Linux Journal Blog: Point/Counterpoint - /opt vs. /usr/local](https://www.linuxjournal.com/magazine/pointcounterpoint-opt-vs-usrlocal)
-- [StackExchange: What is the difference between /opt and /usr/local?](https://unix.stackexchange.com/questions/11544/what-is-the-difference-between-opt-and-usr-local)
+/etc/wlanpi-example/           # Configuration
+└── config.ini
+
+/var/log/wlanpi-example/       # Logs
+└── example.log
+
+/var/lib/wlanpi-example/       # Variable data
+└── data.db
+
+/lib/systemd/system/           # Service files
+└── wlanpi-example.service
+```
+
+## References
+
+- [Linux Foundation: FHS 3.0](https://refspecs.linuxfoundation.org/FHS_3.0/fhs/index.html)
+- [Debian Policy: File System Structure](https://www.debian.org/doc/debian-policy/ch-opersys.html#file-system-structure)
+- [dh-virtualenv Documentation](https://dh-virtualenv.readthedocs.io/)

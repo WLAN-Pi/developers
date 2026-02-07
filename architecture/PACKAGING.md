@@ -1,65 +1,206 @@
-# Packaging Guide for the WLAN Pi
+# Debian Packaging Guide
 
-## Newcomers
+This document defines the Debian packaging standards for WLAN Pi applications distributed through our [packagecloud archive](https://packagecloud.io/wlanpi/).
 
-Newcomers should refer to the existing packages on the [WLAN Pi GitHub page](https://github.com/wlan-pi/) and refer to the links at the bottom of this article for references and rationale.
+**Note:** WLAN Pi exclusively uses Debian packaging. All applications must be packaged as `.deb` files for distribution.
 
-## Intent to Package
+## For newcomers
 
-If the package you would like to work on is new to WLAN Pi, you should announce your intention to create the package.
-You do this by contacting a [team member](https://github.com/orgs/WLAN-Pi/people).
+If you're new to WLAN Pi packaging, start with:
 
-## Team Policy
+1. [Packaging Example](../PACKAGING_EXAMPLE.md) - Complete walkthrough of creating a package
+2. Review existing packages on the [WLAN Pi GitHub](https://github.com/wlan-pi/)
+3. Read the references at the end of this document
 
-It will be expected that you have read the architecture documentation and references.
+## Intent to package
 
-To harmonize the packages with-in the WLAN Pi maintainers team, adhere to the additional following  policy:
+If you want to create a new package for WLAN Pi:
 
-### `debian/control`
+1. Contact a [team member](https://github.com/orgs/WLAN-Pi/people) to discuss your idea
+2. Review this guide and the Packaging Example
+3. Check [FHS Policy](FHS.md) for filesystem standards
 
-Consider the following when creating or modifying the package's control file.
+## Package structure
 
-| | |
-|--------------|-----------|
-| Section | Use `contrib/python` or `embedded` |
-| Priority      | Use `optional` as the priority  |
-| Maintainer | List the primary maintainer of the package |
-| Standards-Version | Use the latest unless you have a reason not to |
-| Homepage | This should always be included and link to the website hosting the source code |
-| Package | This should match the debhelper-build-stamp |
-| Description | Include a succinct description of what the package is for |
+All WLAN Pi packages must follow this structure:
 
-### `debian/copyright`
+```
+project-name/
+├── debian/                 # Packaging files
+│   ├── changelog          # Version history
+│   ├── compat             # Debhelper compatibility level
+│   ├── control            # Package metadata
+│   ├── copyright          # License information
+│   ├── rules              # Build instructions
+│   └── *.{install,postinst,prerm,...}  # Additional control files
+├── src/ or {app}/         # Application source code
+├── tests/                 # Test files
+├── requirements.txt       # Python dependencies (if applicable)
+├── setup.py              # Python package setup (if applicable)
+└── README.md             # Project documentation
+```
 
-Use a machine-readable format for the `debian/copyright` file.
+## Required Debian files
 
-### `debian/changelog`
+### debian/control
 
-Maintain release notes for each version of your package here.
+```
+Source: wlanpi-yourapp
+Section: contrib/python
+Priority: optional
+Maintainer: Your Name <your.email@example.com>
+Build-Depends: debhelper-compat (= 13), python3, python3-venv, dh-virtualenv (>= 1.0)
+Standards-Version: 4.6.0
+Homepage: https://github.com/wlan-pi/wlanpi-yourapp
 
-### `debian/compat`
+Package: wlanpi-yourapp
+Architecture: all
+Pre-Depends: dpkg (>= 1.16.1), python3, ${misc:Pre-Depends}
+Depends: ${misc:Depends}, systemd
+Description: Short description
+ Long description that can span
+ multiple lines (indented by one space).
+```
 
-Debhelper uses compatibility levels to control the behavior of its commands. Currently, the recommendation is to use a compatibility level of `13` which is available in both stable (bullseye) and as a backport in oldstable (buster).
+**Key fields:**
 
-Note, there is no need to touch packages only because it has an older Debhelper compat version.
+| Field | Value |
+|-------|-------|
+| Section | `contrib/python` for Python apps, `embedded` for firmware |
+| Priority | `optional` |
+| Standards-Version | Use latest (currently 4.6.0) |
+| Package | Must match the source name with `wlanpi-` prefix |
 
-In some cases, a lower compatibility is desired like `11` where `dh_dwz` is not run by default as it is in `12`.
+### debian/changelog
 
-### `debian/debhelper-build-stamp`
+```
+wlanpi-yourapp (1.0.0) unstable; urgency=medium
 
-This should include the name of your package with a `wlanpi-` prefix.
+  * Initial release
+  * Add core functionality
+  * Add systemd service
 
-### `debian/rules`
+ -- Your Name <your.email@example.com>  Mon, 01 Jan 2024 00:00:00 +0000
+```
 
-This is absolutely required for packages using dh_virtualenv. Refer to their documentation for what to place here.
+Use `dch` to manage this file:
+```bash
+dch -v 1.0.0 "Initial release"
+dch -r ""
+```
 
-### OSS Attribution
+### debian/compat
 
-Give attribution where it is due. If you rely on another package, refer to it in `OSS.md` in the base of your repo.
+```
+13
+```
 
-## Read More
+Compatibility level 13 is recommended and available in Debian stable (bullseye) and as a backport in oldstable (buster).
 
-- [Spotify's dh_virtualenv documentation](https://dh-virtualenv.readthedocs.io/)
+**Note:** Don't modify packages solely to update compat level.
+
+### debian/copyright
+
+Use [DEP-5 format](https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/):
+
+```
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: wlanpi-yourapp
+Source: https://github.com/wlan-pi/wlanpi-yourapp
+
+Files: *
+Copyright: 2024 Your Name <your.email@example.com>
+License: MIT
+
+License: MIT
+ [Full license text here]
+```
+
+### debian/rules
+
+Standard dh_virtualenv setup:
+
+```makefile
+#!/usr/bin/make -f
+
+export DH_VIRTUALENV_INSTALL_ROOT=/opt
+
+%:
+	dh $@ --with python-virtualenv
+
+override_dh_virtualenv:
+	dh_virtualenv \
+		--python python3 \
+		--install-suffix wlanpi-yourapp
+```
+
+Make executable:
+```bash
+chmod +x debian/rules
+```
+
+### debian/{package}.install
+
+Define additional files to install:
+
+```
+config/yourapp.conf etc/wlanpi-yourapp/
+systemd/yourapp.service lib/systemd/system/
+```
+
+## Build process
+
+### Local build
+
+```bash
+# Install build dependencies
+sudo apt-get install build-essential debhelper dh-virtualenv python3-venv
+
+# Build the package
+dpkg-buildpackage -us -uc -b
+
+# Result: ../wlanpi-yourapp_1.0.0_all.deb
+```
+
+### CI/CD build
+
+GitHub Actions automatically build packages:
+
+1. **PR builds** - Triggered by `debian/changelog` changes, creates artifact
+2. **Release builds** - Triggered by version tags, deploys to packagecloud
+
+See [Release Process](../RELEASE_PROCESS.md) for details.
+
+## Testing
+
+Before submitting:
+
+1. Build succeeds: `dpkg-buildpackage -us -uc -b`
+2. Package installs: `sudo dpkg -i ../wlanpi-yourapp_*.deb`
+3. Service runs: `sudo systemctl status wlanpi-yourapp`
+4. Application works: `wlanpi-yourapp --help`
+
+## OSS attribution
+
+If your package relies on other open source projects, document them in `OSS.md` at the repository root:
+
+```markdown
+# Open Source Attribution
+
+## Dependencies
+
+- library-name (License): Description
+  - Source: https://github.com/user/repo
+
+## Included Assets
+
+- Asset name (License): Description
+```
+
+## References
+
+- [Packaging Example](../PACKAGING_EXAMPLE.md) - Complete walkthrough with code
 - [Debian New Maintainers' Guide](https://www.debian.org/doc/manuals/maint-guide/)
 - [Debian Policy](https://www.debian.org/doc/debian-policy/)
 - [Debian Developer's Reference](https://www.debian.org/doc/manuals/developers-reference/)
+- [dh-virtualenv Documentation](https://dh-virtualenv.readthedocs.io/)

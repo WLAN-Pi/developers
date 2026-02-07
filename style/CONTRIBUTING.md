@@ -9,7 +9,7 @@ The GitHub issue tracker is for *bug reports* and *feature requests*. Please do
 not use it to ask questions about usage. These questions should
 instead be directed through other channels.
 
-## Good Bug Reports
+## Good bug reports
 
 Please be aware of the following things when filing bug reports:
 
@@ -48,18 +48,20 @@ If you do not provide all of these things, it can take us much longer to
 fix your problem. If we ask you to clarify these and you never respond, we
 will close your issue without fixing it.
 
-## Code Contributions
+## Code contributions
 
 Some tips to consider.
 
-### Before You Start Coding
+### Before you start coding
 
 To increase the chances of Pull Request (PR) approval, first, talk to one of the core [WLAN Pi](https://github.com/WLAN-Pi/) [team members](https://github.com/orgs/WLAN-Pi/people).
 
 Aligning your ideas with the project team (before doing the work) will save everybody's time.
 
-### Development Environment
+### Development environment
 
 Use whatever environment you want to develop.
 
 Need help? Consider using PyCharm or Visual Studio Code (VSC) with the official Python and Pylance extensions from Microsoft.
+
+Into CLIs/TUIs? Consider Opencode.ai and Neovim.
