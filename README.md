@@ -2,6 +2,12 @@
 
 A collection of documentation for WLAN Pi developers and newcomers including style guides, architecture, testing, and more.
 
+## Install dependencies
+
+```bash
+curl -fSL https://wlanpi.us/install | sudo bash
+```
+
 ## Table of contents
 
 * Architecture
