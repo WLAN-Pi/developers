@@ -153,7 +153,7 @@ Not sure where to start? Look for issues labeled:
 
 - Read [Contributing](CONTRIBUTING.md) for detailed workflow guidelines
 - Check out [Packaging Example](PACKAGING_EXAMPLE.md) if you want to create a new package
-- Join our [Slack community](https://slack.wlanpi.com) (contact a team member for access)
+- Join our dev [Slack community](https://wlanpi.slack.com) (contact a team member for access)
 - Explore the [Architecture](architecture/README.md) documentation
 
 ## Common tasks
