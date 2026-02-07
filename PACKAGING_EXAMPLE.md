@@ -64,41 +64,44 @@ import logging
 import sys
 from pathlib import Path
 
-log_dir = Path("/var/log/wlanpi-hello")
-log_dir.mkdir(exist_ok=True)
-
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler(log_dir / "hello.log"),
-        logging.StreamHandler(sys.stdout)
-    ]
-)
 logger = logging.getLogger("wlanpi-hello")
 
 
+def setup_logging():
+    """Setup logging configuration."""
+    log_dir = Path("/var/log/wlanpi-hello")
+    log_dir.mkdir(exist_ok=True)
+
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        handlers=[
+            logging.FileHandler(log_dir / "hello.log"),
+            logging.StreamHandler(sys.stdout),
+        ],
+    )
+
+
 def main():
+    setup_logging()
     parser = argparse.ArgumentParser(description="WLAN Pi hello world")
     parser.add_argument(
         "--config",
         default="/etc/wlanpi-hello/hello.conf",
-        help="Path to configuration file"
+        help="Path to configuration file",
     )
     parser.add_argument(
-        "--message",
-        default="Hello from WLAN Pi!",
-        help="Message to display"
+        "--message", default="Hello from WLAN Pi!", help="Message to display"
     )
     args = parser.parse_args()
-    
+
     # Load config if exists
     if Path(args.config).exists():
         logger.info(f"Loading config from {args.config}")
-    
+
     logger.info(f"Message: {args.message}")
     print(args.message)
-    
+
     return 0
 
 
@@ -268,6 +271,8 @@ Description: WLAN Pi Hello World example application
 
 ### debian/changelog
 
+You should use `dch` from `devscripts` to generate this.
+
 ```
 wlanpi-hello (1.0.0) unstable; urgency=medium
 
@@ -426,26 +431,36 @@ class TestHello:
 
     def test_main_default(self):
         """Test main function with default message."""
-        with patch.object(sys, 'argv', ['wlanpi-hello']):
-            with patch('builtins.print') as mock_print:
-                result = main()
-                assert result == 0
-                mock_print.assert_called_once_with("Hello from WLAN Pi!")
+        with patch.object(sys, "argv", ["wlanpi-hello"]):
+            with patch("builtins.print") as mock_print:
+                with patch("hello.main.setup_logging"):
+                    result = main()
+                    assert result == 0
+                    mock_print.assert_called_once_with("Hello from WLAN Pi!")
 
     def test_main_custom_message(self):
         """Test main function with custom message."""
-        with patch.object(sys, 'argv', ['wlanpi-hello', '--message', 'Test']):
-            with patch('builtins.print') as mock_print:
-                result = main()
-                assert result == 0
-                mock_print.assert_called_once_with("Test")
+        with patch.object(sys, "argv", ["wlanpi-hello", "--message", "Test"]):
+            with patch("builtins.print") as mock_print:
+                with patch("hello.main.setup_logging"):
+                    result = main()
+                    assert result == 0
+                    mock_print.assert_called_once_with("Test")
 
     def test_main_returns_integer(self):
         """Test that main returns an integer exit code."""
-        with patch.object(sys, 'argv', ['wlanpi-hello']):
-            with patch('builtins.print'):
-                result = main()
-                assert isinstance(result, int)
+        with patch.object(sys, "argv", ["wlanpi-hello"]):
+            with patch("builtins.print"):
+                with patch("hello.main.setup_logging"):
+                    result = main()
+                    assert isinstance(result, int)
+```
+
+Create virtual environment and source it:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
 ```
 
 Run tests with pytest:
@@ -453,6 +468,9 @@ Run tests with pytest:
 ```bash
 # Install test dependencies
 pip install -r requirements.txt
+
+# Install package editable
+pip install -e .
 
 # Run tests
 pytest
