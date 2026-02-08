@@ -2,19 +2,17 @@
 
 An [anti-pattern](http://en.wikipedia.org/wiki/Anti-pattern) is a common response to a recurring problem that is usually ineffective and risks being highly counterproductive.
 
-__We should always strive against creating antipatterns in our code.__
+__We should generally aim against creating anti-patterns in our codebase.__
 
-## Global Variables
+## Global variables
 
-Do not use `global foobar` in Python. Instead use the Global Object Pattern.
-
-### Read More
+In general, do not use `global foobar` in Python. Instead use the Global Object Pattern.
 
 * [The Global Object Pattern](https://python-patterns.guide/python/module-globals/)
 * [How do I share global variables across modules?](https://docs.python.org/3/faq/programming.html#how-do-i-share-global-variables-across-modules)
 * [How to avoid using global variables?](https://stackoverflow.com/a/59330720)
 
-## File Extensions
+## File extensions
 
 ### Use an extension that matches the contents
 
@@ -36,7 +34,7 @@ wlanpi@wlanpi:~ $ file test.cap
 test.cap: pcap capture file, microsecond ts (little-endian) - version 2.4 (Ethernet, capture length 262144)
 ```
 
-### Read More
+## More anti-patterns
 
 - [Bash: Why is testing "$?" to see if a command succeeded or not, an anti-pattern?](https://stackoverflow.com/questions/36313216/why-is-testing-to-see-if-a-command-succeeded-or-not-an-anti-pattern)
 - [Python Anti-Patterns](https://docs.quantifiedcode.com/python-anti-patterns/)
