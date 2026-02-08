@@ -89,13 +89,16 @@ Use this to verify builds work before tagging.
 
 ### Deploy to Packagecloud
 
-Triggered by: Pushing a version tag (`v*.*.*`)
+Triggered by: Typically either pushing a version tag (`v*.*.*`) or an edit to `debian/changelog`
 
-Purpose: Build and deploy to Packagecloud dev repository
+Purpose: Builds and deploy to Packagecloud dev repository
 
 Maintained by:
-- Build logic: [sbuild-debian-package](https://github.com/wlan-pi/sbuild-debian-package) (Daniel Finimundi)
-- Workflow files: Josh Schmelzle
+
+- Build logic: [sbuild-debian-package](https://github.com/wlan-pi/sbuild-debian-package)
+- Workflow files
+
+Promotion from dev to main: Manually done on Packagecloud.
 
 ### Workflow diagrams
 
