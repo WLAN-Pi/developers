@@ -38,4 +38,3 @@ test.cap: pcap capture file, microsecond ts (little-endian) - version 2.4 (Ether
 
 - [Bash: Why is testing "$?" to see if a command succeeded or not, an anti-pattern?](https://stackoverflow.com/questions/36313216/why-is-testing-to-see-if-a-command-succeeded-or-not-an-anti-pattern)
 - [Python Anti-Patterns](https://docs.quantifiedcode.com/python-anti-patterns/)
-- [18 Common Python Anti-Patterns I Wish I Had Known Before](https://towardsdatascience.com/18-common-python-anti-patterns-i-wish-i-had-known-before-44d983805f0f)
