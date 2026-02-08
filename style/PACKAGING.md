@@ -66,11 +66,11 @@ wlanpi-app_0.0.1~rc1_arm64.deb
 
 ### debchange
 
-To update the version number of a newly updated package, the [debchange (dch)](DCH.md) utility should be used. See our [dch document](DCH.md)
+To update the version number of a newly updated package, the [debchange (dch)](DCH.md) utility from `devscripts` should be used. Check out the [dch document](DCH.md) for more.
 
 ### lintian
 
-There is a static analyzer we can use to check our debian package.
+Lintian is a static analyzer which we can use to check our debian package.
 
 ```bash
 lintian
@@ -78,13 +78,13 @@ lintian -i
 lintian -EviIL +pedantic
 ```
 
-## sudo apt remove vs sudo apt purge
+## Notes on sudo apt remove vs sudo apt purge
 
-If we remove our package, it will leave behind the config file in `/etc`:
+If we "remove" our package, it will leave behind the config file in `/etc`:
 
 `sudo apt remove wlanpi-app`
 
-If we want to clean `/etc` we should purge:
+If we want to clean `/etc` we should "purge":
 
 `sudo apt purge wlanpi-app`
 
@@ -133,7 +133,7 @@ dpkg-buildpackage -us -uc -b
 sudo dpkg -i ../dh-virtualenv_<version>.deb
 ```
 
-## Read More
+## References
 
 - [Debian Packaging Tutorial](https://www.debian.org/doc/manuals/packaging-tutorial/packaging-tutorial.en.pdf)
 - [Debian Systemd Packaging](https://wiki.debian.org/Teams/pkg-systemd/Packaging)
