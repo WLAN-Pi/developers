@@ -5,9 +5,7 @@ Welcome to the WLAN Pi Developer Architecture Documentation for the WLAN Pi.
 ## Table of Contents
 
 - [Filesystem Hierarchy Structure](FHS.md)
-- [Maintainers](MAINTAINERS.md)
 - [Packaging](PACKAGING.md)
-- [Security](SECURITY.md)
 
 ## Feedback Loop
 
