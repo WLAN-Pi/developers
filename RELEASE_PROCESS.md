@@ -1,14 +1,16 @@
 # Release process
 
-This document covers the release procedures for core WLAN Pi team members. For general contribution guidelines, see [Contributing](CONTRIBUTING.md).
+This document covers the release procedures for core WLAN Pi team members. For general contribution guidelines and detailed Git workflow, see [Contributing](CONTRIBUTING.md).
+
+> **For Git workflow details**: Branching strategy, merge strategies, and troubleshooting common scenarios are covered in [Contributing](CONTRIBUTING.md).
 
 ## Overview
 
 Releases are managed through Git tags and GitHub workflows. The `main` branch represents the current stable release, while `dev` contains the next release's changes.
 
-## Branch strategy
+## Branch strategy (Quick Reference)
 
-General branching strategy. May vary per repo. 
+General branching strategy. May vary per repo.
 
 | Branch | Purpose |
 |--------|---------|
@@ -22,6 +24,12 @@ General branching strategy. May vary per repo.
 
 - **No direct commits to `main`** - All changes come via PRs from `dev`
 - **No direct commits to `dev`** - All changes come via PRs from feature branches
+
+**See [Contributing](CONTRIBUTING.md) for detailed workflow**, including:
+- Feature branch workflow and keeping branches in sync
+- Critical merge strategies (squash vs regular merge)
+- Version collision handling
+- Branch divergence recovery
 
 ## Creating a release
 
@@ -67,6 +75,8 @@ git push origin v1.2.3
 ### 4. Merge to main
 
 Create a PR from `dev` to `main` and merge using **"Create a merge commit"** (not squash) to preserve the release history.
+
+See [Contributing](CONTRIBUTING.md) for why regular merges between `dev` and `main` are required.
 
 ### 5. Deploy to Packagecloud
 
@@ -130,38 +140,7 @@ Use "Create a merge commit" when:
 - It's a release PR from `dev` to `main`
 - The contributor specifically requests commits be preserved (and there's good reason)
 
-## Local Development tips
-
-### Keeping your branch updated
-
-Try to always use rebase when pulling to avoid unnecessary merge commits:
-
-```bash
-# Set this globally (one time)
-git config --global pull.rebase true
-
-# Or use --rebase each time
-git pull --rebase origin dev
-```
-
-**Rule of thumb:** Rebase locally, never rebase shared commits on remote.
-
-### One change per commit
-
-Each commit should represent one logical change:
-
-```bash
-# Good: Two focused commits
-git add src/feature.py
-git commit -m "Add packet capture utility"
-
-git add tests/test_capture.py
-git commit -m "Add tests for packet capture"
-
-# Bad: Everything in one commit
-git add .
-git commit -m "Updates"
-```
+See [Contributing](CONTRIBUTING.md) for detailed merge strategy guidance.
 
 ## Troubleshooting
 
@@ -189,6 +168,6 @@ Contact Josh Schmelzle for Packagecloud issues.
 
 ## See also
 
-- [Contributing](CONTRIBUTING.md) - General contribution guidelines
+- [Contributing](CONTRIBUTING.md) - General contribution guidelines and detailed Git workflow
 - [Packaging Example](PACKAGING_EXAMPLE.md) - Packaging walkthrough
 - [Architecture/Packaging](architecture/PACKAGING.md) - Detailed packaging standards

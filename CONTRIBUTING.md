@@ -2,19 +2,13 @@
 
 This guide covers how to contribute code to WLAN Pi projects. For setting up your development environment, see [Getting Started](GETTING_STARTED.md).
 
+> **New to Git?** Start with our [Git Workflow Guide](GIT_WORKFLOW.md) for fundamental concepts and basic commands.
+
 ## Prerequisites
 
 - A GitHub account
-- Basic familiarity with git (see [Git Basics](#git-basics) below if needed)
+- Basic familiarity with git (see [Git Workflow Guide](GIT_WORKFLOW.md) if needed)
 - Access to a WLAN Pi device for testing your changes (technically optional but highly recommended)
-
-## Git basics
-
-If you're new to Git, we recommend these resources:
-
-- [GitHub Git Guide](https://docs.github.com/en/get-started/quickstart/git-and-github-learning-resources) - Official GitHub learning resources
-- [Oh Shit, Git!?!](https://ohshitgit.com/) - Practical solutions to common Git problems
-- [Git from the Bottom Up](https://jwiegley.github.io/git-from-the-bottom-up/) - Deep technical understanding
 
 ## Workflow overview
 
@@ -25,9 +19,20 @@ If you're new to Git, we recommend these resources:
 5. **Push** to your fork
 6. **Open a Pull Request** to the `dev` branch
 
+## Branch structure
+
+In some of our Python based repositories (`wlanpi-core` for example), we maintain two primary branches:
+
+- **`dev`** - Active development branch where all fix/feature work happens
+- **`main`** - Stable release branch containing only tested releases
+
+In some of our repositories, we maintain a single primary branch:
+
+- **`main`** - Stable release branch which should contain only tested releases
+
 ## Branch naming
 
-When creating branches for your work, use one of these patterns:
+When creating branches for your work, please use one of these patterns:
 
 ```
 u/<username>/<description>       # Personal work
@@ -36,13 +41,122 @@ bugfix/<description>             # Bug fixes
 ```
 
 Examples:
-- `u/john/add-wifi-scan`
+- `u/lebowski/add-wifi-scan`
+- `feat/metrics-dashboard`
 - `feature/metrics-dashboard`
+- `fix/memory-leak-profiler`
 - `bugfix/memory-leak-profiler`
+
+## Development workflow
+
+### Feature development
+
+If the `dev` branch exists, all feature branches should be created from `dev`:
+
+```bash
+git checkout dev
+git pull origin dev
+git checkout -b feature/descriptive-name
+```
+
+If the `dev` branch exists, pull requests should target `dev`. Features can be squash merged into `dev` to keep history clean. This is something maintainers would do:
+
+```bash
+# Example: Squash merge a feature branch into dev
+git checkout dev
+git merge --squash feature/my-feature
+git commit -m "Add new feature: description"
+git push origin dev
+```
+
+**Squash merging is OK for feature branches → `dev`** because we're collapsing temporary branches. The problem only occurs when squash merging between **permanent** branches (`dev` → `main`).
+
+### Keeping feature branches in sync
+
+If you're working on a long-running feature branch and `dev` has moved ahead with new commits or releases, merge `dev` into your feature branch to stay current:
+
+```bash
+# First, update your local dev to match remote
+git checkout dev
+git pull origin dev
+
+# Then merge the updated dev into your feature branch
+git checkout your-feature-branch
+git merge dev --no-ff -m "Merge dev to stay current"
+git push origin your-feature-branch
+```
+
+**Why update dev first?** This ensures your local `dev` branch has the latest changes from the remote repository before merging. If you merge an outdated local `dev`, you'll miss recent commits from other developers.
+
+**Important:** Please avoid rebasing feature branches that have already been pushed to origin, especially if `dev` or `main` have moved ahead with releases. Rebasing can cause Git to drop commits incorrectly. Tread carefully!
+
+### Critical merge strategy for maintainers: dev and main
+
+**NEVER use squash merges when merging between `dev` and `main`.** Always use regular merge commits (`git merge --no-ff`).
+
+**Why?** Squash merging between permanent branches destroys the shared commit history, making it impossible for Git to track which commits exist in both branches. This leads to:
+
+- Inability to merge main back into dev without, sometimes, massive conflicts
+- Branch divergence that cannot be reconciled
+- Loss of detailed commit history on the release branch
+
+Regular merge commits preserve the full history and keep both branches properly synchronized.
+
+**Summary:**
+- ✅ **Squash merge OK**: `feature/branch` → `dev` (keeps dev clean)
+- ❌ **Regular merge REQUIRED**: `dev` → `main` (preserves shared history)
+- ❌ **Regular merge REQUIRED**: `main` → `dev` (preserves shared history)
+
+## Troubleshooting common scenarios
+
+### Version collision during feature development
+
+If `main` releases a new version while you're still working on a feature branch:
+
+1. **Sync your feature branch with dev first:**
+   ```bash
+   # First, update your local dev to match remote
+   git checkout dev
+   git pull origin dev
+
+   # Then merge the updated dev into your feature branch
+   git checkout your-feature-branch
+   git merge dev --no-ff -m "Merge dev to stay current"
+   ```
+
+2. **Check your branch's version** in any version files (e.g., `__version__.py` or `debian/changelog`)
+
+3. **If main already released that version**, bump to the next version in your branch:
+   ```bash
+   # Edit version files to next version
+   git add path/to/version/file
+   git commit -m "bump version to X.Y.Z+1"
+   ```
+
+4. **Then follow normal merge workflow**: feature → dev → main
+
+**Example:** If your feature branch says "2.1.8" but main already released 2.1.8, update your branch to "2.1.9". Unsure? One of the core maintainers will handle release management.
+
+### Branch divergence recovery
+
+If your local branch diverges from its remote (e.g., after a problematic rebase):
+
+1. **Check the actual difference:**
+   ```bash
+   git diff origin/your-branch..HEAD
+   ```
+
+2. **To reset your local branch to match the remote:**
+   ```bash
+   git checkout your-branch
+   git reset --hard origin/your-branch
+   ```
+
+   This discards any local commits and makes your branch identical to the remote version.
 
 ## Commit guidelines
 
-- **One change per commit** - Don't bundle unrelated changes
+- **One change per commit** - In general, don't bundle unrelated changes!
 
 - **Clear commit messages** - Start with a verb, keep summary around 72 characters
   
@@ -50,11 +164,24 @@ Examples:
   
   Bad: `updates`
 
-- **Don't manually edit `debian/changelog`** - This is updated separately using `dch`
+- **Conventional commits format** (recommended):
+  ```
+  feat: new feature
+  feature: new feature
+  fix: bug fix
+  bugfix: bug fix
+  docs: documentation changes
+  refactor: code restructuring
+  test: adding tests
+  ```
+
+- **Don't manually edit `debian/changelog`** - This is updated separately using `dch` from `devscripts`
 
 ## Pull requests
 
 ### Opening a PR
+
+If `dev` exists, otherwise use `main`.
 
 1. Ensure your branch is up to date with `dev`:
    ```bash
@@ -72,19 +199,19 @@ Examples:
 
 ### PR best practices
 
-- Keep changes focused and reviewable
-- Respond to review feedback promptly
+- Aim to keep changes focused and reviewable
+- Respond to review feedback
 - Ensure CI checks pass before requesting review
-- Link to related issues
+- Create and link to related issues for history and context
 
 ### PR Checklist
 
 Before submitting your PR:
 
-- [ ] **Keep your PR small** - Easier to review and merge. Your PR should only do one thing.
+- [ ] **Keep your PR small** - Easier to review and merge. In general, your PR should only do one thing.
 - [ ] **Use descriptive titles** - Start with `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, or `chore:`. Follow with a summary in present tense.
   - Example: `fix: address profiler crash on Rx of certain (re)assoc frames`
-- [ ] **Test your changes** - Describe how to test and validate your contribution
+- [ ] **Test your changes** - Describe how you tested or how to test and validate your contribution
 - [ ] **Update documentation** - Include any necessary documentation updates (README, man pages, usage guides)
 
 ### Breaking changes
@@ -109,13 +236,22 @@ To increase the likelihood of your PR being accepted:
 - Write [good commit messages](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
 - Reference the issue your PR closes (e.g., "closes #42")
 
-### Merging
+### Merging for maintainers
 
 Maintainers will likely squash and then merge your PR when approved. This keeps the git history clean while preserving your contribution.
 
+## Version control best practices
+
+- **Feature branches**: `feature/short-description` - branch from `dev`, merge back to `dev`
+- **Bugfix branches**: `fix/short-description` - branch from `dev`, merge back to `dev`
+- **Hotfix branches**: `hotfix/short-description` - branch from `main`, merge to both `main` and `dev`
+- Always use `--no-ff` (no fast-forward) when merging to preserve merge commits
+- Never rewrite history on permanent `main` or `dev` branches
+- Tag all releases on `main` with semantic versioning: `vX.Y.Z`
+
 ## Code Review
 
-All code needs to go through review before merging. This helps:
+All code should go through review before merging. This helps:
 
 - Catch bugs early
 - Ensure consistency with project standards
@@ -153,11 +289,11 @@ When filing bug reports, please include:
 - How you installed it
 
 **5. Location in code (if known)**
-- This helps other developers resolve the bug faster
+- This helps maintainers and developers resolve the bug faster
 
-If you don't provide this information, resolution will take longer. If we ask for clarification and you don't respond, we may close the issue without fixing it.
+If you don't provide this information, resolution will likely take longer. If we ask for clarification and you don't respond, we may close the issue without fixing whatever the issue is.
 
-### Issue Templates
+### Issue templates
 
 When opening a new issue, always fill out the issue template. Not doing so may result in your issue not being managed in a timely fashion.
 
@@ -195,6 +331,7 @@ Learn more:
 
 ## See Also
 
+- [Git Workflow Guide](GIT_WORKFLOW.md) - Git fundamentals for beginners
 - [Getting Started](GETTING_STARTED.md) - Development environment setup
 - [Release Process](RELEASE_PROCESS.md) - For core team release procedures
 - [Style Guide](style/README.md) - Code style and packaging standards

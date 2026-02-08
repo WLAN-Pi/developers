@@ -7,8 +7,9 @@ A collection of documentation for WLAN Pi developers and contributors.
 **New to WLAN Pi development?** Start here:
 
 1. [Getting Started](GETTING_STARTED.md) - Set up your environment and make your first contribution
-2. [Contributing](CONTRIBUTING.md) - Detailed workflow guidelines
-3. [Packaging Example](PACKAGING_EXAMPLE.md) - Create your first package
+2. [Git Workflow Guide](GIT_WORKFLOW.md) - Git fundamentals (if you're new to Git)
+3. [Contributing](CONTRIBUTING.md) - Detailed workflow guidelines
+4. [Packaging Example](PACKAGING_EXAMPLE.md) - Create your first package
 
 ### Install Dev Dependencies
 
@@ -25,7 +26,8 @@ curl -vfSL http://wlanpi.us/install | sudo bash
 | Document | Description |
 |----------|-------------|
 | [Getting Started](GETTING_STARTED.md) | Development environment setup and first contribution guide |
-| [Contributing](CONTRIBUTING.md) | Git workflow, branch naming, PR guidelines, and code review |
+| [Git Workflow Guide](GIT_WORKFLOW.md) | Git fundamentals for beginners |
+| [Contributing](CONTRIBUTING.md) | Detailed Git workflow, branch naming, PR guidelines, and code review |
 | [Packaging Example](PACKAGING_EXAMPLE.md) | Complete walkthrough of creating a Debian package from scratch |
 
 ### For Core Team
