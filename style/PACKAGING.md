@@ -1,14 +1,14 @@
 # General Debian Packaging Instructions for Packages using dh-virtualenv
 
-We're using spotify's opensurce dh-virtualenv to provide debian packaging and deployment of our Python code inside a virtualenv.
+We're using spotify's opensourced dh-virtualenv to provide Debian packaging and deployment of our Python code inside a virtualenv.
 
 dh-virtualenv is essentially a wrapper or a set of extensions around existing debian tooling. You can find the official page [here](https://github.com/spotify/dh-virtualenv).
 
 Our goal is to use dh-virtualenv for accomplishing things like packaging, symlinks, installing configuration files, systemd service installation, and virtualization at deployment.
 
-## Getting Started
+## Getting started
 
-On your _build host_, install the build tools (these are only needed on your build host):
+On your _build host_, install the build tools. This could be a laptop, virtual machine, Raspberry Pi, Mac running Asahi, etc. These are only needed on your build host:
 
 ```bash
 sudo apt-get install build-essential debhelper devscripts equivs python3-pip python3-all-dev python3-setuptools dh-virtualenv
@@ -28,7 +28,7 @@ python3 -m pip install -U pip setuptools wheel
 
 This is required, otherwise the tooling will fail when tries to evaluate which tests to run.
 
-## This will install build dependencies
+## Installing build dependencies
 
 ```bash
 sudo mk-build-deps -ri
@@ -42,7 +42,9 @@ From the root directory of this repository run:
 dpkg-buildpackage -us -uc -b
 ```
 
-Note that -us -uc disables signing the package with GPG. So, if you want to build, test with lintian, sign with GPG:
+Note that `-us -uc` disables signing the package with GPG. 
+
+So, if your goal is to build, test with lintian, and sign with GPG:
 
 ```bash
 debuild
@@ -88,7 +90,7 @@ If we want to clean `/etc` we should "purge":
 
 `sudo apt purge wlanpi-app`
 
-## Debian Packaging Breakdown
+## Debian packaging breakdown
 
 - `changelog`: Contains changelog information and sets the version of the package. date must be in RFC 5322 format.
 - `control`: provides dependencies, package name, and other package meta data. tols like apt uses these to build dependencies, etc.
@@ -98,7 +100,7 @@ If we want to clean `/etc` we should "purge":
 - `wlanpi-app.service`: `dh` automatically picks up and installs this systemd service
 - `wlanpi-app.triggers`: tells dpkg what packages we're interested in
 
-### Maintainer Scripts
+### Maintainer scripts
 
 - `postinst` - this runs after the install and handles setting up a few things. dh_installdeb will replace this with shell code automatically.
 - `postrm` - this runs and handles `remove` and `purge` args when uninstalling or purging the package. dh_installdeb will replace this with shell code automatically.
