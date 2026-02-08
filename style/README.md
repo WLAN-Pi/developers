@@ -10,7 +10,6 @@ There is a need to have a straight forward guide reflecting WLAN Pi's style guid
 - [Contributing](CONTRIBUTING.md)
 - [Debchange](DCH.md)
 - [Developer Workflow](WORKFLOW.md)
-- [Git](GIT.md)
 - [Manpages](MANPAGES.MD)
 - [Packaging](PACKAGING.md)
 - [Python](PYTHON.md)
