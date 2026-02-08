@@ -4,7 +4,7 @@ Python Style Guide
 Packaging
 ---------
 
-See the official [Python packaging projects guide]](https://packaging.python.org/en/latest/tutorials/packaging-projects/) to get started.
+See the official [Python packaging projects guide](https://packaging.python.org/en/latest/tutorials/packaging-projects/) to get started.
 
 If you cannot run your Python project directly as a module `python -m app`, it is not packaged correctly.
 
