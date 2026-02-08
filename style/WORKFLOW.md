@@ -1,4 +1,4 @@
-# Workflow Tips
+# Workflow tips
 
 ## Releases
 
@@ -8,14 +8,16 @@ CI/CD will be setup and triggered by pushes to `{repo}/debian/changelog`.
 
 So, this meaning you should have some hope that your hotfix or feature works as intended. It would be a good idea to format, lint, and test the code at this stage.
 
-Thus, you should not make changes to the `changelog` until you are ready to deploy.
+Thus, don't push changes to the `changelog` until you are ready to deploy.
 
 ## Setup development environment
 
+In general:
+
 1. Clone repo
-2. Create virtualenv
-3. Install wheel and setuptools in virtualenv
-4. Install package into virtualenv with extras
+1. Create virtualenv
+1. Install wheel and setuptools in virtualenv
+1. Install package into virtualenv with extras
 
 ```bash
 git clone git@github.com:WLAN-Pi/wlanpi-app.git 
@@ -30,7 +32,7 @@ pip install .
 pip install .[testing]
 ```
 
-## Debcange
+## Debchange from devscripts
 
 Create a changelog entry for a new release: `dch -i`
 
@@ -38,7 +40,7 @@ Describe what you changed, fixed, or enhanced.
 
 If you were to do this initially, and create the changelog file, you can create it by browsing to the root of the repository, and running `debchange --create`. This will be already done by the time you read this.
 
-See [DCH](DCH.md) for further reading.
+See the [DCH](DCH.md) page for further reading.
 
 ## Versioning
 
@@ -50,17 +52,19 @@ Each release requires versions to be updated in __two__ locations:
 
 Please note that Python package versioning should follow PEP 440. https://www.python.org/dev/peps/pep-0440/
 
+Please note that the Debian package versioning does not strictly align with Python versioning. 
+
+- Debian generally follows `<DebianPackageName>_<VersionNumber>-<DebianRevisionNumber>_<DebianArchitecture>.deb`. Package format also matters. Quilt vs native have differences. Native does not allow revision numbers (`1.0.0` instead of `1.0.0-1`). [More on quilt vs native here](https://wiki.debian.org/Projects/DebSrc3.0).
+
 ## Committing
 
-Before committing, please lint, format, and test your code.
+Before committing, please lint, format, and test your code. Remove trailing whitespace. Remove whitespace from blank lines. In other words, make your code neat and conform to the style of the repository you're proposing changes to.
 
 ### Linting and formatting
 
-You should install depends with `pip install .[testing]` and then you will be able to run `tox -e format` and `tox -e lint` to format and lint respectively.
+You can in general install `tox` and then you will be able to run `tox -e format` and `tox -e lint` to format and lint respectively. Tox should automatically handle creating the virtual environments and dependencies to run tests and format/lint code. 
 
-For reference, there are `format.sh`, `lint.sh`, and `test.sh` scripts found in `{repo}/scripts`.
-
-Here are some of the tools used:
+Here are some of the Python tools used:
 
 * autoflake
 * black
@@ -68,16 +72,20 @@ Here are some of the tools used:
 * isort
 * mypy
 
+However, we are moving to `ruff` to replace the functionality of these tools with one tool. One tool to rule them all?
+
 ### Testing
 
-You should install depends with `pip install .[testing]` and then you will be able to run `tox` to run tests.
+You can in general install `tox`, and then you will be able to run `tox` to run tests.
 
-## Building the Debian Package
+## Building the Debian package
 
 From the root directory of this repository run:
 
 ```bash
 dpkg-buildpackage -us -uc -b
 ```
+
+Iterate until you get files in `../` for the target application.
 
 See [PACKAGING.md](PACKAGING.md) for further reading.
