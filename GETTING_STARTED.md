@@ -18,7 +18,7 @@ This repository contains the documentation for developers who want to contribute
 ### 1. Install dependencies
 
 ```bash
-curl -fSL https://wlanpi.us/install | sudo bash
+curl -fSL http://wlanpi.us/install | sudo bash
 ```
 
 ### 2. Set up git
