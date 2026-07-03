@@ -6,6 +6,8 @@ Packaging
 
 See the official [Python packaging projects guide](https://packaging.python.org/en/latest/tutorials/packaging-projects/) to get started.
 
+New projects must use `pyproject.toml` for project metadata. Do not use `setup.py` for new packages.
+
 If you cannot run your Python project directly as a module `python -m app`, it is not packaged correctly.
 
 If you rely on data outside of your package, you must to handle considerations for when that data is not present when your package is run. Do not rely on hard coding paths, make them configurable.
@@ -36,12 +38,9 @@ When using abbreviations with `CamelCase`, capitalize all the letters of the abb
 Python Version Guidelines
 -------------------------
 
-To ensure compatibility across WLAN Pi OS environments, please adhere to the following Python version requirements in development:
+[Python 3.13](https://docs.python.org/3.13/) is the standard for new development. This aligns with the system Python in Debian Trixie, which is the active development target for WLAN Pi.
 
-- Primary Version: Use [Python 3.9](https://docs.python.org/3.9/) for all development. This aligns with the system Python version in Debian Bullseye, which relies on Python 3.9 as the default. WLAN Pi applications written in Python rely on dh-virtualenv which uses the system python version.
-- Future Transition: Once we fully transition to supporting only systems based on Debian Bookworm or Trixie, which uses [Python 3.11](https://docs.python.org/3.11/) or [Python 3.13](https://docs.python.org/3.13/) as the default, we will evaluate shifting development to Python 3.11 or Python 3.13 after some time of overlap. Until that point, Python 3.9 will remain the standard version used by WLAN Pi for compatibility.
-
-In other words, do not use Python features introduced in versions later than 3.9 until WLAN Pi is no longer supporting the Bullseye images. By maintaining this guideline, we can better ensure consistent functionality and minimize compatibility issues across supported versions of WLAN Pi OS.
+Bookworm (Python 3.11) may still receive bug fixes on existing packages. Bullseye (Python 3.9) is end-of-life for WLAN Pi.
 
 Tests
 -----
