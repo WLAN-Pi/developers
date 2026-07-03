@@ -39,10 +39,10 @@ Note: You will need to setup SSH keys.
 1. Go to the repository you want to contribute to on GitHub
 2. Click the "Fork" button
 3. Clone your fork:
- ```bash
- git clone https://github.com/USERNAME/REPO_NAME.git
- cd REPO_NAME
- ```
+   ```bash
+   git clone https://github.com/USERNAME/REPO_NAME.git
+   cd REPO_NAME
+   ```
 
 ### 4. Create a branch
 
@@ -121,15 +121,15 @@ Most application repositories follow this structure:
 
 ```
 REPO_NAME/
-├── debian/ # Debian packaging files
-│ ├── control # Package metadata
-│ ├── changelog # Version history
-│ ├── rules # Build instructions
-│ └── ...
-├── src/ # Source code
-├── tests/ # Test files
-├── README.md # Project documentation
-└── LICENSE # BSD-3 License
+├── debian/              # Debian packaging files
+│   ├── control          # Package metadata
+│   ├── changelog        # Version history
+│   ├── rules            # Build instructions
+│   └── ...
+├── src/                 # Source code
+├── tests/               # Test files
+├── README.md            # Project documentation
+└── LICENSE              # BSD-3 License
 ```
 
 ## Your first contribution
