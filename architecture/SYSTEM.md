@@ -6,8 +6,8 @@ This document describes the runtime architecture of the WLAN Pi platform: how th
 
 ```
                         ┌─────────────────────────────────┐
-                        │            Browser /             │
-                        │         External Client          │
+                        │            Browser /            │
+                        │         External Client         │
                         └────────────────┬────────────────┘
                                          │ HTTP / WebSocket
                                          ▼
@@ -20,11 +20,11 @@ This document describes the runtime architecture of the WLAN Pi platform: how th
                                  ▼              ▼
                    ┌─────────────────┐  ┌──────────────────┐
                    │   wlanpi-core   │  │   wlanpi-webui   │
-                   │  FastAPI/uvicorn│  │   Flask/gunicorn  │
-                   │   :8000         │  │   :5000           │
+                   │  FastAPI/uvicorn│  │   Flask/gunicorn │
+                   │   :8000         │  │   :5000          │
                    └────────┬────────┘  └────────┬─────────┘
                             │                    │
-                            │  internal HTTP      │
+                            │  internal HTTP     │
                             └────────────────────┘
                                      │
                      ┌───────────────┼───────────────┐
