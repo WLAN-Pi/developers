@@ -9,6 +9,7 @@
 - [Manpages](MANPAGES.MD)
 - [Packaging](../architecture/PACKAGING.md)
 - [Python](PYTHON.md)
+- [README Standards](README_STANDARDS.md)
 
 ## Feedback Loop
 
