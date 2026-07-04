@@ -40,8 +40,7 @@ wlanpi-hello/
 │   └── wlanpi-hello.service
 ├── tests/                     # Test files
 │   └── test_hello.py
-├── requirements.txt           # Python dependencies
-├── setup.py                   # Python package setup
+├── pyproject.toml             # Python package metadata
 ├── README.md                  # Project documentation
 └── .github/
     └── workflows/             # CI/CD workflows
@@ -118,35 +117,7 @@ __version__ = "1.0.0"
 
 ## Step 2: Python package setup
 
-Create `setup.py`:
-
-```python
-from setuptools import setup, find_packages
-
-setup(
-    name="wlanpi-hello",
-    version="1.0.0",
-    packages=find_packages(where="src"),
-    package_dir={"": "src"},
-    entry_points={
-        "console_scripts": [
-            "wlanpi-hello=hello.main:main",
-        ],
-    },
-    install_requires=[
-        # Add production dependencies here
-    ],
-    extras_require={
-        "test": [
-            "pytest>=7.0.0",
-            "pytest-cov>=4.0.0",
-        ],
-    },
-    python_requires=">=3.7",
-)
-```
-
-Alternatively, use modern `pyproject.toml`:
+New projects use `pyproject.toml` for package metadata. Create `pyproject.toml`:
 
 ```toml
 [build-system]
@@ -159,16 +130,13 @@ version = "1.0.0"
 description = "WLAN Pi Hello example application"
 readme = "README.md"
 license = {text = "MIT"}
-requires-python = ">=3.9"
+requires-python = ">=3.13"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: System Administrators",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.13",
 ]
 dependencies = []
 
@@ -515,12 +483,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.13'
 
       - name: Install dependencies
         run: |
@@ -535,7 +503,7 @@ jobs:
         run: dpkg-buildpackage -us -uc -b
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: wlanpi-hello
           path: ../wlanpi-hello_*.deb
@@ -555,7 +523,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       - name: Install dependencies
         run: |
