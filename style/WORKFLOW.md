@@ -1,4 +1,4 @@
-# Workflow tips
+# Workflow Tips
 
 ## Releases
 
@@ -6,9 +6,9 @@ Each release should contain appropriate git tagging and versioning.
 
 CI/CD will be setup and triggered by pushes to `{repo}/debian/changelog`.
 
-So, this meaning you should have some hope that your hotfix or feature works as intended. It would be a good idea to format, lint, and test the code at this stage.
+So, this means you should have some hope that your hotfix or feature works as intended. It would be a good idea to format, lint, and test the code at this stage.
 
-Thus, don't push changes to the `changelog` until you are ready to deploy.
+Thus, do not push changes to the `changelog` until you are ready to deploy.
 
 ## Setup development environment
 
@@ -44,25 +44,24 @@ See the [DCH](DCH.md) page for further reading.
 
 ## Versioning
 
-Each release requires versions to be updated in __two__ locations:
+Each release requires versions to be updated in two locations:
 
-1. debian changelog: `{repo}/debian/changelog` via `debchange`
-
-2. python package: `{repo}/wlanpi_app/__version__.py` via manual update.
+1. `debian/changelog` via `debchange`
+2. The Python package version file (e.g. `wlanpi_yourapp/__version__.py`) via manual update
 
 Please note that Python package versioning should follow PEP 440. https://www.python.org/dev/peps/pep-0440/
 
-Please note that the Debian package versioning does not strictly align with Python versioning. 
+Please note that the Debian package versioning does not strictly align with Python versioning.
 
 - Debian generally follows `<DebianPackageName>_<VersionNumber>-<DebianRevisionNumber>_<DebianArchitecture>.deb`. Package format also matters. Quilt vs native have differences. Native does not allow revision numbers (`1.0.0` instead of `1.0.0-1`). [More on quilt vs native here](https://wiki.debian.org/Projects/DebSrc3.0).
 
 ## Committing
 
-Before committing, please lint, format, and test your code. Remove trailing whitespace. Remove whitespace from blank lines. In other words, make your code neat and conform to the style of the repository you're proposing changes to.
+Before committing, please lint, format, and test your code. Remove trailing whitespace. Remove whitespace from blank lines. In other words, make your code neat and conform to the style of the repository you are proposing changes to.
 
 ### Linting and formatting
 
-We use `ruff` for linting and formatting. It replaces the previous set of tools (`autoflake`, `black`, `flake8`, `isort`, `mypy`).
+Ruff is the standard for new projects. Existing repos may still use the legacy toolchain (`autoflake`, `black`, `flake8`, `isort`) until they are updated. When touching an existing repo, migrate to ruff if it is practical to do so.
 
 Install and run via `tox`:
 
@@ -73,13 +72,12 @@ tox -e lint     # lint code
 
 Or directly:
 
-Ruff is the standard for new projects. Existing repos may still use the legacy toolchain (autoflake, black, isort, flake8) until they are updated. When touching an existing repo, migrate to ruff if it is practical to do so.
-
-
 ```bash
 ruff check .
 ruff format .
 ```
+
+Note that `tox -e lint` and `tox -e format` assume the repo has those environments configured in `tox.ini`. Check the repo's `tox.ini` before running.
 
 ### Testing
 
@@ -95,4 +93,4 @@ dpkg-buildpackage -us -uc -b
 
 Iterate until you get files in `../` for the target application.
 
-See [PACKAGING.md](PACKAGING.md) for further reading.
+See [Packaging](../architecture/PACKAGING.md) for further reading.

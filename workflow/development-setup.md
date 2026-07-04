@@ -1,93 +1,115 @@
-# Development Setup Instructions
+# Development Setup
+
+This guide walks through setting up a local development environment for a WLAN Pi Python package. The example uses `wlanpi-fpms`, but the steps apply to any WLAN Pi Python repo.
+
+## System requirements
+
+Some packages have hardware requirements. For `wlanpi-fpms`, the SPI interface must be enabled on the target device for the display to work.
+
+Enable SPI via `raspi-config`:
+
+```bash
+sudo raspi-config
+```
+
+Or by editing `/boot/firmware/config.txt` directly and adding:
+
+```
+dtparam=spi=on
+```
 
 ## Initial setup
 
-The following steps are the initial instructions to clone the codebase locally and setup a virtualenv. Note that these are taken from the wlanpi-chat-bot package, but apply to any of the wlanpi python based packages.
+These steps only need to be done once per environment.
 
-1. Clone repo:
+1. Clone the repo:
 
+```bash
+git clone git@github.com:WLAN-Pi/wlanpi-fpms.git && cd wlanpi-fpms
 ```
-git clone https://WLAN-Pi/wlanpi-chat-bot.git && cd wlanpi-chat-bot
-```
 
-2. Create virtualenv:
+2. Create a virtualenv:
 
-```
+```bash
 python3 -m venv venv
 ```
 
-3. Activate venv:
+3. Activate it:
 
-```
+```bash
 source venv/bin/activate
 ```
 
-5. Update pip, setuptool, and wheel (this is only done once)
+4. Update pip and install build tools:
 
-```
-pip install -U pip setuptools wheel
-```
-
-6. Install requirements
-
-```
-pip install -r requirements.txt
+```bash
+pip install -U pip setuptools wheel pip-tools
 ```
 
-## Executing the wlanpi-chat-bot module
+5. Install the package with test dependencies:
 
-Ok, now should be read to run the code. This version of the chat-bot is packaged into a module. So, we need to instruction Python to run it as a module with the `-m` option.
-
-1. If developing on a WLAN Pi that is already running wlanpi-chat-bot, stop the servie before running up our development instance
-
-```
-sudo systemctl stop wlanpi-chat-bot
-# check it stopped
-sudo systemctl status wlanpi-chat-bot
-
+```bash
+pip install -e .[testing]
 ```
 
-2. We need to run chat-bot as sudo, which means we'll need to pass along the location of the Python environment to sudo like this:
+The `testing` extras bring in tools like tox, pytest, ruff, and mypy.
 
-```
-sudo venv/bin/python3 -m chatbot
-```
+## Running the module
 
-If you'd like to run chat-bot in debug mode for testing, run with the "--debug" option:
+WLAN Pi packages are structured as Python modules and should be run with `-m`:
 
-```
-sudo venv/bin/python3 -m chatbot --debug
-```
+1. Stop the running service if the package is already installed on the device:
 
-If you'd like to pass your chat-bot app token for testing, pass it in via the "--bot_token" option:
-
-```
-sudo venv/bin/python3 -m chatbot --bot_token
+```bash
+sudo systemctl stop wlanpi-fpms
+sudo systemctl status wlanpi-fpms
 ```
 
-Further reading on executing modules with Python at <https://docs.python.org/3/library/runpy.html>.
+2. Run using the virtualenv's interpreter (some packages require root):
+
+```bash
+sudo venv/bin/python3 -m fpms
+```
+
+For keyboard-interactive mode (enables display screenshots with `g`):
+
+```bash
+sudo venv/bin/python3 -m fpms -e
+```
+
+Further reading on executing Python modules: <https://docs.python.org/3/library/runpy.html>
+
+## Running tests
+
+```bash
+tox
+```
+
+Or directly with pytest:
+
+```bash
+pytest
+```
 
 ## Cheatsheet
 
-New environment?
+New environment:
 
-```
-cd <root of repo>
+```bash
+git clone git@github.com:WLAN-Pi/wlanpi-fpms.git && cd wlanpi-fpms
 python3 -m venv venv
 source venv/bin/activate
-pip install -U pip setuptools wheel
-pip install -r requirements.txt
-sudo systemctl stop wlanpi-chat-bot
-sudo systemctl status wlanpi-chat-bot
-sudo venv/bin/python3 -m chatbot
+pip install -U pip setuptools wheel pip-tools
+pip install -e .[testing]
+sudo systemctl stop wlanpi-fpms
+sudo venv/bin/python3 -m fpms
 ```
 
-Is your development environment already setup?
+Returning to an existing environment:
 
-```
-cd <root of repo>
+```bash
+cd wlanpi-fpms
 source venv/bin/activate
-sudo systemctl stop wlanpi-chat-bot
-sudo systemctl status wlanpi-chat-bot
-sudo venv/bin/python3 -m chatbot
+sudo systemctl stop wlanpi-fpms
+sudo venv/bin/python3 -m fpms
 ```

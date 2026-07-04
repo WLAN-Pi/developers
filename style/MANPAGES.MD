@@ -1,6 +1,6 @@
 # Manpage Creation and Generation for your WLAN Pi Application
 
-If you're reading this, you are likely ambitious! It is not mandatory to create a manpage for your application, but you should because it can be a nice touch and to have.
+If you are reading this, you are likely ambitious. It is not mandatory to create a manpage for your application, but you should because it can be a nice touch.
 
 You will likely want to write your manpage using Markdown and then convert it to the appropriate format. We can do that with [pandoc](https://pandoc.org/).
 
@@ -42,7 +42,7 @@ from a list of wonderful folks from the Twin Peaks.
 
 Bugs and issues can be reported on GitHub:
 
-https://github.com/wlan-pi/twinpeakslodge
+https://github.com/WLAN-Pi/twinpeakslodge
 
 # COPYRIGHT
 
@@ -55,15 +55,12 @@ Otherwise, reference the Markdown manpage for [wlanpi-profiler/debian/wlanpi-pro
 
 Please note that there is no armhf package for pandoc, but there is an arm64 package.
 
-If your host is arm64:
+Find the current package for your host on the [pandoc releases](https://github.com/jgm/pandoc/releases/) page and install it:
 
 ```bash
-cd ~
-wget https://github.com/jgm/pandoc/releases/download/2.16.2/pandoc-2.16.2-1-arm64.deb
-sudo apt install ~/pandoc-2.16.2-1-arm64.deb
+wget https://github.com/jgm/pandoc/releases/download/<version>/pandoc-<version>-1-arm64.deb
+sudo apt install ./pandoc-<version>-1-arm64.deb
 ```
-
-Otherwise, find the package for your host on the [pandoc releases](https://github.com/jgm/pandoc/releases/) page.
 
 ## Generating the Man Page
 
@@ -86,7 +83,7 @@ Make sure `manpage.sh` is executable.
 chmod +x manpage.sh
 ```
 
-Ok, let's generate our manpage by running `manpage.sh`:
+Generate the manpage:
 
 ```bash
 ./manpage.sh
@@ -102,7 +99,7 @@ Done. You can read it with:   man ./wlanpi-profiler.1
 
 ## Viewing the newly created Man Page
 
-You should definitely check over your man page before committing it.
+Check over your man page before committing it.
 
 ```bash
 man ./wlanpi-lodge.1
