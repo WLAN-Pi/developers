@@ -73,6 +73,9 @@ tox -e lint     # lint code
 
 Or directly:
 
+Ruff is the standard for new projects. Existing repos may still use the legacy toolchain (autoflake, black, isort, flake8) until they are updated. When touching an existing repo, migrate to ruff if it is practical to do so.
+
+
 ```bash
 ruff check .
 ruff format .

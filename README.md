@@ -53,6 +53,7 @@ curl -vfSL http://wlanpi.us/install | sudo bash
 | [Anti-patterns](style/ANTIPATTERNS.md) | Common mistakes to avoid |
 | [Debchange](style/DCH.md) | Changelog formatting |
 | [Developer Workflow](style/WORKFLOW.md) | Development process standards |
+| [Manpages](style/MANPAGES.MD) | Creating and generating manpages for WLAN Pi applications |
 
 ### Workflow
 

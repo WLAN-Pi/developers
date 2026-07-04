@@ -226,6 +226,7 @@ If `dev` exists, otherwise use `main`.
 - Aim to keep changes focused and reviewable
 - Respond to review feedback
 - Ensure CI checks pass before requesting review
+- Python repos include CodeQL scanning via `codeql-analysis.yml`. It runs on push, pull request, and on a weekly schedule. You do not need to configure it, but be aware that findings may be raised on your PR.
 - Create and link to related issues for history and context
 
 ### PR checklist
