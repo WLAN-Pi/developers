@@ -7,11 +7,11 @@ There is a need to have a straight forward guide reflecting WLAN Pi's style guid
 ## Table of Contents
 
 - [Anti-patterns](ANTIPATTERNS.md)
-- [Contributing](CONTRIBUTING.md)
+- [Contributing](../CONTRIBUTING.md)
 - [Debchange](DCH.md)
 - [Developer Workflow](WORKFLOW.md)
 - [Manpages](MANPAGES.MD)
-- [Packaging](PACKAGING.md)
+- [Packaging](../architecture/PACKAGING.md)
 - [Python](PYTHON.md)
 
 ## Feedback Loop

@@ -47,9 +47,9 @@ curl -vfSL http://wlanpi.us/install | sudo bash
 
 | Document | Description |
 |----------|-------------|
-| [Contributing Style](style/CONTRIBUTING.md) | Code contribution standards |
+| [Contributing Style](style/CONTRIBUTING.md) | See [CONTRIBUTING.md](CONTRIBUTING.md) |
 | [Python](style/PYTHON.md) | Python coding standards |
-| [Packaging Style](style/PACKAGING.md) | Packaging-specific style guide |
+| [Packaging Style](style/PACKAGING.md) | See [architecture/PACKAGING.md](architecture/PACKAGING.md) |
 | [Anti-patterns](style/ANTIPATTERNS.md) | Common mistakes to avoid |
 | [Debchange](style/DCH.md) | Changelog formatting |
 | [Developer Workflow](style/WORKFLOW.md) | Development process standards |

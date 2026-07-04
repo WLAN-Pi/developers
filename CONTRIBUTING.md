@@ -199,6 +199,8 @@ If your local branch diverges from its remote (e.g., after a problematic rebase)
   test: adding tests
   ```
 
+  Using these prefixes in your PR title makes it easier for maintainers to triage and label incoming work at a glance.
+
 - **Don't manually edit `debian/changelog`** - This is updated separately using `dch` from `devscripts`
 
 ## Pull requests
@@ -221,6 +223,8 @@ If `dev` exists, otherwise use `main`.
    - Use keywords like `closes #42`, `fixes #66`, or `resolves #99`
    - This automatically links the PR to the issue
 
+When possible, open an issue before opening a PR. This gives maintainers context for the change and prevents duplicate work. For small fixes, a brief issue is fine; just enough to describe the problem.
+
 ### PR best practices
 
 - Aim to keep changes focused and reviewable
@@ -228,6 +232,8 @@ If `dev` exists, otherwise use `main`.
 - Ensure CI checks pass before requesting review
 - Python repos include CodeQL scanning via `codeql-analysis.yml`. It runs on push, pull request, and on a weekly schedule. You do not need to configure it, but be aware that findings may be raised on your PR.
 - Create and link to related issues for history and context
+
+AI assistance is welcome. Just make sure you have reviewed and tested what you are submitting.
 
 ### PR checklist
 
