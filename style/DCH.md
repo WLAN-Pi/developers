@@ -10,7 +10,7 @@ While you could edit the changelog directly, it is recommended to use `debchange
 
 If you are regularly using debchange, it is also a good idea to set environment variables on your development machine. 
 
-If you do not, when `debchange` is invoked, it will automatically author the change with `<user@systemname>` when you should use the `Dale Cooper <special_agent@twinpeaks.com>` format.
+If you do not, when `debchange` is invoked, it will automatically author the change with `<user@systemname>` when you should use the `Dale Cooper <agent@twinpeaks.gov>` format.
 
 ## debchange - usage tips
 
@@ -41,8 +41,8 @@ You will likely want to set the `DEBFULLNAME` and `DEBEMAIL` environment variabl
 Set per session:
 
 ```bash
-(venv) wlanpi@rwlanpi:[~/dev/wlanpi-app]: export DEBFULLNAME="Josh Schmelzle"
-(venv) wlanpi@wlanpi:[~/dev/wlanpi-app]: export DEBEMAIL="Josh Schmelzle <josh@joshschmelzle.com>"
+(venv) wlanpi@rwlanpi:[~/dev/wlanpi-app]: export DEBFULLNAME="Dale Cooper"
+(venv) wlanpi@wlanpi:[~/dev/wlanpi-app]: export DEBEMAIL="Dale Cooper <agent@twinpeaks.gov>"
 ```
 
 Set to take effect at shell login via `~/.profile`
@@ -51,8 +51,8 @@ Set to take effect at shell login via `~/.profile`
 ```bash
 # vim ~/.profile
 # append the following:
-export DEBFULLNAME="Josh Schmelzle"
-export DEBEMAIL="Josh Schmelzle <josh@joshschmelzle.com>"
+export DEBFULLNAME="Dale Cooper"
+export DEBEMAIL="Dale Cooper <agent@twinpeaks.gov>"
 ```
 
 ## debchange - additional reading
