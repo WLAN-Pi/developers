@@ -2,7 +2,7 @@
 
 An [anti-pattern](http://en.wikipedia.org/wiki/Anti-pattern) is a common response to a recurring problem that is usually ineffective and risks being highly counterproductive.
 
-__We should generally aim against creating anti-patterns in our codebase.__
+We should generally aim against creating anti-patterns in our codebase.
 
 ## Global variables
 
@@ -23,9 +23,7 @@ wlanpi@wlanpi:/tmp $ file lldpneightcpdump.cap
 lldpneightcpdump.cap: ASCII text
 ```
 
-__What's wrong with this?__ The file extension is misleading.
-
-The better file extension in this example would be `.txt` or similar rather than `.cap`. It better represents the contents.
+The file extension is misleading. The better file extension in this example would be `.txt` or similar rather than `.cap`. It better represents the contents.
 
 A file with extension `.cap` should have contents similar to this:
 

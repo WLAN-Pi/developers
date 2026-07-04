@@ -69,7 +69,7 @@ curl -vfSL http://wlanpi.us/install | sudo bash
 
 | Document | Description |
 |----------|-------------|
-| [Licensing](licensing/licensing.md) | Project licensing policy (MIT) |
+| [Licensing](licensing/licensing.md) | Project licensing policy (BSD-3-Clause) |
 
 ### Community
 
