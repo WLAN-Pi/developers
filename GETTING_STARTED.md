@@ -46,11 +46,16 @@ Note: You will need to setup SSH keys.
 
 ### 4. Create a branch
 
-```bash
-# Make sure you're on the right branch
-git checkout <branch>
+Each repository uses either `main` or `dev` as its default development branch — check the repository's GitHub page to confirm which one. When in doubt, use `main`.
 
-# Create your feature branch
+```bash
+# Switch to the base branch (main or dev, depending on the repo)
+git checkout main
+
+# Pull the latest changes
+git pull upstream main
+
+# Create your feature branch from there
 git checkout -b <my-first-contribution>
 ```
 
