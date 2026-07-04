@@ -24,15 +24,35 @@ This guide covers how to contribute code to WLAN Pi projects. For setting up you
 WLAN Pi repositories follow one of two patterns:
 
 **Two permanent branches** (Python-based repos like `wlanpi-core`, `wlanpi-profiler`):
-- `dev` -- Active development for the next release. All feature and fix work targets this branch.
-- `main` -- Stable release branch. Only tested releases land here via PR from `dev`.
+- `dev`: Active development for the next release. All feature and fix work targets this branch.
+- `main`: Stable release branch. Only tested releases land here via PR from `dev`.
 
 **Single permanent branch** (simpler repos):
-- `main` -- Stable release branch. Feature branches merge directly here.
+- `main`: Stable release branch. Feature branches merge directly here.
 
 **Debian suite branches** (`debian/<codename>`, e.g. `debian/bullseye`):
 - Maintained by the core team only. These preserve support for older Debian releases and are not targets for regular contributor PRs.
 - Build matrices on these branches are scoped to their specific suite only.
+
+### Why two patterns?
+
+WLAN Pi repos use one of two branching strategies depending on the complexity of the project.
+
+**Single permanent branch (`main` only)**
+
+Simpler repos use only `main`. Feature and bugfix branches are created directly from `main` and merged back when ready. Squash merging is fine here because there is only one permanent branch. There is no shared ancestry to preserve between two long-lived branches.
+
+**Two permanent branches (`dev` and `main`)**
+
+More active repos use both `dev` and `main`. `dev` is the integration target for all ongoing work. `main` represents the current stable release and only receives merges from `dev` at release time.
+
+This pattern requires care with merge strategy:
+
+- **Feature branches into `dev`**: squash merge is encouraged. Collapses WIP commits into one clean entry on `dev`.
+- **`dev` into `main`**: regular merge commit required, always. Git tracks which commits exist in each branch by shared ancestry. Squashing dev into main destroys that ancestry, so on the next release cycle Git cannot tell what is already in main. This leads to phantom conflicts and eventually branches that cannot be reconciled without force-pushing.
+- **`main` into `dev`** (syncing after a hotfix): same rule, regular merge commit only.
+
+The short version: squash merges are safe when collapsing a temporary branch. They are destructive when used between two branches that will continue to diverge and re-merge over time.
 
 ## Branch naming
 
@@ -73,7 +93,7 @@ git commit -m "Add new feature: description"
 git push origin dev
 ```
 
-**Squash merging is OK for feature branches → `dev`** because we're collapsing temporary branches. The problem only occurs when squash merging between **permanent** branches (`dev` → `main`).
+**Squash merging is OK for feature branches into `dev`** because we are collapsing temporary branches. The problem only occurs when squash merging between **permanent** branches (`dev` into `main`).
 
 ### Keeping feature branches in sync
 
@@ -107,9 +127,9 @@ git push origin your-feature-branch
 Regular merge commits preserve the full history and keep both branches properly synchronized.
 
 **Summary:**
-- ✅ **Squash merge OK**: `feature/branch` → `dev` (keeps dev clean)
-- ❌ **Regular merge REQUIRED**: `dev` → `main` (preserves shared history)
-- ❌ **Regular merge REQUIRED**: `main` → `dev` (preserves shared history)
+- ✅ **Squash merge OK**: `feature/branch` into `dev` (keeps dev clean)
+- ❌ **Regular merge REQUIRED**: `dev` into `main` (preserves shared history)
+- ❌ **Regular merge REQUIRED**: `main` into `dev` (preserves shared history)
 
 ## Troubleshooting common scenarios
 
@@ -137,7 +157,7 @@ If `main` releases a new version while you're still working on a feature branch:
    git commit -m "bump version to X.Y.Z+1"
    ```
 
-4. **Then follow normal merge workflow**: feature → dev → main
+4. **Then follow normal merge workflow**: feature into dev, dev into main
 
 **Example:** If your feature branch says "2.1.8" but main already released 2.1.8, update your branch to "2.1.9". Unsure? One of the core maintainers will handle release management.
 
@@ -236,7 +256,9 @@ To increase the likelihood of your PR being accepted:
 
 ### Merging for maintainers
 
-Maintainers will likely squash and then merge your PR when approved. This keeps the git history clean while preserving your contribution.
+When merging contributor PRs (feature or bugfix branches into `dev`), use squash merge by default. This collapses noisy WIP commits into a single clean commit on `dev`.
+
+Do not squash when merging between `dev` and `main`. See the merge strategy section above.
 
 ## Version control best practices
 
