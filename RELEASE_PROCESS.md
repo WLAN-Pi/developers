@@ -16,9 +16,13 @@ General branching strategy. May vary per repo.
 |--------|---------|
 | `main` | Production/stable releases only |
 | `dev` | Integration branch for next release |
+| `debian/<codename>` | Preserved support for older Debian suites (core team only) |
 | `u/<user>/<desc>` | Personal development branches |
 | `feature/<desc>` | Shared long-term feature work |
 | `bugfix/<desc>` | Bug fix branches |
+| `hotfix/<desc>` | Urgent fixes against main |
+
+> `debian/<codename>` branches (e.g. `debian/bullseye`) are maintained by the core team. They are branched from a known-good commit before trixie-targeted work began. Build matrices on these branches target only their specific suite. Contributors should not open PRs against these branches.
 
 ### Branch rules
 

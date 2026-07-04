@@ -21,31 +21,35 @@ This guide covers how to contribute code to WLAN Pi projects. For setting up you
 
 ## Branch structure
 
-In some of our Python based repositories (`wlanpi-core` for example), we maintain two primary branches:
+WLAN Pi repositories follow one of two patterns:
 
-- **`dev`** - Active development branch where all fix/feature work happens
-- **`main`** - Stable release branch containing only tested releases
+**Two permanent branches** (Python-based repos like `wlanpi-core`, `wlanpi-profiler`):
+- `dev` -- Active development for the next release. All feature and fix work targets this branch.
+- `main` -- Stable release branch. Only tested releases land here via PR from `dev`.
 
-In some of our repositories, we maintain a single primary branch:
+**Single permanent branch** (simpler repos):
+- `main` -- Stable release branch. Feature branches merge directly here.
 
-- **`main`** - Stable release branch which should contain only tested releases
+**Debian suite branches** (`debian/<codename>`, e.g. `debian/bullseye`):
+- Maintained by the core team only. These preserve support for older Debian releases and are not targets for regular contributor PRs.
+- Build matrices on these branches are scoped to their specific suite only.
 
 ## Branch naming
 
-When creating branches for your work, please use one of these patterns:
+Use one of these patterns when creating branches:
 
 ```
 u/<username>/<description>       # Personal work
 feature/<description>            # Shared feature work
 bugfix/<description>             # Bug fixes
+hotfix/<description>             # Urgent fixes against main
 ```
 
 Examples:
 - `u/lebowski/add-wifi-scan`
-- `feat/metrics-dashboard`
 - `feature/metrics-dashboard`
-- `fix/memory-leak-profiler`
 - `bugfix/memory-leak-profiler`
+- `hotfix/cert-validation`
 
 ## Development workflow
 
@@ -156,7 +160,7 @@ If your local branch diverges from its remote (e.g., after a problematic rebase)
 
 ## Commit guidelines
 
-- **One change per commit** - In general, don't bundle unrelated changes!
+- **One logical change per commit** - Do not bundle unrelated changes. Related file changes that are part of the same logical change should be included in a single commit.
 
 - **Clear commit messages** - Start with a verb, keep summary around 72 characters
   
@@ -204,15 +208,9 @@ If `dev` exists, otherwise use `main`.
 - Ensure CI checks pass before requesting review
 - Create and link to related issues for history and context
 
-### PR Checklist
+### PR checklist
 
-Before submitting your PR:
-
-- [ ] **Keep your PR small** - Easier to review and merge. In general, your PR should only do one thing.
-- [ ] **Use descriptive titles** - Start with `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, or `chore:`. Follow with a summary in present tense.
-  - Example: `fix: address profiler crash on Rx of certain (re)assoc frames`
-- [ ] **Test your changes** - Describe how you tested or how to test and validate your contribution
-- [ ] **Update documentation** - Include any necessary documentation updates (README, man pages, usage guides)
+See the [PR template](https://github.com/WLAN-Pi/.github/blob/main/docs/pull_request_template.md) for what to include when opening a pull request.
 
 ### Breaking changes
 

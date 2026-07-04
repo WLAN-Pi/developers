@@ -20,15 +20,15 @@ In general:
 1. Install package into virtualenv with extras
 
 ```bash
-git clone git@github.com:WLAN-Pi/wlanpi-app.git 
-cd wlanpi-app
+git clone git@github.com:WLAN-Pi/<repo-name>.git
+cd <repo-name>
 python3 -m venv venv && source venv/bin/activate
-pip install -U pip wheel setuptools 
+pip install -U pip wheel setuptools
 
-# normal users who do not need to run or create tests
+# standard install
 pip install .
 
-# developers install test depends like so
+# with test dependencies
 pip install .[testing]
 ```
 
@@ -62,17 +62,21 @@ Before committing, please lint, format, and test your code. Remove trailing whit
 
 ### Linting and formatting
 
-You can in general install `tox` and then you will be able to run `tox -e format` and `tox -e lint` to format and lint respectively. Tox should automatically handle creating the virtual environments and dependencies to run tests and format/lint code. 
+We use `ruff` for linting and formatting. It replaces the previous set of tools (`autoflake`, `black`, `flake8`, `isort`, `mypy`).
 
-Here are some of the Python tools used:
+Install and run via `tox`:
 
-* autoflake
-* black
-* flake8
-* isort
-* mypy
+```bash
+tox -e format   # format code
+tox -e lint     # lint code
+```
 
-However, we are moving to `ruff` to replace the functionality of these tools with one tool. One tool to rule them all?
+Or directly:
+
+```bash
+ruff check .
+ruff format .
+```
 
 ### Testing
 

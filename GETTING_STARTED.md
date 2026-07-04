@@ -97,7 +97,7 @@ Best for: Application development, testing without hardware
 
 You can develop on any Linux system with:
 
-- Python 3.9+
+- Python 3.13+
 - Git
 - Standard build tools (`build-essential`, `debhelper`)
 
