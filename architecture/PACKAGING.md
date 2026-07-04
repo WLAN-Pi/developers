@@ -9,7 +9,7 @@ This document defines the Debian packaging standards for WLAN Pi applications di
 If you're new to WLAN Pi packaging, start with:
 
 1. [Packaging Example](../PACKAGING_EXAMPLE.md) - Complete walkthrough of creating a package
-2. Review existing packages on the [WLAN Pi GitHub](https://github.com/wlan-pi/)
+2. Review existing packages on the [WLAN Pi GitHub](https://github.com/WLAN-Pi/)
 3. Read the references at the end of this document
 
 ## Intent to package
