@@ -114,7 +114,7 @@ WLAN Pi consists of multiple repositories such as (but not limited to):
 | `wlanpi-common` | Core utilities and shared code |
 | `wlanpi-profiler` | Wi-Fi client profiler tool |
 | `wlanpi-fpms` | Front panel menu system driving the OLED display |
-| `wlanpi-firmware` | Hardware firmware |
+| `wlanpi-misc-firmware` | Miscellaneous firmware packages (e.g. MediaTek) |
 | `pi-gen` | OS image generation |
 
 Most application repositories follow this structure:
@@ -122,14 +122,18 @@ Most application repositories follow this structure:
 ```
 REPO_NAME/
 ├── debian/              # Debian packaging files
-│   ├── control          # Package metadata
-│   ├── changelog        # Version history
+│   ├── control          # Package metadata and dependencies
+│   ├── changelog        # Version history (managed via dch)
 │   ├── rules            # Build instructions
 │   └── ...
-├── src/                 # Source code
+├── wlanpi_yourapp/      # Python package source
 ├── tests/               # Test files
+├── pyproject.toml       # Project metadata and tool config
+├── requirements.in      # Direct dependencies (managed via pip-tools)
+├── requirements.txt     # Pinned dependencies (generated, do not edit by hand)
+├── tox.ini              # Tox environments for lint, format, test
 ├── README.md            # Project documentation
-└── LICENSE              # BSD-3 License
+└── LICENSE              # BSD-3-Clause License
 ```
 
 ## Your first contribution
@@ -162,15 +166,15 @@ Not sure where to start? Look for issues labeled:
 
 ```bash
 # Add the upstream remote (one time)
-git remote add upstream https://github.com/wlan-pi/REPO_NAME.git
+git remote add upstream https://github.com/WLAN-Pi/REPO_NAME.git
 
 # Update your local dev branch
 git checkout dev
 git pull upstream dev
 
-# Rebase your feature branch
+# Merge dev into your feature branch to stay current
 git checkout your-branch
-git rebase dev
+git merge dev --no-ff -m "Merge dev to stay current"
 ```
 
 ### Install a development package
