@@ -36,7 +36,7 @@ project-name/
 ├── src/ or {app}/         # Application source code
 ├── tests/                 # Test files
 ├── requirements.txt       # Python dependencies (if applicable)
-├── setup.py              # Python package setup (if applicable)
+├── pyproject.toml         # Python package metadata (if applicable)
 └── README.md             # Project documentation
 ```
 
