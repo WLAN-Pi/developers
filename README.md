@@ -79,13 +79,13 @@ curl -vfSL http://wlanpi.us/install | sudo bash
 
 ## Feedback
 
-We welcome your feedback. Feel free to [open an issue](../../issues) with suggestions and rationale for any proposed changes.
+We welcome your feedback. Feel free to [open an issue](https://github.com/WLAN-Pi/developers/issues) with suggestions and rationale for any proposed changes.
 
 ## Resources
 
 - [WLAN Pi Website](https://wlanpi.com)
 - [Packagecloud Archive](https://packagecloud.io/wlanpi/)
-- [GitHub Organization](https://github.com/wlan-pi/)
+- [GitHub Organization](https://github.com/WLAN-Pi/)
 - [WLAN Pi Slack Community](https://wlanpi.slack.com)
 
 ## See Also

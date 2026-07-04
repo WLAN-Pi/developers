@@ -109,7 +109,7 @@ Purpose: Builds and deploy to Packagecloud dev repository
 
 Maintained by:
 
-- Build logic: [sbuild-debian-package](https://github.com/wlan-pi/sbuild-debian-package)
+- Build logic: [sbuild-debian-package](https://github.com/WLAN-Pi/sbuild-debian-package)
 - Workflow files
 
 Promotion from dev to main: Manually done on Packagecloud.
