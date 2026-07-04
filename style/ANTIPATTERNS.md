@@ -50,13 +50,13 @@ wlanpi-fpms is a good reference for a service that uses explicit state to drive 
 
 ## Caching and duplicate requests
 
-wlanpi-core acts as the central data provider for the platform. Multiple consumers (wlanpi-webui, wlanpi-fpms, third-party clients) may request the same data concurrently. Without caching, each request triggers a separate underlying operation -- a scan, a subprocess call, a file read -- multiplying load unnecessarily.
+wlanpi-core acts as the central data provider for the platform. Multiple consumers (wlanpi-webui, wlanpi-fpms, third-party clients) may request the same data concurrently. Without caching, each request triggers a separate underlying operation; a scan, a subprocess call, a file read; multiplying load unnecessarily.
 
 **Cache expensive operations at the service layer, not the consumer layer.** The cache belongs in wlanpi-core, not in each consumer that calls it.
 
 **Use a short TTL for volatile data.** Scan results, link state, and neighbor tables change frequently. A TTL of a few seconds prevents stale reads while still collapsing burst requests.
 
-**Coalesce concurrent requests for the same resource.** If multiple clients request a Wi-Fi scan at the same time, only one scan should run. The others should wait and share the same result. In pseudocode:
+**Coalesce concurrent requests for the same resource.** If multiple clients request a Wi-Fi scan at the same time, only one scan should run. The others should wait and share the same result if a scan is in progress. In pseudocode:
 
 ```
 if cached and not expired: return cached result
