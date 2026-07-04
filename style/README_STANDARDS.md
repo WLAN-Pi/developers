@@ -4,7 +4,7 @@ This document defines the org-wide standards for `README.md` files across all WL
 
 ## Structure
 
-Every README must open with a short **"What / Why"** section — one to three sentences describing what the component does, what problem it solves, and what consumes or depends on it. Put this before any build instructions or technical detail.
+Every README must open with a short **"What / Why"** section (one to three sentences describing what the component does, what problem it solves, and what consumes or depends on it). Put this before any build instructions or technical detail.
 
 Sections should appear in this order where applicable:
 
@@ -25,7 +25,7 @@ Deep debugging notes, workarounds, and edge-case instructions belong in a separa
 
 ## Headings
 
-Use **Title Case** for all headings — capitalize the first letter of each major word.
+Use **Title Case** for all headings (capitalize the first letter of each major word).
 
 ```markdown
 ## Open Source Software   ✓
@@ -97,13 +97,25 @@ Only include the `tox` commands (or equivalent) that are specific to this repo. 
 
 ## Changelog / Releases
 
-Do not link to `debian/changelog` from the README — that file is for packagers, not end users. Link to the GitHub Releases page instead:
+Changelog conventions vary across repos. Use whichever of the following applies:
 
-```markdown
-## Changelog / Releases
+- Repos that maintain GitHub Releases should link to the Releases page:
 
-See the [GitHub Releases](../../releases) page.
-```
+  ```markdown
+  ## Changelog / Releases
+
+  See the [GitHub Releases](../../releases) page.
+  ```
+
+- Repos that do not maintain GitHub Releases should link directly to `debian/changelog`:
+
+  ```markdown
+  ## Changelog
+
+  See [debian/changelog](debian/changelog) for version history.
+  ```
+
+Do not omit the section entirely. New contributors need to know where to look for version history regardless of which convention a repo follows.
 
 ## Tone
 
