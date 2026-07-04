@@ -80,7 +80,7 @@ wlanpi-yourapp (1.0.0) unstable; urgency=medium
   * Add core functionality
   * Add systemd service
 
- -- Your Name <your.email@example.com>  Mon, 01 Jan 2024 00:00:00 +0000
+ -- Your Name <your.email@example.com>  Mon, 01 Jan 2026 00:00:00 +0000
 ```
 
 Use `dch` to manage this file:
@@ -95,7 +95,7 @@ dch -r ""
 13
 ```
 
-Compatibility level 13 is recommended and available in Debian stable (bullseye) and as a backport in oldstable (buster).
+Compatibility level 13 is recommended. It is available in Debian Bookworm and Trixie.
 
 **Note:** Don't modify packages solely to update compat level.
 
@@ -109,7 +109,7 @@ Upstream-Name: wlanpi-yourapp
 Source: https://github.com/wlan-pi/wlanpi-yourapp
 
 Files: *
-Copyright: 2024 Your Name <your.email@example.com>
+Copyright: 2026 Your Name <your.email@example.com>
 License: MIT
 
 License: MIT

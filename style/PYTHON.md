@@ -60,7 +60,7 @@ python3 -m pip install tox
 
 You can now invoke tox in the directory where `tox.ini` resides.
 
-These are some things you should before submitting a PR:
+These are some things you should do before submitting a PR:
 
 To initiate testing:
 
