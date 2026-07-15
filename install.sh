@@ -1,8 +1,37 @@
 #!/bin/bash
-# Build dependencies snstallation script for WLAN Pi
-# Generated from control files 
+# Build dependencies installation script for WLAN Pi
+# Generated from control files
 
-set -e
+set -euo pipefail
+
+# Report where and why we failed instead of dying with a bare apt error, and
+# propagate the real exit code so callers (and CI) can act on it.
+# shellcheck disable=SC2329  # invoked indirectly via the ERR trap below
+on_error() {
+    local rc=$?
+    local line=$1
+    echo >&2
+    echo "ERROR: install.sh failed on line ${line} (exit code ${rc})." >&2
+    exit "${rc}"
+}
+trap 'on_error "${LINENO}"' ERR
+
+# Preflight: this installer targets Debian and drives apt-get via sudo.
+if ! command -v apt-get >/dev/null 2>&1; then
+    echo "ERROR: apt-get not found. This installer targets Debian-based systems." >&2
+    exit 1
+fi
+if [ "$(id -u)" -ne 0 ] && ! command -v sudo >/dev/null 2>&1; then
+    echo "ERROR: this script needs root privileges but neither root nor sudo is available." >&2
+    exit 1
+fi
+
+# Run a command as root: directly if we already are, otherwise via sudo.
+if [ "$(id -u)" -eq 0 ]; then
+    as_root() { "$@"; }
+else
+    as_root() { sudo "$@"; }
+fi
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo "WLAN Pi dev build dependencies installer"
@@ -10,13 +39,13 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo ""
 
 echo "Updating package lists..."
-sudo apt-get update
+as_root apt-get update
 
 echo ""
 echo "Installing build dependencies..."
 echo ""
 
-sudo apt-get install -y --no-install-recommends \
+as_root apt-get install -y --no-install-recommends \
     debhelper \
     debhelper-compat \
     dh-python \
@@ -97,3 +126,5 @@ echo "~~~~"
 echo "Done"
 echo "~~~~"
 echo ""
+
+exit 0
