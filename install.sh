@@ -34,7 +34,6 @@ sudo apt-get install -y --no-install-recommends \
     python3 \
     python3-dev \
     python3-setuptools \
-    python3-distutils \
     python3-venv \
     python3-tk \
     python3-gi \
