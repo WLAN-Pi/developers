@@ -23,11 +23,11 @@ This guide covers how to contribute code to WLAN Pi projects. For setting up you
 
 WLAN Pi repositories follow one of two patterns:
 
-**Two permanent branches** (Python-based repos like `wlanpi-core`, `wlanpi-profiler`):
+**Two permanent branches** (Python-based repos like `wlanpi-core`):
 - `dev`: Active development for the next release. All feature and fix work targets this branch.
 - `main`: Stable release branch. Only tested releases land here via PR from `dev`.
 
-**Single permanent branch** (simpler repos):
+**Single permanent branch** (repos like `wlanpi-profiler`):
 - `main`: Stable release branch. Feature branches merge directly here.
 
 **Debian suite branches** (`debian/<codename>`, e.g. `debian/bullseye`):
