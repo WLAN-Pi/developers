@@ -38,25 +38,30 @@ Note: You will need to setup SSH keys.
 
 1. Go to the repository you want to contribute to on GitHub
 2. Click the "Fork" button
-3. Clone your fork:
+3. Clone your fork and add the upstream remote:
    ```bash
    git clone https://github.com/USERNAME/REPO_NAME.git
    cd REPO_NAME
+   git remote add upstream https://github.com/WLAN-Pi/REPO_NAME.git
    ```
 
 ### 4. Create a branch
 
-Each repository uses either `main` or `dev` as its default development branch — check the repository's GitHub page to confirm which one. When in doubt, use `main`.
+Each repository uses either `main` or `dev` as its base branch. `wlanpi-core`
+and `wlanpi-misc-packages` use `dev`; most other repos use `main`. Check the
+repository's GitHub page or [Repository Reference](REPOS.md) to confirm. When
+in doubt, use `main`.
 
 ```bash
-# Switch to the base branch (main or dev, depending on the repo)
-git checkout main
+# Pick the base branch for this repo (main or dev)
+BASE_BRANCH=main
 
-# Pull the latest changes
-git pull upstream main
+# Sync your fork from upstream
+git checkout "$BASE_BRANCH"
+git pull upstream "$BASE_BRANCH"
 
 # Create your feature branch from there
-git checkout -b <my-first-contribution>
+git checkout -b feature/<my-first-contribution>
 ```
 
 You should replace `<my-first-contribution>` with something concise and descriptive.
@@ -122,7 +127,7 @@ WLAN Pi consists of multiple repositories such as (but not limited to):
 | `wlanpi-misc-firmware` | Miscellaneous firmware packages (e.g. MediaTek) |
 | `pi-gen` | OS image generation |
 
-Most application repositories follow this structure:
+Most application repositories aim for this structure:
 
 ```
 REPO_NAME/
@@ -140,6 +145,10 @@ REPO_NAME/
 ├── README.md            # Project documentation
 └── LICENSE              # BSD-3-Clause License
 ```
+
+This is the target, not a guarantee. Some older repos still use `setup.py`
+instead of `pyproject.toml`, or omit `requirements.in`/`tox.ini`. See
+[Repository Reference](REPOS.md) for the current state of each repo.
 
 ## Your first contribution
 
@@ -212,6 +221,7 @@ sudo journalctl -u wlanpi-service -f
 | Document | Purpose |
 |----------|---------|
 | [Contributing](CONTRIBUTING.md) | How to contribute code |
+| [Repository Reference](REPOS.md) | Current state of each repo (branch, packaging, tooling) |
 | [Release Process](RELEASE_PROCESS.md) | Core team release procedures |
 | [Packaging Example](PACKAGING_EXAMPLE.md) | Complete packaging tutorial |
 | [Architecture](architecture/README.md) | System design and standards |

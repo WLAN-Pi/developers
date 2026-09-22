@@ -26,6 +26,7 @@ curl -vfSL http://wlanpi.us/install | sudo bash
 | Document | Description |
 |----------|-------------|
 | [Getting Started](GETTING_STARTED.md) | Development environment setup and first contribution guide |
+| [Repository Reference](REPOS.md) | Current branch, packaging, and tooling state of every repo |
 | [Git Workflow Guide](GIT_WORKFLOW.md) | Git fundamentals for beginners |
 | [Contributing](CONTRIBUTING.md) | Detailed Git workflow, branch naming, PR guidelines, and code review |
 | [Packaging Example](PACKAGING_EXAMPLE.md) | Complete walkthrough of creating a Debian package from scratch |
@@ -111,7 +112,7 @@ External resources for learning:
 - [FastAPI Documentation](https://fastapi.tiangolo.com/) - Web framework used in wlanpi-core
 - [SQLAlchemy Documentation](https://docs.sqlalchemy.org/) - Async ORM used in wlanpi-core
 - [Authlib Documentation](https://docs.authlib.org/) - OAuth and JWT library used in wlanpi-core
-- [Scapy Documentation](https://scapy.readthedocs.io/) - Packet manipulation used in wlanpi-profiler and wlanpi-ctx
+- [Scapy Documentation](https://scapy.readthedocs.io/) - Packet manipulation used in wlanpi-profiler
 - [TextFSM Documentation](https://github.com/google/textfsm/wiki) - CLI output parsing used in wlanpi-fpms
 - [piwheels](https://www.piwheels.org/) - Pre-built Python wheels for Raspberry Pi
 

@@ -28,8 +28,7 @@ All WLAN Pi packages must follow this structure:
 project-name/
 ├── debian/                 # Packaging files
 │   ├── changelog          # Version history
-│   ├── compat             # Debhelper compatibility level
-│   ├── control            # Package metadata
+│   ├── control            # Package metadata (debhelper-compat level lives here)
 │   ├── copyright          # License information
 │   ├── rules              # Build instructions
 │   └── *.{install,postinst,prerm,...}  # Additional control files
@@ -39,6 +38,11 @@ project-name/
 ├── pyproject.toml         # Python package metadata (if applicable)
 └── README.md             # Project documentation
 ```
+
+Modern packages declare the debhelper compatibility level in
+`debian/control` via `debhelper-compat (= 13)` and do not ship a
+`debian/compat` file. A `debian/compat` file is the legacy style and is only
+kept in older packages.
 
 ## Required Debian files
 
@@ -50,11 +54,11 @@ Section: contrib/python
 Priority: optional
 Maintainer: Your Name <your.email@example.com>
 Build-Depends: debhelper-compat (= 13), python3, python3-venv, dh-virtualenv (>= 1.0)
-Standards-Version: 4.6.0
+Standards-Version: 4.7.0
 Homepage: https://github.com/wlan-pi/wlanpi-yourapp
 
 Package: wlanpi-yourapp
-Architecture: all
+Architecture: any
 Pre-Depends: dpkg (>= 1.16.1), python3, ${misc:Pre-Depends}
 Depends: ${misc:Depends}, systemd
 Description: Short description
@@ -66,10 +70,17 @@ Description: Short description
 
 | Field | Value |
 |-------|-------|
-| Section | `contrib/python` for Python apps, `embedded` for firmware |
+| Section | `contrib/python` for Python apps, `embedded` for firmware and shell packages, `utils`/`net`/`x11` where a more specific section fits |
 | Priority | `optional` |
-| Standards-Version | Use latest (currently 4.6.0) |
+| Standards-Version | Use the current Debian policy version (4.7.0 on Trixie) |
 | Package | Must match the source name with `wlanpi-` prefix |
+| Architecture | `all` for pure Python/shell/firmware, `any` when the package ships compiled extensions or native binaries |
+
+The `Architecture: any` example above applies to packages that bundle native
+dependencies. Packages that ship only interpreted code or data use
+`Architecture: all`; see [Repository Reference](../REPOS.md) for the current
+state of each repo.
+
 
 ### debian/changelog
 
@@ -89,15 +100,11 @@ dch -v 1.0.0 "Initial release"
 dch -r ""
 ```
 
-### debian/compat
+### debian/compat (legacy)
 
-```
-13
-```
-
-Compatibility level 13 is recommended. It is available in Debian Bookworm and Trixie.
-
-**Note:** Don't modify packages solely to update compat level.
+New packages set `debhelper-compat (= 13)` in `debian/control` instead of
+shipping a `debian/compat` file. If you touch a package that still has one,
+leave the level alone unless you are deliberately modernizing the package.
 
 ### debian/copyright
 
@@ -110,11 +117,14 @@ Source: https://github.com/wlan-pi/wlanpi-yourapp
 
 Files: *
 Copyright: 2026 Your Name <your.email@example.com>
-License: MIT
+License: BSD-3-Clause
 
-License: MIT
+License: BSD-3-Clause
  [Full license text here]
 ```
+
+BSD-3-Clause is the standard license for new WLAN Pi projects. See the
+[Licensing Guide](../licensing/licensing.md).
 
 ### debian/rules
 
@@ -159,17 +169,26 @@ sudo apt-get install build-essential debhelper dh-virtualenv python3-venv
 # Build the package
 dpkg-buildpackage -us -uc -b
 
-# Result: ../wlanpi-yourapp_1.0.0_all.deb
+# Result: ../wlanpi-yourapp_1.0.0-1_arm64.deb
 ```
 
 ### CI/CD build
 
-GitHub Actions automatically build packages:
+GitHub Actions automatically build packages by calling the reusable workflows
+in [WLAN-Pi/gh-workflows](https://github.com/WLAN-Pi/gh-workflows):
 
-1. **PR builds** - Triggered by `debian/changelog` changes, creates artifact
-2. **Deploy builds** - Triggered by a `debian/changelog` change on the release branch, deploys to the Packagecloud `dev` repository
+1. **Build and archive** (`build-and-archive-debian-package.yml`) - Builds the
+   package with `sbuild` and uploads it as a workflow artifact. Trigger paths
+   vary per repo: some watch only `debian/changelog`, others ignore docs-only
+   changes. It does not run tests or lint; those are separate workflows.
+2. **Deploy to Packagecloud** (`deploy-to-packagecloud.yml`) - Triggered by a
+   `debian/changelog` change pushed to a release branch (`main`, and `dev` for
+   repos that keep a `dev` branch). Builds and uploads to the Packagecloud
+   `dev` repository.
 
-See [Release Process](../RELEASE_PROCESS.md) for details.
+Releases are only cut when a `debian/changelog` change reaches the release
+branch; pushing a git tag does not deploy. See
+[Release Process](../RELEASE_PROCESS.md) for details.
 
 ## Testing
 

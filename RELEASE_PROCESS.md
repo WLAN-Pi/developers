@@ -17,12 +17,18 @@ General branching strategy. May vary per repo.
 | `main` | Production/stable releases only |
 | `dev` | Integration branch for next release |
 | `debian/<codename>` | Preserved support for older Debian suites (core team only) |
-| `u/<user>/<desc>` | Personal development branches |
+| `suite/<codename>` | Same purpose as `debian/<codename>`; used by `wlanpi-webui` |
 | `feature/<desc>` | Shared long-term feature work |
-| `bugfix/<desc>` | Bug fix branches |
-| `hotfix/<desc>` | Urgent fixes against main |
+| `fix/<desc>` | Bug fix branches |
+| `chore/<desc>`, `docs/<desc>`, `ci/<desc>` | Non-feature maintenance |
+| `security/<desc>` | Security fixes |
+| `hotfix/<desc>` | Urgent fixes against `main` |
 
-> `debian/<codename>` branches (e.g. `debian/bullseye`) are maintained by the core team. They are branched from a known-good commit before trixie-targeted work began. Build matrices on these branches target only their specific suite. Contributors should not open PRs against these branches.
+> `debian/<codename>` and `suite/<codename>` branches (e.g. `debian/bullseye`)
+> are maintained by the core team. They are branched from a known-good commit
+> before trixie-targeted work began. Build matrices on these branches target
+> only their specific suite. Contributors should not open PRs against these
+> branches.
 
 ### Branch rules
 
@@ -84,11 +90,12 @@ See [Contributing](CONTRIBUTING.md) for why regular merges between `dev` and `ma
 
 ### 5. Deploy to Packagecloud
 
-The `debian/changelog` change reaching `main` triggers the deployment
-workflow. Pushing the version tag does not trigger it.
+The `debian/changelog` change reaching the release branch triggers the
+deployment workflow. Pushing the version tag does not trigger it.
 
-1. Package is built automatically
-2. Uploaded to [wlanpi/dev](https://packagecloud.io/wlanpi/dev)
+1. Package is built automatically with `sbuild`
+2. Uploaded to [wlanpi/dev](https://packagecloud.io/wlanpi/dev) with a
+   `~gha<UTC timestamp>` build-metadata suffix on the version
 3. Test the package
 4. Once verified, promote from `dev` to `main` in Packagecloud
 
@@ -96,7 +103,8 @@ workflow. Pushing the version tag does not trigger it.
 
 ### Build and archive
 
-Triggered by: Changes to `debian/changelog` in PRs
+Triggered by: Changes that affect build output in PRs (most repos watch
+`debian/changelog`; some ignore docs-only changes)
 
 Purpose: Build packages for testing without deploying
 
@@ -104,16 +112,41 @@ Use this to verify builds work before tagging.
 
 ### Deploy to Packagecloud
 
-Triggered by: A `debian/changelog` change pushed to the release branch (`main` for most repositories)
+Triggered by: A `debian/changelog` change pushed to a release branch. This is
+`main` for most repositories; repositories that keep a `dev` branch (for
+example `wlanpi-core` and `wlanpi-mcp`) also deploy from `dev`.
 
 Purpose: Builds the package and deploys it to the Packagecloud `dev` repository
 
 Maintained by:
 
 - Build logic: [sbuild-debian-package](https://github.com/WLAN-Pi/sbuild-debian-package)
-- Workflow files
+- Reusable workflow files: [gh-workflows](https://github.com/WLAN-Pi/gh-workflows)
+  (`sbuild-pkg`, `sbuild-deploy-pkg`, `check-py-deb-pkg-versions-match`,
+  `get-formatted-version-string`)
+- Workflow files in each repo, which call the reusable workflows above
 
-Promotion from dev to main: Manually done on Packagecloud.
+Promotion from dev to main: Manually done on Packagecloud (or, for repos that
+provide it, via a manual `promote-to-main.yml` workflow).
+
+### Version gate
+
+Deploy workflows for Python repos call
+`check-py-deb-pkg-versions-match`, which fails the build unless the
+`major.minor.patch` in `debian/changelog` equals the value in the package's
+`__version__.py`. Bump both together. See
+[Style/Workflow](style/WORKFLOW.md#versioning).
+
+### Lint workflows
+
+Every repository runs the shared lint gate:
+
+- `shellcheck` over tracked shell scripts and shell-shebang executables
+- `actionlint` over `.github/workflows/`
+
+The canonical implementation is
+[wlanpi-common/.github/workflows/lint.yml](https://github.com/WLAN-Pi/wlanpi-common/blob/main/.github/workflows/lint.yml).
+New repositories should copy it as `.github/workflows/lint.yml`.
 
 ### Workflow diagrams
 

@@ -129,12 +129,12 @@ name = "wlanpi-hello"
 version = "1.0.0"
 description = "WLAN Pi Hello example application"
 readme = "README.md"
-license = {text = "MIT"}
+license = {text = "BSD-3-Clause"}
 requires-python = ">=3.13"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: System Administrators",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: BSD License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.13",
 ]
@@ -225,11 +225,11 @@ Section: contrib/python
 Priority: optional
 Maintainer: Your Name <you@example.com>
 Build-Depends: debhelper-compat (= 13), python3, python3-venv, dh-virtualenv (>= 1.0)
-Standards-Version: 4.6.0
+Standards-Version: 4.7.0
 Homepage: https://github.com/wlan-pi/wlanpi-hello
 
 Package: wlanpi-hello
-Architecture: all
+Architecture: any
 Pre-Depends: dpkg (>= 1.16.1), python3, ${misc:Pre-Depends}
 Depends: ${misc:Depends}, systemd
 Description: WLAN Pi Hello World example application
@@ -267,26 +267,34 @@ Source: https://github.com/wlan-pi/wlanpi-hello
 
 Files: *
 Copyright: 2026 Your Name <you@example.com>
-License: MIT
+License: BSD-3-Clause
 
-License: MIT
- Permission is hereby granted, free of charge, to any person obtaining a
- copy of this software and associated documentation files (the "Software"),
- to deal in the Software without restriction, including without limitation
- the rights to use, copy, modify, merge, publish, distribute, sublicense,
- and/or sell copies of the Software, and to permit persons to whom the
- Software is furnished to do so, subject to the following conditions:
+License: BSD-3-Clause
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
  .
- The above copyright notice and this permission notice shall be included
- in all copies or substantial portions of the Software.
+ 1. Redistributions of source code must retain the above copyright notice,
+    this list of conditions and the following disclaimer.
  .
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
- OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
- TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+ .
+ 3. Neither the name of the copyright holder nor the names of its contributors
+    may be used to endorse or promote products derived from this software
+    without specific prior written permission.
+ .
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ POSSIBILITY OF SUCH DAMAGE.
 ```
 
 ### debian/rules
@@ -465,80 +473,78 @@ dpkg-buildpackage -us -uc -b
 ls ../*.deb
 ```
 
-You should see `wlanpi-hello_1.0.0-1_all.deb` in the parent directory.
+You should see `wlanpi-hello_1.0.0-1_arm64.deb` in the parent directory.
 
 ## Step 8: GitHub actions workflows
 
 Create `.github/workflows/build.yml`:
 
 ```yaml
-name: Build and Archive
+name: Build and Archive Debian Package
 
 on:
+  # Allow manual runs from the Actions tab
+  workflow_dispatch:
   pull_request:
-    paths:
-      - 'debian/changelog'
+    paths-ignore: # ignore files that don't change build output
+      - '**.md'
+      - .github/dependabot.yml
+      - .gitignore
+      - LICENSE
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.13'
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential debhelper dh-virtualenv python3-venv
-          pip install -r requirements.txt
-
-      - name: Run tests
-        run: pytest -v
-
-      - name: Build package
-        run: dpkg-buildpackage -us -uc -b
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v7
-        with:
-          name: wlanpi-hello
-          path: ../wlanpi-hello_*.deb
+  format:
+    name: Get formatted version for filename
+    uses: WLAN-Pi/gh-workflows/.github/workflows/get-formatted-version-string.yml@main
+  sbuild:
+    name: sbuild pkg
+    needs:
+      - format
+    uses: WLAN-Pi/gh-workflows/.github/workflows/sbuild-pkg.yml@main
+    with:
+      pkg: wlanpi-hello
+      version: ${{ needs.format.outputs.version }}
 ```
+
+The build workflow only builds the package and uploads it as an artifact; it
+does not run tests or lint. Repos wire those up as separate workflows (for
+example `test-python-package.yml`, `python-lint-police.yml`, and
+`python-format-police.yml`). Trigger paths differ between repos: some watch
+only `debian/changelog`, others ignore docs-only changes.
 
 Create `.github/workflows/deploy.yml`:
 
 ```yaml
-name: Deploy to Packagecloud
+name: Build and Deploy to Packagecloud
 
 on:
+  # Allow manual runs from the Actions tab
+  workflow_dispatch:
   push:
-    tags:
-      - 'v*.*.*'
+    branches:
+      - main
+    paths:
+      - 'debian/changelog'
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential debhelper dh-virtualenv python3-venv
-      
-      - name: Build package
-        run: dpkg-buildpackage -us -uc -b
-      
-      - name: Deploy to Packagecloud
-        uses: wlan-pi/sbuild-debian-package@main
-        with:
-          repo: wlanpi/dev
-          packagecloud_token: ${{ secrets.PACKAGECLOUD_TOKEN }}
+  format:
+    name: Get formatted version for filename
+    uses: WLAN-Pi/gh-workflows/.github/workflows/get-formatted-version-string.yml@main
+  sbuild_deploy:
+    name: sbuild deploy pkg
+    needs:
+      - format
+    uses: WLAN-Pi/gh-workflows/.github/workflows/sbuild-deploy-pkg.yml@main
+    with:
+      pkg: wlanpi-hello
+      version: ${{ needs.format.outputs.version }}
+    secrets: inherit
 ```
+
+The deploy workflow fires when a `debian/changelog` change reaches `main`. A
+git tag on its own does not deploy. The `sbuild-deploy-pkg` reusable workflow
+builds for the Debian suites in its `distros` input and uploads to the
+Packagecloud `dev` repository.
 
 ## Step 9: Complete filesystem structure
 
@@ -571,13 +577,13 @@ Install and test on actual hardware:
 
 ```bash
 # Copy the .deb file to your WLAN Pi
-scp ../wlanpi-hello_1.0.0-1_all.deb wlanpi@your-device-ip:/tmp/
+scp ../wlanpi-hello_1.0.0-1_arm64.deb wlanpi@your-device-ip:/tmp/
 
 # SSH into the device
 ssh wlanpi@your-device-ip
 
 # Install the package
-sudo dpkg -i /tmp/wlanpi-hello_1.0.0-1_all.deb
+sudo dpkg -i /tmp/wlanpi-hello_1.0.0-1_arm64.deb
 
 # Check if service is running
 sudo systemctl status wlanpi-hello
@@ -635,7 +641,7 @@ Common causes:
 
 Check package for issues:
 ```bash
-lintian ../wlanpi-hello_1.0.0-1_all.deb
+lintian ../wlanpi-hello_1.0.0-1_arm64.deb
 ```
 
 Many `/opt` related warnings are expected and can be overridden.

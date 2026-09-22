@@ -36,7 +36,7 @@ When using abbreviations with `CamelCase`, capitalize all the letters of the abb
 
 Bookworm (Python 3.11) may still receive bug fixes on existing packages. Bullseye (Python 3.9) is end-of-life for WLAN Pi.
 
-Existing repos may still carry older targets such as `py39` or `py311` in their `tox.ini` and `pyproject.toml`. These should be updated to include `py313` when the repo is next actively worked on.
+Existing repos may still carry older targets such as `py39` or `py311` in their `tox.ini` and `pyproject.toml`. These should be updated to include `py313` when the repo is next actively worked on. See [Repository Reference](../REPOS.md) for the current target of each repo.
 
 ## Tests
 

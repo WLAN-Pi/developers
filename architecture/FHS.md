@@ -59,6 +59,23 @@ Application logs go in `/var/log/wlanpi-{app}/` with automatic log rotation conf
 
 Variable data (databases, caches) should also be placed in `/var/lib/wlanpi-{app}/`.
 
+### Shared system paths
+
+Packages also install into shared locations when they integrate with system
+services. Use the narrowest path that works and prefer a drop-in or an
+app-scoped directory over editing another package's files:
+
+- `/lib/systemd/system/` for unit files
+- `/etc/systemd/system/<unit>.service.d/` for drop-ins to another package's units
+- `/etc/sudoers.d/` for sudoers fragments
+- `/etc/profile.d/` for login shell snippets
+- `/usr/bin/` for small helper scripts (or `/usr/libexec/wlanpi-{app}/` for internal helpers)
+- `/usr/share/` for architecture-independent data
+- `/var/www/` for web assets
+- `/etc/nginx/sites-enabled/` for nginx site configs (or the app-scoped
+  `/etc/wlanpi-{app}/nginx/` directory that the app's own nginx instance includes)
+- `/etc/cockpit/` for cockpit configuration
+
 ## Complete example
 
 For a package named `wlanpi-example`:
