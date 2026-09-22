@@ -167,7 +167,7 @@ dpkg-buildpackage -us -uc -b
 GitHub Actions automatically build packages:
 
 1. **PR builds** - Triggered by `debian/changelog` changes, creates artifact
-2. **Release builds** - Triggered by version tags, deploys to packagecloud
+2. **Deploy builds** - Triggered by a `debian/changelog` change on the release branch, deploys to the Packagecloud `dev` repository
 
 See [Release Process](../RELEASE_PROCESS.md) for details.
 

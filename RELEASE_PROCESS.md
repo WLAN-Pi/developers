@@ -84,7 +84,8 @@ See [Contributing](CONTRIBUTING.md) for why regular merges between `dev` and `ma
 
 ### 5. Deploy to Packagecloud
 
-The tag push triggers the deployment workflow:
+The `debian/changelog` change reaching `main` triggers the deployment
+workflow. Pushing the version tag does not trigger it.
 
 1. Package is built automatically
 2. Uploaded to [wlanpi/dev](https://packagecloud.io/wlanpi/dev)
@@ -103,9 +104,9 @@ Use this to verify builds work before tagging.
 
 ### Deploy to Packagecloud
 
-Triggered by: Typically either pushing a version tag (`v*.*.*`) or an edit to `debian/changelog`
+Triggered by: A `debian/changelog` change pushed to the release branch (`main` for most repositories)
 
-Purpose: Builds and deploy to Packagecloud dev repository
+Purpose: Builds the package and deploys it to the Packagecloud `dev` repository
 
 Maintained by:
 
