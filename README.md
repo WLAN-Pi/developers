@@ -54,7 +54,7 @@ curl -vfSL http://wlanpi.us/install | sudo bash
 | [Anti-patterns](style/ANTIPATTERNS.md) | Common mistakes to avoid |
 | [Debchange](style/DCH.md) | Changelog formatting |
 | [Developer Workflow](style/WORKFLOW.md) | Development process standards |
-| [Manpages](style/MANPAGES.MD) | Creating and generating manpages for WLAN Pi applications |
+| [Manpages](style/MANPAGES.md) | Creating and generating manpages for WLAN Pi applications |
 
 ### Workflow
 
@@ -64,7 +64,7 @@ curl -vfSL http://wlanpi.us/install | sudo bash
 | [IDE Setup](workflow/ide.md) | IDE configuration |
 | [Developing on Windows](workflow/dev-on-windows.md) | Windows/WSL development guide |
 | [Update from Dev Branch](workflow/update-from-dev.md) | Testing dev packages |
-| [VSC Remote-SSH](workflow/VSC_64bit_kernel_and_32bit_userland.md) | VS Code troubleshooting |
+| [VSC Remote-SSH](workflow/archive/VSC_64bit_kernel_and_32bit_userland.md) | VS Code troubleshooting (archived) |
 
 ### Licensing
 

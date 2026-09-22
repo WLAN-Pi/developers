@@ -199,23 +199,6 @@ Before submitting:
 3. Service runs: `sudo systemctl status wlanpi-yourapp`
 4. Application works: `wlanpi-yourapp --help`
 
-## OSS attribution
-
-If your package relies on other open source projects, document them in `OSS.md` at the repository root:
-
-```markdown
-# Open Source Attribution
-
-## Dependencies
-
-- library-name (License): Description
-  - Source: https://github.com/user/repo
-
-## Included Assets
-
-- Asset name (License): Description
-```
-
 ## References
 
 - [Packaging Example](../PACKAGING_EXAMPLE.md) - Complete walkthrough with code

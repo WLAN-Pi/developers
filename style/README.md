@@ -6,7 +6,7 @@
 - [Contributing](../CONTRIBUTING.md)
 - [Debchange](DCH.md)
 - [Developer Workflow](WORKFLOW.md)
-- [Manpages](MANPAGES.MD)
+- [Manpages](MANPAGES.md)
 - [Packaging](../architecture/PACKAGING.md)
 - [Python](PYTHON.md)
 - [README Standards](README_STANDARDS.md)
