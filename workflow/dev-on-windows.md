@@ -14,21 +14,21 @@ The best approach is to force the use of `LF` line endings via the git environme
 # global parameters to force all projects to use LF line endings
 
 # list current settings
-git confg --global -l
+git config --global -l
 
 # set line endings
 git config --global core.autocrlf "false"
 git config --global core.eol "lf"
 
 # list new settings
-git confg --global -l
+git config --global -l
 ```
 
 ```
 # local parameters to force a specific project to use LF line endings
 
 # list current settings
-git confg --global -l
+git config --local -l
 
 # set line endings
 cd <project dir>
@@ -36,12 +36,12 @@ git config --local core.autocrlf "false"
 git config --local core.eol "lf"
 
 # list new settings
-git confg --global -l
+git config --local -l
 ```
 
 ## Checking line endings
 
-The quick and easy way to check the line endings used in a file you are working on is to look at the status bar at the bottom right of the VSC UI. `LF` indicates the file is using only `LF` characters. `CRLF` indicates that the ile is using `CR` + `LF` characters (which is a bad thing). To change the line endings used, simply click the `CRLF` text and change it to `LF` using the drop-down provided at the top of the UI.
+The quick and easy way to check the line endings used in a file you are working on is to look at the status bar at the bottom right of the VSC UI. `LF` indicates the file is using only `LF` characters. `CRLF` indicates that the file is using `CR` + `LF` characters (which is a bad thing). To change the line endings used, click the `CRLF` text and change it to `LF` using the drop-down provided at the top of the UI. To change the line endings used, simply click the `CRLF` text and change it to `LF` using the drop-down provided at the top of the UI.
 
 ![Line end indicator](img/lf.png)
 

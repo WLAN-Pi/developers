@@ -1,5 +1,9 @@
 # Visual Studio Code (VSC) Remote-SSH Installation Troubleshooting
 
+> **Archived.** This workaround applies to the old arm64-kernel/armhf-userland
+> WLAN Pi images. Current images are arm64, so it is kept for historical
+> reference only.
+
 ## Seeing `node not found` or VSC not launching in the Remote-SSH session?
 
 Something like this during install:
