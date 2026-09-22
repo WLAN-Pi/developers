@@ -1,6 +1,6 @@
 #!/bin/bash
-# Build dependencies snstallation script for WLAN Pi
-# Generated from control files 
+# Build dependencies installation script for WLAN Pi development hosts
+# Maintained by hand; covers the union of build deps used across WLAN Pi repos
 
 set -e
 

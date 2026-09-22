@@ -22,7 +22,7 @@ A Git repository is a folder that Git tracks. It contains:
 
 ### Branch
 
-A branch is an independent line of development. The default branch is typically called `main` or `master`. Our default branch is `main`. Some WLAN Pi repositories have two permanent branches `main` and `dev`.
+A branch is an independent line of development. The default branch is typically called `main` or `master`. For most WLAN Pi repositories the default is `main`; a few active repos use `dev` as the default integration branch and keep `main` for stable releases (see [Repository Reference](REPOS.md)).
 
 WLAN Pi uses:
 - `main`: Stable, production-ready code

@@ -49,6 +49,10 @@ Each release requires versions to be updated in two locations:
 1. `debian/changelog` via `debchange`
 2. The Python package version file (e.g. `wlanpi_yourapp/__version__.py`) via manual update
 
+Deploy workflows for Python repos enforce that the `major.minor.patch` in
+`debian/changelog` matches the value in `__version__.py` and fail otherwise.
+Bump both in the same change.
+
 Please note that Python package versioning should follow PEP 440. https://www.python.org/dev/peps/pep-0440/
 
 Please note that the Debian package versioning does not strictly align with Python versioning.
@@ -78,6 +82,25 @@ ruff format .
 ```
 
 Note that `tox -e lint` and `tox -e format` assume the repo has those environments configured in `tox.ini`. Check the repo's `tox.ini` before running.
+
+### Shell and workflow linting
+
+Every repo runs a `lint.yml` workflow with two jobs:
+
+- **shellcheck** over every tracked `*.sh` and every tracked executable with a
+  shell shebang, at `-S warning`
+- **actionlint** over `.github/workflows/`
+
+Run them locally before pushing:
+
+```bash
+shellcheck -S warning scripts/*.sh
+actionlint
+```
+
+The canonical workflow is
+[wlanpi-common/.github/workflows/lint.yml](https://github.com/WLAN-Pi/wlanpi-common/blob/main/.github/workflows/lint.yml).
+Copy it into new repos unchanged.
 
 ### Testing
 

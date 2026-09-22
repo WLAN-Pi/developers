@@ -33,6 +33,10 @@ WLAN Pi repositories follow one of two patterns:
 **Debian suite branches** (`debian/<codename>`, e.g. `debian/bullseye`):
 - Maintained by the core team only. These preserve support for older Debian releases and are not targets for regular contributor PRs.
 - Build matrices on these branches are scoped to their specific suite only.
+- `wlanpi-webui` names these `suite/<codename>` instead of `debian/<codename>`.
+
+See [Repository Reference](REPOS.md) for which repos currently keep a `dev`
+branch.
 
 ### Why two patterns?
 
@@ -59,17 +63,23 @@ The short version: squash merges are safe when collapsing a temporary branch. Th
 Use one of these patterns when creating branches:
 
 ```
-u/<username>/<description>       # Personal work
-feature/<description>            # Shared feature work
-bugfix/<description>             # Bug fixes
+feature/<description>            # Feature work
+fix/<description>                # Bug fixes
+chore/<description>              # Maintenance (deps, tooling, cleanup)
+docs/<description>               # Documentation only
+ci/<description>                 # CI/CD changes
+security/<description>           # Security fixes
 hotfix/<description>             # Urgent fixes against main
 ```
 
 Examples:
-- `u/lebowski/add-wifi-scan`
-- `feature/metrics-dashboard`
-- `bugfix/memory-leak-profiler`
+- `feature/add-wifi-scan`
+- `fix/memory-leak-profiler`
+- `chore/ruff-migration`
 - `hotfix/cert-validation`
+
+Some repos also use `feat/<description>` and `test/<description>`; either is
+fine. The important part is a short, descriptive suffix.
 
 ## Development workflow
 
@@ -231,9 +241,10 @@ When possible, open an issue before opening a PR. This gives maintainers context
 - Respond to review feedback
 - Ensure CI checks pass before requesting review
 - Python repos include CodeQL scanning via `codeql-analysis.yml`. It runs on push, pull request, and on a weekly schedule. You do not need to configure it, but be aware that findings may be raised on your PR.
+- Every repo runs the shared lint gate (`lint.yml`): `shellcheck` over tracked shell scripts and `actionlint` over `.github/workflows/`. Keep both clean.
 - Create and link to related issues for history and context
 
-AI assistance is welcome. Just make sure you have reviewed and tested what you are submitting.
+AI assistance is welcome. Just make sure you have reviewed and tested what you are submitting. Some repos carry an `AGENTS.md` with repo-specific guidance for AI agents; read it before letting an agent make changes.
 
 ### PR checklist
 
