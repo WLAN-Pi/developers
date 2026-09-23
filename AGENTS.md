@@ -31,7 +31,12 @@ This repository is documentation only. There is no application code here.
 ## Git
 
 - PRs target `main`.
-- One concern per PR.
+- Keep each PR to one independently reviewable outcome. Up to 500 changed lines
+  needs no size justification; 501-1,000 needs a cohesion explanation and
+  review order; above 1,000 needs a split or maintainer-approved exception.
+  Measure additions plus deletions against the target branch's merge base.
+  Follow the full policy in [CONTRIBUTING.md](CONTRIBUTING.md#pr-size-and-scope).
+- Do not mix moves, formatting, or generated output with behavioral changes.
 - Use conventional commit subjects (`docs:`, `ci:`, `fix:`, `chore:`).
 
 ## Keeping REPOS.md current
