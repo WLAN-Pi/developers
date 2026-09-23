@@ -357,38 +357,20 @@ Found a bug? Have a feature idea? Create an issue first:
 
 1. Check if an issue already exists
 2. Use clear, descriptive titles
-3. Include steps to reproduce for bugs
+3. Include steps to reproduce for bugs, when you have them
 4. Explain the use case for features
 
 Even if you're already working on a fix, create an issue to document it.
 
 ### Good Bug Reports
 
-When filing bug reports, please include:
+The issue forms ask for what we need. Only "What happened?" is required; the
+rest is optional, but hardware (`wlanpi-model`), version
+(`cat /etc/wlanpi-release`), and log output help most. If you know where in the
+code the problem is, mention it.
 
-**1. How to reproduce the issue**
-- Provide a small code sample that can be run immediately
-- Or describe what you're doing, how often it happens, your environment, etc.
-
-**2. What you expected to happen**
-- What does "success" look like for your code?
-
-**3. What actually happens**
-- Don't just say "it doesn't work" or "it fails"
-- Describe the failure: exception message, how actual result differs from expected
-
-**4. Version and installation info**
-- What version you're using
-- How you installed it
-
-**5. Location in code (if known)**
-- This helps maintainers and developers resolve the bug faster
-
-If you don't provide this information, resolution will likely take longer. If we ask for clarification and you don't respond, we may close the issue without fixing whatever the issue is.
-
-### Issue templates
-
-When opening a new issue, always fill out the issue template. Not doing so may result in your issue not being managed in a timely fashion.
+If we ask a question and don't hear back, we may close the issue. Comment any
+time and we'll reopen it.
 
 ## Security guidelines
 
