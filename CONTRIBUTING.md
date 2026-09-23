@@ -243,30 +243,53 @@ When possible, open an issue before opening a PR. This gives maintainers context
 - Every repo runs the shared lint gate (`lint.yml`): `shellcheck` over tracked shell scripts and `actionlint` over `.github/workflows/`. Keep both clean.
 - Create and link to related issues for history and context
 
-### PR size and scope
+### PR Size and Scope
 
 Keep each PR to one independently reviewable outcome. Measure its size as
 additions plus deletions against the target branch's merge base, including tests
-and ordinary documentation.
+and documentation. Size is a soft target: cohesion matters more than the line
+count.
 
 - Up to 500 changed lines needs no size justification.
-- From 501 through 1,000 changed lines, explain why the change belongs together
-  and give reviewers a suggested review order.
-- Above 1,000 changed lines, split the change or obtain maintainer approval for
-  an inseparable security or correctness change, generated or mechanical
-  output, a provenance-recorded import, or a release or branch synchronization.
+- Above 500 changed lines, add a `Review order` section to the PR description
+  that explains why the change belongs together and what to read first.
+- Above 1,000 changed lines is acceptable when the change is cohesive. In the
+  same section, explain why it cannot be split cleanly, and structure the
+  commits so each can be reviewed on its own. Open or reference an issue before
+  starting so maintainers know the change is coming.
 
-Identify exceptional files in the PR description. Include the generator command
-for generated output and the upstream source and revision for imported content.
-An exception applies only to those files, not automatically to the entire PR.
-List binary and submodule changes separately because line counts do not describe
-their review cost.
+#### When to Split
 
-Do not mix file movement, formatting, or other mechanical rewrites with
-behavioral changes. Tests stay with the behavior they verify and count toward
-the thresholds. Size is a review gate, not an automated merge prohibition: CI
-can measure the diff and require metadata, but maintainers decide whether a
-change is genuinely cohesive or inseparable.
+Split only along real seams: each resulting PR builds, passes tests, and makes
+sense to merge on its own. Do not split to hit a number. A split that forces
+reviewers to hold context across several PRs, or that lands half a feature,
+costs more review effort than one larger PR.
+
+For a large effort, aim for a small number of PRs, typically two to four, and
+list them in merge order in a tracking issue. If a change seems to need more
+than that, the split is probably along the wrong lines; talk to a maintainer
+before opening them.
+
+#### Mechanical Changes
+
+Put file moves, renames, formatting, and generated output in their own commits,
+separate from behavioral changes, so reviewers can skim or skip them. They need
+a separate PR only when they would dominate the diff. Identify generated files
+(with the generator command) and imported content (with the upstream source and
+revision) in the PR description. List binary and submodule changes separately
+because line counts do not describe their review cost.
+
+Tests stay with the behavior they verify and count toward the size.
+
+#### Size Check
+
+The shared `pr-size` workflow (rollout status in [REPOS.md](REPOS.md#ci))
+reports each PR's size in the job summary. When the description has no
+`Review order` heading, it warns above 500 changed lines and fails above 1,000,
+naming the missing heading as the reason; adding the heading and saving the
+description re-runs it. PRs from the repository's own `dev` or `main`
+branch (branch synchronization) and from Dependabot are skipped. The check enforces the metadata, not the split:
+maintainers decide whether a change is genuinely cohesive.
 
 AI assistance is welcome. Just make sure you have reviewed and tested what you are submitting. Some repos carry an `AGENTS.md` with repo-specific guidance for AI agents; read it before letting an agent make changes.
 

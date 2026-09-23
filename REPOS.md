@@ -56,6 +56,9 @@ issues are tracked against each repository.
   `python-format-police.yml` + `python-lint-police.yml`.
 - Shell/action lint (`shellcheck` + `actionlint` via `lint.yml`): rolled out to
   every WLAN-Pi repo. Keep it in place and copy it into new repos.
+- PR size check (`pr-size.yml`, calling the reusable
+  `WLAN-Pi/gh-workflows/.github/workflows/pr-size.yml`): only in `developers`
+  so far. Copy `developers/.github/workflows/pr-size.yml` into each repo.
 
 ### Documentation and licensing
 
