@@ -284,12 +284,20 @@ Tests stay with the behavior they verify and count toward the size.
 #### Size Check
 
 The shared `pr-size` workflow (rollout status in [REPOS.md](REPOS.md#ci))
-reports each PR's size in the job summary. When the description has no
-`Review order` heading, it warns above 500 changed lines and fails above 1,000,
-naming the missing heading as the reason; adding the heading and saving the
-description re-runs it. PRs from the repository's own `dev` or `main`
-branch (branch synchronization) and from Dependabot are skipped. The check enforces the metadata, not the split:
-maintainers decide whether a change is genuinely cohesive.
+reports each PR's size in the job summary. It is advisory: it never blocks a
+merge, and maintainers decide whether a change is genuinely cohesive.
+
+| Changed lines | Without a `Review order` heading |
+| --- | --- |
+| Up to 500 | Passes |
+| 501 through 1,000 | Passes with a warning |
+| Above 1,000 | Fails, naming the missing heading as the reason |
+
+To clear a warning or failure, add a `## Review order` heading to the PR
+description and save it; the edit starts a new run. **Re-run jobs** does not
+help, because a re-run uses the description from the original run. PRs from the
+repository's own `dev` or `main` branch (branch synchronization) and from
+Dependabot are skipped.
 
 AI assistance is welcome. Just make sure you have reviewed and tested what you are submitting. Some repos carry an `AGENTS.md` with repo-specific guidance for AI agents; read it before letting an agent make changes.
 
