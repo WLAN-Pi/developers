@@ -33,7 +33,6 @@ WLAN Pi repositories follow one of two patterns:
 **Debian suite branches** (`debian/<codename>`, e.g. `debian/bullseye`):
 - Maintained by the core team only. These preserve support for older Debian releases and are not targets for regular contributor PRs.
 - Build matrices on these branches are scoped to their specific suite only.
-- `wlanpi-webui` names these `suite/<codename>` instead of `debian/<codename>`.
 
 See [Repository Reference](REPOS.md) for which repos currently keep a `dev`
 branch.
