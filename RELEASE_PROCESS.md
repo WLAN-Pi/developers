@@ -138,7 +138,8 @@ Deploy workflows for Python repos call
 
 ### Lint workflows
 
-Every repository runs the shared lint gate:
+Every repository should run the shared lint gate (rollout status in
+[REPOS.md](REPOS.md#ci)):
 
 - `shellcheck` over tracked shell scripts and shell-shebang executables
 - `actionlint` over `.github/workflows/`

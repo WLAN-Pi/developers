@@ -85,7 +85,8 @@ Note that `tox -e lint` and `tox -e format` assume the repo has those environmen
 
 ### Shell and workflow linting
 
-Every repo runs a `lint.yml` workflow with two jobs:
+Every repo should run a `lint.yml` workflow (rollout status in
+[REPOS.md](../REPOS.md#ci)) with two jobs:
 
 - **shellcheck** over every tracked `*.sh` and every tracked executable with a
   shell shebang, at `-S warning`
@@ -101,6 +102,21 @@ actionlint
 The canonical workflow is
 [wlanpi-common/.github/workflows/lint.yml](https://github.com/WLAN-Pi/wlanpi-common/blob/main/.github/workflows/lint.yml).
 Copy it into new repos unchanged.
+
+### Workflow Security
+
+- The org default `GITHUB_TOKEN` is read-only. Declare a top-level
+  `permissions:` block in every workflow, and grant write scopes only where a
+  job needs them.
+- Pin third-party actions to a full commit SHA with the version as a comment,
+  for example `uses: owner/action@<sha> # v2.2.0`. GitHub's own actions
+  (`actions/*`, `github/*`) and WLAN-Pi's own stay on tags or `@main`.
+- Each repo's `.github/dependabot.yml` has a weekly `github-actions` entry,
+  grouped into one PR, which keeps pins and tags current.
+- Upload to Packagecloud with the `package_cloud` CLI and check its output for
+  the `Pushing <file>... success!` line, as in the shared
+  [sbuild-deploy-pkg](https://github.com/WLAN-Pi/gh-workflows/blob/main/.github/workflows/sbuild-deploy-pkg.yml)
+  workflow. The CLI exits 0 when a push fails.
 
 ### Testing
 
