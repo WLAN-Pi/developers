@@ -57,8 +57,12 @@ issues are tracked against each repository.
 - Shell/action lint (`shellcheck` + `actionlint` via `lint.yml`): rolled out to
   every WLAN-Pi repo. Keep it in place and copy it into new repos.
 - PR size check (`pr-size.yml`, calling the reusable
-  `WLAN-Pi/gh-workflows/.github/workflows/pr-size.yml`): only in `developers`
-  so far. Copy `developers/.github/workflows/pr-size.yml` into each repo.
+  `WLAN-Pi/gh-workflows/.github/workflows/pr-size.yml`): rolled out to every
+  active, non-fork WLAN-Pi repo except `wlanpi-profiler` (pending
+  [#287](https://github.com/WLAN-Pi/wlanpi-profiler/pull/287)). Copy
+  `developers/.github/workflows/pr-size.yml` into new repos unchanged.
+- `wlanpi-app`: `lint.yml`'s Slack notification job fails because the repo has
+  no `SLACK_WEBHOOK_URL` secret; shellcheck and actionlint pass.
 
 ### Documentation and licensing
 
