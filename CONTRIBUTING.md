@@ -244,6 +244,31 @@ When possible, open an issue before opening a PR. This gives maintainers context
 - Every repo runs the shared lint gate (`lint.yml`): `shellcheck` over tracked shell scripts and `actionlint` over `.github/workflows/`. Keep both clean.
 - Create and link to related issues for history and context
 
+### PR size and scope
+
+Keep each PR to one independently reviewable outcome. Measure its size as
+additions plus deletions against the target branch's merge base, including tests
+and ordinary documentation.
+
+- Up to 500 changed lines needs no size justification.
+- From 501 through 1,000 changed lines, explain why the change belongs together
+  and give reviewers a suggested review order.
+- Above 1,000 changed lines, split the change or obtain maintainer approval for
+  an inseparable security or correctness change, generated or mechanical
+  output, a provenance-recorded import, or a release or branch synchronization.
+
+Identify exceptional files in the PR description. Include the generator command
+for generated output and the upstream source and revision for imported content.
+An exception applies only to those files, not automatically to the entire PR.
+List binary and submodule changes separately because line counts do not describe
+their review cost.
+
+Do not mix file movement, formatting, or other mechanical rewrites with
+behavioral changes. Tests stay with the behavior they verify and count toward
+the thresholds. Size is a review gate, not an automated merge prohibition: CI
+can measure the diff and require metadata, but maintainers decide whether a
+change is genuinely cohesive or inseparable.
+
 AI assistance is welcome. Just make sure you have reviewed and tested what you are submitting. Some repos carry an `AGENTS.md` with repo-specific guidance for AI agents; read it before letting an agent make changes.
 
 ### PR checklist
