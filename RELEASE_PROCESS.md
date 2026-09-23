@@ -17,14 +17,13 @@ General branching strategy. May vary per repo.
 | `main` | Production/stable releases only |
 | `dev` | Integration branch for next release |
 | `debian/<codename>` | Preserved support for older Debian suites (core team only) |
-| `suite/<codename>` | Same purpose as `debian/<codename>`; used by `wlanpi-webui` |
 | `feature/<desc>` | Shared long-term feature work |
 | `fix/<desc>` | Bug fix branches |
 | `chore/<desc>`, `docs/<desc>`, `ci/<desc>` | Non-feature maintenance |
 | `security/<desc>` | Security fixes |
 | `hotfix/<desc>` | Urgent fixes against `main` |
 
-> `debian/<codename>` and `suite/<codename>` branches (e.g. `debian/bullseye`)
+> `debian/<codename>` branches (e.g. `debian/bullseye`)
 > are maintained by the core team. They are branched from a known-good commit
 > before trixie-targeted work began. Build matrices on these branches target
 > only their specific suite. Contributors should not open PRs against these
