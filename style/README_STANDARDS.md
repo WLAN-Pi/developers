@@ -26,7 +26,7 @@ Sections should appear in this order where applicable:
 11. Authors
 12. License
 
-Deep debugging notes, workarounds, and edge-case instructions belong in a separate `TROUBLESHOOTING.md` (a how-to page), not the main README.
+Deep debugging notes, workarounds, and edge-case instructions belong in a how-to page, not the main README: `TROUBLESHOOTING.md`, or `docs/how-to/troubleshooting.md` once the repo has a `docs/` folder.
 
 ## Documentation Types
 
@@ -48,6 +48,8 @@ docs/
   reference/
   explanation/
 ```
+
+Plans, PRDs, specs, and handover notes are working documents, not reader docs. Keep them outside the four type folders (for example `docs/plans/`).
 
 Fix a page's type when you touch it for another reason. Do not rewrite docs in bulk.
 

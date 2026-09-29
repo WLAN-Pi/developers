@@ -86,5 +86,9 @@ issues are tracked against each repository.
   `wlanpi-fpms`, `wlanpi-hwtest`, `wlanpi-profiler`, and `wlanpi-webui` have
   any.
 - README link back to this repo: only `wlanpi-common` and `wlanpi-desktop`.
+- `docs/` layout ([Documentation Types](style/README_STANDARDS.md#documentation-types)):
+  no repo uses the four type folders yet. `wlanpi-app`, `wlanpi-core`,
+  `wlanpi-mcp`, `wlanpi-misc-firmware`, `wlanpi-profiler`, and
+  `pi-gen-bookworm` have flat or ad-hoc `docs/` folders.
 - BSD-3-Clause migration: `wlanpi-bridge`, `wlanpi-chat-bot` (archived),
   `wlanpi-kernel`, `wlanpi-misc-packages`, and `wlanpi-wconsole` are MIT.
