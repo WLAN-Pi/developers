@@ -26,7 +26,32 @@ Sections should appear in this order where applicable:
 11. Authors
 12. License
 
-Deep debugging notes, workarounds, and edge-case instructions belong in a separate `TROUBLESHOOTING.md`, not the main README.
+Deep debugging notes, workarounds, and edge-case instructions belong in a how-to page, not the main README: `TROUBLESHOOTING.md`, or `docs/how-to/troubleshooting.md` once the repo has a `docs/` folder.
+
+## Documentation Types
+
+Classify every page by the reader's need, following [Diátaxis](https://diataxis.fr/). A page serves one need. Content for another need goes on its own page, linked.
+
+| Type | Reader need | Page content | Example |
+|------|-------------|--------------|---------|
+| Tutorial | Learn | One guided, end-to-end path that works for a newcomer | Build your first package |
+| How-to | Get a task done | Imperative steps; assumes basic competence | Configure a reverse proxy |
+| Reference | Look up a fact | Complete, accurate facts: options, defaults, endpoints, config keys. No steps, no rationale | CLI flags |
+| Explanation | Understand why | Context, design rationale, trade-offs. No steps | Why services run under systemd |
+
+A README is the entry point: What / Why, short install and usage, links. When a repo's docs outgrow it, add a `docs/` folder with only the subfolders that have pages:
+
+```text
+docs/
+  tutorials/
+  how-to/
+  reference/
+  explanation/
+```
+
+Plans, PRDs, specs, and handover notes are working documents, not reader docs. Keep them outside the four type folders (for example `docs/plans/`).
+
+Fix a page's type when you touch it for another reason. Do not rewrite docs in bulk.
 
 ## Headings
 
