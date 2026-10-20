@@ -22,11 +22,10 @@ A Git repository is a folder that Git tracks. It contains:
 
 ### Branch
 
-A branch is an independent line of development. The default branch is typically called `main` or `master`. For most WLAN Pi repositories the default is `main`; a few active repos use `dev` as the default integration branch and keep `main` for stable releases (see [Repository Reference](REPOS.md)).
+A branch is an independent line of development. The default branch is typically called `main` or `master`. WLAN Pi repositories use `main`, except `wlanpi-kernel` (see [Repository Reference](REPOS.md)).
 
 WLAN Pi uses:
-- `main`: Stable, production-ready code
-- `dev`: Integration branch for upcoming releases
+- `main`: The only long-lived development branch. Every pull request targets it.
 - Feature branches: For specific changes
 
 ### Commit
@@ -79,13 +78,13 @@ git branch -a
 git checkout -b feature/my-new-feature
 
 # Switch to an existing branch
-git checkout dev
+git checkout main
 
 # See what branch you're on
 git branch
 
 # Update your local branch with remote changes
-git pull origin dev
+git pull origin main
 
 # Merge another branch into your current branch
 git merge feature/my-new-feature
@@ -130,8 +129,8 @@ The basic development workflow:
 
 1. **Start from the right branch**:
    ```bash
-   git checkout dev
-   git pull origin dev
+   git checkout main
+   git pull origin main
    ```
 
 2. **Create a feature branch**:
@@ -148,10 +147,10 @@ The basic development workflow:
 
 4. **Keep your branch updated**:
    ```bash
-   git checkout dev
-   git pull origin dev
+   git checkout main
+   git pull origin main
    git checkout feature/descriptive-name
-   git merge dev
+   git merge main
    ```
 
 5. **Push and create a Pull Request (PR)**:
@@ -162,7 +161,7 @@ The basic development workflow:
 
 ## Common mistakes to avoid
 
-- **Don't commit to main or dev directly** - Always use feature branches
+- **Don't commit to main directly** - Always use feature branches
 - **Don't push to remote and then rebase** - Only rebase local, unpushed changes
 - **Don't use `git add .` without checking** - Review what you're staging first with `git status`
 - **Don't write vague commit messages** - "Fixes" or "Updates" is not descriptive enough for PRs

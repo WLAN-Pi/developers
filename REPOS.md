@@ -18,7 +18,7 @@ Target conventions live in [Contributing](CONTRIBUTING.md),
 | `wlanpi-bridge` | `main` | `main`, `debian/bullseye` | `dh` native | n/a | none | MIT | no |
 | `wlanpi-chat-bot` | `main` | `main` | `dh_virtualenv` | 3.11, `setup.py` | none | MIT | partial (archived) |
 | `wlanpi-common` | `main` | `main`, `debian/bullseye` | `dh` native | n/a (shell) | shellcheck (`lint.yml`) | BSD-3-Clause | link only |
-| `wlanpi-core` | `dev` | `dev`, `main`, `debian/bullseye` | `dh_virtualenv` | py313 | ruff, mypy | BSD-3-Clause | badge only |
+| `wlanpi-core` | `main` | `main`, `debian/bookworm`, `debian/bullseye` | `dh_virtualenv` | py313 | ruff, mypy | BSD-3-Clause | badge only |
 | `wlanpi-ctx` | `main` | `main`, `debian/bullseye` | `dh_virtualenv` | >=3.9 (CI on 3.9), `pyproject.toml` | black, flake8, isort, mypy (`python-style-police.yml`) | BSD-3-Clause | badge only |
 | `wlanpi-desktop` | `main` | `main` | `dh` native | n/a (shell) | shellcheck (`lint.yml`) | BSD-3-Clause | link only |
 | `wlanpi-fpms` | `main` | `main`, `debian/bullseye` | `dh_virtualenv` | py313 | ruff, mypy | BSD-3-Clause | badge only |

@@ -6,7 +6,9 @@ This document covers the release procedures for core WLAN Pi team members. For g
 
 ## Overview
 
-Releases are managed through Git tags and GitHub workflows. The `main` branch represents the current stable release, while `dev` contains the next release's changes.
+`main` is the only long-lived development branch. A release is a pull request into `main`
+that bumps the version. When it merges, the deploy workflow builds the package
+and uploads it to Packagecloud.
 
 ## Branch strategy (Quick Reference)
 
@@ -14,14 +16,14 @@ General branching strategy. May vary per repo.
 
 | Branch | Purpose |
 |--------|---------|
-| `main` | Production/stable releases only |
-| `dev` | Integration branch for next release |
+| `main` | Only long-lived development branch; PRs target it |
 | `debian/<codename>` | Preserved support for older Debian suites (core team only) |
 | `feature/<desc>` | Shared long-term feature work |
 | `fix/<desc>` | Bug fix branches |
 | `chore/<desc>`, `docs/<desc>`, `ci/<desc>` | Non-feature maintenance |
 | `security/<desc>` | Security fixes |
 | `hotfix/<desc>` | Urgent fixes against `main` |
+| `release/<version>` | Version bump for a release |
 
 > `debian/<codename>` branches (e.g. `debian/bullseye`)
 > are maintained by the core team. They are branched from a known-good commit
@@ -31,12 +33,11 @@ General branching strategy. May vary per repo.
 
 ### Branch rules
 
-- **No direct commits to `main`** - All changes come via PRs from `dev`
-- **No direct commits to `dev`** - All changes come via PRs from feature branches
+- **No direct commits to `main`** - All changes come via PRs from feature, fix, or release branches
 
 **See [Contributing](CONTRIBUTING.md) for detailed workflow**, including:
 - Feature branch workflow and keeping branches in sync
-- Critical merge strategies (squash vs regular merge)
+- Merge strategy (squash merge into `main`)
 - Version collision handling
 - Branch divergence recovery
 
@@ -44,11 +45,13 @@ General branching strategy. May vary per repo.
 
 ### 1. Prepare the release
 
-Ensure `dev` is stable and all intended changes are merged:
+Ensure all intended changes are merged to `main`, then create a release branch
+from it:
 
 ```bash
-git checkout dev
-git pull origin dev
+git checkout main
+git pull origin main
+git checkout -b release/1.2.3
 ```
 
 ### 2. Update version and changelog
@@ -64,32 +67,36 @@ Example:
 dch -v 1.2.3 "Release version 1.2.3"
 ```
 
-Commit this change:
+For Python packages, set the same `major.minor.patch` in `__version__.py`
+(see [Version gate](#version-gate)).
+
+Commit these changes:
 ```bash
-git add debian/changelog
+git add debian/changelog path/to/__version__.py
 git commit -m "Bump version to 1.2.3"
 ```
 
-### 3. Create and push tag
+### 3. Open and Merge the Release PR
 
-Create an annotated tag with the version:
+Push the branch and open a PR against `main`. Merge it with **Squash and
+merge** once CI passes.
+
+### 4. Create and push tag
+
+Tag the merge commit on `main` with an annotated tag:
 
 ```bash
+git checkout main
+git pull origin main
 git tag -a v1.2.3 -m "Release version 1.2.3"
 git push origin v1.2.3
 ```
 
 **Important:** Tend to always use annotated tags (`-a`) not lightweight tags.
 
-### 4. Merge to main
-
-Create a PR from `dev` to `main` and merge using **"Create a merge commit"** (not squash) to preserve the release history.
-
-See [Contributing](CONTRIBUTING.md) for why regular merges between `dev` and `main` are required.
-
 ### 5. Deploy to Packagecloud
 
-The `debian/changelog` change reaching the release branch triggers the
+The `debian/changelog` change reaching `main` triggers the
 deployment workflow. Pushing the version tag does not trigger it.
 
 1. Package is built automatically with `sbuild`
@@ -111,9 +118,7 @@ Use this to verify builds work before tagging.
 
 ### Deploy to Packagecloud
 
-Triggered by: A `debian/changelog` change pushed to a release branch. This is
-`main` for most repositories; repositories that keep a `dev` branch (for
-example `wlanpi-core` and `wlanpi-mcp`) also deploy from `dev`.
+Triggered by: A `debian/changelog` change pushed to `main`.
 
 Purpose: Builds the package and deploys it to the Packagecloud `dev` repository
 
@@ -125,8 +130,9 @@ Maintained by:
   `get-formatted-version-string`)
 - Workflow files in each repo, which call the reusable workflows above
 
-Promotion from dev to main: Manually done on Packagecloud (or, for repos that
-provide it, via a manual `promote-to-main.yml` workflow).
+Promotion from the Packagecloud `dev` repository to `main`: Manually done on
+Packagecloud (or, for repos that provide it, via a manual `promote-to-main.yml`
+workflow).
 
 ### Version gate
 
@@ -175,7 +181,6 @@ This keeps the git history clean and readable.
 
 Use "Create a merge commit" when:
 - The PR contains logically separate commits that should be preserved
-- It's a release PR from `dev` to `main`
 - The contributor specifically requests commits be preserved (and there's good reason)
 
 See [Contributing](CONTRIBUTING.md) for detailed merge strategy guidance.

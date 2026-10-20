@@ -182,13 +182,11 @@ in [WLAN-Pi/gh-workflows](https://github.com/WLAN-Pi/gh-workflows):
    vary per repo: some watch only `debian/changelog`, others ignore docs-only
    changes. It does not run tests or lint; those are separate workflows.
 2. **Deploy to Packagecloud** (`deploy-to-packagecloud.yml`) - Triggered by a
-   `debian/changelog` change pushed to a release branch (`main`, and `dev` for
-   repos that keep a `dev` branch). Builds and uploads to the Packagecloud
-   `dev` repository.
+   `debian/changelog` change pushed to `main`. Builds and uploads to the
+   Packagecloud `dev` repository.
 
-Releases are only cut when a `debian/changelog` change reaches the release
-branch; pushing a git tag does not deploy. See
-[Release Process](../RELEASE_PROCESS.md) for details.
+Releases are only cut when a `debian/changelog` change reaches `main`; pushing
+a git tag does not deploy. See [Release Process](../RELEASE_PROCESS.md) for details.
 
 ## Testing
 
