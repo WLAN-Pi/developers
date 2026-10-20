@@ -24,7 +24,7 @@ Target conventions live in [Contributing](CONTRIBUTING.md),
 | `wlanpi-fpms` | `main` | `main`, `debian/bullseye` | `dh_virtualenv` | py313 | ruff, mypy | BSD-3-Clause | badge only |
 | `wlanpi-grafana` | `main` | `main` | `dh_virtualenv` | py313 | ruff | BSD-3-Clause | no |
 | `wlanpi-hotspot` | `main` | `main`, `debian/bullseye` | `dh` native | n/a (shell) | shellcheck (`lint.yml`) | BSD-3-Clause | no |
-| `wlanpi-hwtest` | `main` | `main`, `debian/bullseye` | `dh_virtualenv` | ~=3.7, `setup.py` | none | BSD-3-Clause | badge only |
+| `wlanpi-hwtest` | `main` | `main`, `debian/bullseye` | `dh_virtualenv` | py313 | ruff, shellcheck (`lint.yml`) | BSD-3-Clause | badges, link |
 | `wlanpi-librespeed-cli` | `main` | `main`, `debian/bullseye` | `dh` native (prebuilt binary) | n/a | shellcheck (`lint.yml`) | BSD-3-Clause | no |
 | `wlanpi-mcp` | `main` | `main` | `dh_virtualenv` | py313 | ruff, mypy | BSD-3-Clause | no |
 | `wlanpi-misc-firmware` | `main` | `main`, `debian/bullseye` | `dh` native (firmware) | n/a | shellcheck (`lint.yml`) | BSD-3-Clause | no |
@@ -61,7 +61,7 @@ issues are tracked against each repository.
 - `wlanpi-profiler`: workflow is `python-style-police.yml`; other repos use
   `python-format-police.yml` + `python-lint-police.yml`.
 - Shell/action lint (`shellcheck` + `actionlint` via `lint.yml`): missing in
-  `wlanpi-bridge`, `wlanpi-ctx`, `wlanpi-hwtest`, `wlanpi-persistent-identity`,
+  `wlanpi-bridge`, `wlanpi-ctx`, `wlanpi-persistent-identity`,
   `wlanpi-server`, `wlanpi-wconsole`, and `wlanpi-wipry`. Their shell scripts
   may need shellcheck fixes when it is added.
 - Workflow security ([Style/Workflow](style/WORKFLOW.md#workflow-security)):
@@ -85,7 +85,8 @@ issues are tracked against each repository.
 - README badges: only `wlanpi-chat-bot`, `wlanpi-core`, `wlanpi-ctx`,
   `wlanpi-fpms`, `wlanpi-hwtest`, `wlanpi-profiler`, and `wlanpi-webui` have
   any.
-- README link back to this repo: only `wlanpi-common` and `wlanpi-desktop`.
+- README link back to this repo: only `wlanpi-common`, `wlanpi-desktop`, and
+  `wlanpi-hwtest`.
 - `docs/` layout ([Documentation Types](style/README_STANDARDS.md#documentation-types)):
   no repo uses the four type folders yet. `wlanpi-app`, `wlanpi-core`,
   `wlanpi-mcp`, `wlanpi-misc-firmware`, `wlanpi-profiler`, and
