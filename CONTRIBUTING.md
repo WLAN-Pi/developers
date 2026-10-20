@@ -243,9 +243,7 @@ merge, and maintainers decide whether a change is genuinely cohesive.
 
 To clear a warning or failure, add a `## Review order` heading to the PR
 description and save it; the edit starts a new run. **Re-run jobs** does not
-help, because a re-run uses the description from the original run. PRs from the
-repository's own `dev` or `main` branch (branch synchronization) and from
-Dependabot are skipped.
+help, because a re-run uses the description from the original run. The check runs on PRs from every branch. Only Dependabot PRs are skipped.
 
 AI assistance is welcome. Just make sure you have reviewed and tested what you are submitting. Some repos carry an `AGENTS.md` with repo-specific guidance for AI agents; read it before letting an agent make changes.
 
