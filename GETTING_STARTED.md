@@ -47,18 +47,13 @@ Note: You will need to setup SSH keys.
 
 ### 4. Create a branch
 
-Each repository uses either `main` or `dev` as its base branch. `wlanpi-core`
-and `wlanpi-misc-packages` use `dev`; most other repos use `main`. Check the
-repository's GitHub page or [Repository Reference](REPOS.md) to confirm. When
-in doubt, use `main`.
+Create your branch from `main`. The exception is `wlanpi-kernel`, which keeps
+one branch per kernel version; see [Repository Reference](REPOS.md).
 
 ```bash
-# Pick the base branch for this repo (main or dev)
-BASE_BRANCH=main
-
 # Sync your fork from upstream
-git checkout "$BASE_BRANCH"
-git pull upstream "$BASE_BRANCH"
+git checkout main
+git pull upstream main
 
 # Create your feature branch from there
 git checkout -b feature/<my-first-contribution>
@@ -176,19 +171,19 @@ Not sure where to start? Look for issues labeled:
 
 ## Common tasks
 
-### Update from development branch
+### Update from Main
 
 ```bash
 # Add the upstream remote (one time)
 git remote add upstream https://github.com/WLAN-Pi/REPO_NAME.git
 
-# Update your local dev branch
-git checkout dev
-git pull upstream dev
+# Update your local main branch
+git checkout main
+git pull upstream main
 
-# Merge dev into your feature branch to stay current
+# Merge main into your feature branch to stay current
 git checkout your-branch
-git merge dev --no-ff -m "Merge dev to stay current"
+git merge main --no-ff -m "Merge main to stay current"
 ```
 
 ### Install a development package

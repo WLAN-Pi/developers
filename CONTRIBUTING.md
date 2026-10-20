@@ -14,48 +14,22 @@ This guide covers how to contribute code to WLAN Pi projects. For setting up you
 
 1. **Fork** the repository on GitHub
 2. **Clone** your fork locally
-3. **Create a branch** from `dev`
+3. **Create a branch** from `main`
 4. **Make your changes** with clear, focused commits
 5. **Push** to your fork
-6. **Open a Pull Request** to the `dev` branch
+6. **Open a Pull Request** to the `main` branch
 
 ## Branch structure
 
-WLAN Pi repositories follow one of two patterns:
-
-**Two permanent branches** (Python-based repos like `wlanpi-core`):
-- `dev`: Active development for the next release. All feature and fix work targets this branch.
-- `main`: Stable release branch. Only tested releases land here via PR from `dev`.
-
-**Single permanent branch** (repos like `wlanpi-profiler`):
-- `main`: Stable release branch. Feature branches merge directly here.
+`main` is the only long-lived development branch. Create feature and fix
+branches from `main`, and open pull requests against `main`. The exception is
+`wlanpi-kernel`, which keeps one branch per kernel version.
 
 **Debian suite branches** (`debian/<codename>`, e.g. `debian/bullseye`):
 - Maintained by the core team only. These preserve support for older Debian releases and are not targets for regular contributor PRs.
 - Build matrices on these branches are scoped to their specific suite only.
 
-See [Repository Reference](REPOS.md) for which repos currently keep a `dev`
-branch.
-
-### Why two patterns?
-
-WLAN Pi repos use one of two branching strategies depending on the complexity of the project.
-
-**Single permanent branch (`main` only)**
-
-Simpler repos use only `main`. Feature and bugfix branches are created directly from `main` and merged back when ready. Squash merging is fine here because there is only one permanent branch. There is no shared ancestry to preserve between two long-lived branches.
-
-**Two permanent branches (`dev` and `main`)**
-
-More active repos use both `dev` and `main`. `dev` is the integration target for all ongoing work. `main` represents the current stable release and only receives merges from `dev` at release time.
-
-This pattern requires care with merge strategy:
-
-- **Feature branches into `dev`**: squash merge is encouraged. Collapses WIP commits into one clean entry on `dev`.
-- **`dev` into `main`**: regular merge commit required, always. Git tracks which commits exist in each branch by shared ancestry. Squashing dev into main destroys that ancestry, so on the next release cycle Git cannot tell what is already in main. This leads to phantom conflicts and eventually branches that cannot be reconciled without force-pushing.
-- **`main` into `dev`** (syncing after a hotfix): same rule, regular merge commit only.
-
-The short version: squash merges are safe when collapsing a temporary branch. They are destructive when used between two branches that will continue to diverge and re-merge over time.
+See [Repository Reference](REPOS.md) for the branches each repo keeps today.
 
 ## Branch naming
 
@@ -84,61 +58,37 @@ fine. The important part is a short, descriptive suffix.
 
 ### Feature development
 
-If the `dev` branch exists, all feature branches should be created from `dev`:
+Create feature branches from an up-to-date `main`:
 
 ```bash
-git checkout dev
-git pull origin dev
+git checkout main
+git pull origin main
 git checkout -b feature/descriptive-name
 ```
 
-If the `dev` branch exists, pull requests should target `dev`. Features can be squash merged into `dev` to keep history clean. This is something maintainers would do:
-
-```bash
-# Example: Squash merge a feature branch into dev
-git checkout dev
-git merge --squash feature/my-feature
-git commit -m "Add new feature: description"
-git push origin dev
-```
-
-**Squash merging is OK for feature branches into `dev`** because we are collapsing temporary branches. The problem only occurs when squash merging between **permanent** branches (`dev` into `main`).
+Open the pull request against `main`. Maintainers merge it with **Squash and
+merge**, which collapses WIP commits into one commit on `main`. Squashing is
+safe because the feature branch is temporary, and no other long-lived branch
+shares its history.
 
 ### Keeping feature branches in sync
 
-If you're working on a long-running feature branch and `dev` has moved ahead with new commits or releases, merge `dev` into your feature branch to stay current:
+If you're working on a long-running feature branch and `main` has moved ahead with new commits or releases, merge `main` into your feature branch to stay current:
 
 ```bash
-# First, update your local dev to match remote
-git checkout dev
-git pull origin dev
+# First, update your local main to match remote
+git checkout main
+git pull origin main
 
-# Then merge the updated dev into your feature branch
+# Then merge the updated main into your feature branch
 git checkout your-feature-branch
-git merge dev --no-ff -m "Merge dev to stay current"
+git merge main --no-ff -m "Merge main to stay current"
 git push origin your-feature-branch
 ```
 
-**Why update dev first?** This ensures your local `dev` branch has the latest changes from the remote repository before merging. If you merge an outdated local `dev`, you'll miss recent commits from other developers.
+**Why update main first?** This ensures your local `main` branch has the latest changes from the remote repository before merging. If you merge an outdated local `main`, you'll miss recent commits from other developers.
 
-**Important:** Please avoid rebasing feature branches that have already been pushed to origin, especially if `dev` or `main` have moved ahead with releases. Rebasing can cause Git to drop commits incorrectly. Tread carefully!
-
-### Critical merge strategy for maintainers: dev and main
-
-**NEVER use squash merges when merging between `dev` and `main`.** Always use regular merge commits (`git merge --no-ff`).
-
-**Why?** Squash merging between permanent branches destroys the shared commit history, making it impossible for Git to track which commits exist in both branches. This leads to:
-
-- Inability to merge main back into dev without, sometimes, massive conflicts
-- Branch divergence that cannot be reconciled
-- Loss of detailed commit history on the release branch
-
-Regular merge commits preserve the full history and keep both branches properly synchronized.
-
-**Summary:**
-- ✅ **Squash merge OK**: `feature/branch` into `dev` (keeps dev clean)
-- ❌ **Regular merge REQUIRED**: `dev` into `main` (preserves shared history)
-- ❌ **Regular merge REQUIRED**: `main` into `dev` (preserves shared history)
+**Important:** Please avoid rebasing feature branches that have already been pushed to origin, especially if `main` has moved ahead with releases. Rebasing can cause Git to drop commits incorrectly. Tread carefully!
 
 ## Troubleshooting common scenarios
 
@@ -146,15 +96,15 @@ Regular merge commits preserve the full history and keep both branches properly 
 
 If `main` releases a new version while you're still working on a feature branch:
 
-1. **Sync your feature branch with dev first:**
+1. **Sync your feature branch with main first:**
    ```bash
-   # First, update your local dev to match remote
-   git checkout dev
-   git pull origin dev
+   # First, update your local main to match remote
+   git checkout main
+   git pull origin main
 
-   # Then merge the updated dev into your feature branch
+   # Then merge the updated main into your feature branch
    git checkout your-feature-branch
-   git merge dev --no-ff -m "Merge dev to stay current"
+   git merge main --no-ff -m "Merge main to stay current"
    ```
 
 2. **Check your branch's version** in any version files (e.g., `__version__.py` or `debian/changelog`)
@@ -166,7 +116,7 @@ If `main` releases a new version while you're still working on a feature branch:
    git commit -m "bump version to X.Y.Z+1"
    ```
 
-4. **Then follow normal merge workflow**: feature into dev, dev into main
+4. **Then follow the normal merge workflow**: open or update your PR against `main`
 
 **Example:** If your feature branch says "2.1.8" but main already released 2.1.8, update your branch to "2.1.9". Unsure? One of the core maintainers will handle release management.
 
@@ -216,17 +166,15 @@ If your local branch diverges from its remote (e.g., after a problematic rebase)
 
 ### Opening a PR
 
-If `dev` exists, otherwise use `main`.
-
-1. Ensure your branch is up to date with `dev`:
+1. Ensure your branch is up to date with `main`:
    ```bash
-   git checkout dev
-   git pull origin dev
+   git checkout main
+   git pull origin main
    git checkout your-branch
-   git rebase dev
+   git rebase main
    ```
 
-2. Push your branch and open a PR against the `dev` branch (not `main`)
+2. Push your branch and open a PR against the `main` branch
 
 3. In the PR description, reference any related issues:
    - Use keywords like `closes #42`, `fixes #66`, or `resolves #99`
@@ -329,17 +277,14 @@ To increase the likelihood of your PR being accepted:
 
 ### Merging for maintainers
 
-When merging contributor PRs (feature or bugfix branches into `dev`), use squash merge by default. This collapses noisy WIP commits into a single clean commit on `dev`.
-
-Do not squash when merging between `dev` and `main`. See the merge strategy section above.
+When merging contributor PRs (feature or bugfix branches into `main`), use squash merge by default. This collapses noisy WIP commits into a single clean commit on `main`.
 
 ## Version control best practices
 
-- **Feature branches**: `feature/short-description` - branch from `dev`, merge back to `dev`
-- **Bugfix branches**: `fix/short-description` - branch from `dev`, merge back to `dev`
-- **Hotfix branches**: `hotfix/short-description` - branch from `main`, merge to both `main` and `dev`
-- Always use `--no-ff` (no fast-forward) when merging to preserve merge commits
-- Never rewrite history on permanent `main` or `dev` branches
+- **Feature branches**: `feature/short-description` - branch from `main`, merge back to `main`
+- **Bugfix branches**: `fix/short-description` - branch from `main`, merge back to `main`
+- **Hotfix branches**: `hotfix/short-description` - branch from `main`, merge back to `main`
+- Never rewrite history on `main` or `debian/<codename>` branches
 - Tag all releases on `main` with semantic versioning: `vX.Y.Z`
 
 ## Code Review
