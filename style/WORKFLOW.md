@@ -116,7 +116,9 @@ Copy it into new repos unchanged.
 - Upload to Packagecloud with the `package_cloud` CLI and check its output for
   the `Pushing <file>... success!` line, as in the shared
   [sbuild-deploy-pkg](https://github.com/WLAN-Pi/gh-workflows/blob/main/.github/workflows/sbuild-deploy-pkg.yml)
-  workflow. The CLI exits 0 when a push fails.
+  workflow. The CLI exits 0 when a push fails. Pin the gem version
+  (`sudo gem install package_cloud -v 0.3.15`). Dependabot can't update a
+  version inside a `run:` step, so bump it by hand in every repo.
 
 ### Testing
 
