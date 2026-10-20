@@ -81,20 +81,7 @@ git commit -m "Bump version to 1.2.3"
 Push the branch and open a PR against `main`. Merge it with **Squash and
 merge** once CI passes.
 
-### 4. Create and push tag
-
-Tag the merge commit on `main` with an annotated tag:
-
-```bash
-git checkout main
-git pull origin main
-git tag -a v1.2.3 -m "Release version 1.2.3"
-git push origin v1.2.3
-```
-
-**Important:** Tend to always use annotated tags (`-a`) not lightweight tags.
-
-### 5. Deploy to Packagecloud
+### 4. Deploy to Packagecloud
 
 The `debian/changelog` change reaching `main` triggers the
 deployment workflow. Pushing the version tag does not trigger it.
@@ -104,6 +91,23 @@ deployment workflow. Pushing the version tag does not trigger it.
    `~gha<UTC timestamp>` build-metadata suffix on the version
 3. Test the package
 4. Once verified, promote from `dev` to `main` in Packagecloud
+
+### 5. Tag the release
+
+If the repo's deploy workflow calls `tag-release` from
+[gh-workflows](https://github.com/WLAN-Pi/gh-workflows), skip this step. After
+the upload, CI tags the deployed commit as `v<version>` without the Debian
+revision, for example `v1.2.3` for `1.2.3-1`.
+
+Otherwise, after the deploy succeeds, tag the merge commit on `main` with an
+annotated tag:
+
+```bash
+git checkout main
+git pull origin main
+git tag -a v1.2.3 -m "Release version 1.2.3"
+git push origin v1.2.3
+```
 
 ## GitHub workflows
 
@@ -127,7 +131,7 @@ Maintained by:
 - Build logic: [sbuild-debian-package](https://github.com/WLAN-Pi/sbuild-debian-package)
 - Reusable workflow files: [gh-workflows](https://github.com/WLAN-Pi/gh-workflows)
   (`sbuild-pkg`, `sbuild-deploy-pkg`, `check-py-deb-pkg-versions-match`,
-  `get-formatted-version-string`)
+  `get-formatted-version-string`, `tag-release`)
 - Workflow files in each repo, which call the reusable workflows above
 
 Promotion from the Packagecloud `dev` repository to `main`: Manually done on
