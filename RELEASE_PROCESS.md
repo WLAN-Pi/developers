@@ -67,8 +67,8 @@ Example:
 dch -v 1.2.3 "Release version 1.2.3"
 ```
 
-For Python packages, set the same `major.minor.patch` in `__version__.py`
-(see [Version gate](#version-gate)).
+For Python packages, set the same `major.minor.patch` and pre-release in
+`__version__.py` (see [Version gate](#version-gate)).
 
 Commit these changes:
 ```bash
@@ -141,9 +141,11 @@ workflow).
 ### Version gate
 
 Deploy workflows for Python repos call
-`check-py-deb-pkg-versions-match`, which fails the build unless the
-`major.minor.patch` in `debian/changelog` equals the value in the package's
-`__version__.py`. Bump both together. See
+`check-py-deb-pkg-versions-match`. The build fails unless `debian/changelog`
+and the package's `__version__.py` have the same `major.minor.patch` and the
+same pre-release (`a`, `b`, or `rc` and its number). Spellings are normalized,
+so `1.1.0~beta3-1` matches `1.1.0b3`. The Debian revision, `~dev` snapshots,
+and `.postN` are not compared. Bump both files together. See
 [Style/Workflow](style/WORKFLOW.md#versioning).
 
 ### Lint workflows

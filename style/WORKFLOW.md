@@ -49,9 +49,10 @@ Each release requires versions to be updated in two locations:
 1. `debian/changelog` via `debchange`
 2. The Python package version file (e.g. `wlanpi_yourapp/__version__.py`) via manual update
 
-Deploy workflows for Python repos enforce that the `major.minor.patch` in
-`debian/changelog` matches the value in `__version__.py` and fail otherwise.
-Bump both in the same change.
+Deploy workflows for Python repos fail unless `debian/changelog` and
+`__version__.py` have the same `major.minor.patch` and the same pre-release
+(`a`, `b`, or `rc` and its number). The Debian revision, `~dev` snapshots, and
+`.postN` are not compared. Bump both in the same change.
 
 Please note that Python package versioning should follow PEP 440. https://www.python.org/dev/peps/pep-0440/
 
