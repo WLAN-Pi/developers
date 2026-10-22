@@ -67,8 +67,10 @@ Example:
 dch -v 1.2.3 "Release version 1.2.3"
 ```
 
-For Python packages, set the same `major.minor.patch` and pre-release in
-`__version__.py` (see [Version gate](#version-gate)).
+For a first-party package the changelog version is `major.minor.patch` with
+no Debian revision (`1.2.3`, not `1.2.3-1`). Set the same `major.minor.patch`
+and pre-release in `__version__.py` (see [Version gate](#version-gate) and
+[Source Format and Version](architecture/PACKAGING.md#source-format-and-version)).
 
 Commit these changes:
 ```bash
@@ -86,18 +88,29 @@ merge** once CI passes.
 The `debian/changelog` change reaching `main` triggers the
 deployment workflow. Pushing the version tag does not trigger it.
 
-1. Package is built automatically with `sbuild`
-2. Uploaded to [wlanpi/dev](https://packagecloud.io/wlanpi/dev) with a
-   `~gha<UTC timestamp>` build-metadata suffix on the version
+1. Package is built automatically with `sbuild`. The `.deb` version is the
+   changelog version.
+2. Uploaded to [wlanpi/dev](https://packagecloud.io/wlanpi/dev). Packagecloud
+   receives that `.deb` unchanged.
 3. Test the package
 4. Once verified, promote from `dev` to `main` in Packagecloud
+
+The `~gha<UTC timestamp>` suffix is only on the GitHub Actions artifact
+name, not on the package version. `sbuild-pkg` and `sbuild-deploy-pkg` set
+the artifact name to
+`<package>_<changelog version>~gha<YYYYMMDD>t<HHMMSS>+<arch>_<distro>`
+(the timestamp is `date -u +'%Y%m%dt%H%M%S'`). The file inside the artifact,
+and the file pushed to Packagecloud, keep the changelog version. For
+changelog `1.2.3` the Packagecloud filename is `wlanpi-yourapp_1.2.3_arm64.deb`.
 
 ### 5. Tag the release
 
 If the repo's deploy workflow calls `tag-release` from
 [gh-workflows](https://github.com/WLAN-Pi/gh-workflows), skip this step. After
-the upload, CI tags the deployed commit as `v<version>` without the Debian
-revision, for example `v1.2.3` for `1.2.3-1`.
+the upload, CI tags the deployed commit as `v<version>`. For a native
+package `1.2.3` the tag is `v1.2.3`. `tag-release` strips an epoch and a
+Debian revision if one is still present, so a quilt version `1.2.3-1` is
+also tagged `v1.2.3`.
 
 Otherwise, after the deploy succeeds, tag the merge commit on `main` with an
 annotated tag:

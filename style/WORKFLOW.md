@@ -56,9 +56,12 @@ Deploy workflows for Python repos fail unless `debian/changelog` and
 
 Please note that Python package versioning should follow PEP 440. https://www.python.org/dev/peps/pep-0440/
 
-Please note that the Debian package versioning does not strictly align with Python versioning.
-
-- Debian generally follows `<DebianPackageName>_<VersionNumber>-<DebianRevisionNumber>_<DebianArchitecture>.deb`. Package format also matters. Quilt vs native have differences. Native does not allow revision numbers (`1.0.0` instead of `1.0.0-1`). [More on quilt vs native here](https://wiki.debian.org/Projects/DebSrc3.0).
+The Debian version and the source format are one scheme, defined in
+[Architecture/Packaging](../architecture/PACKAGING.md#source-format-and-version).
+A first-party package is `3.0 (native)` with changelog version `1.2.3` (no
+`-N` revision). `__version__.py` carries that same `major.minor.patch` and
+the same pre-release when there is one. The binary filename is
+`<package>_1.2.3_<arch>.deb`.
 
 ## Committing
 

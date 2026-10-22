@@ -24,7 +24,11 @@ You can run debchange from the root of the repository as debchange will climb th
 
 ### Update an existing version entry
 
-You should minially use `dch -i` when adding a new changelog because `-i` increases the release number and adds a changelog entry.
+Use `dch -i` when adding a changelog entry for a new upload. On a native
+package, `-i` increments the upstream version (`1.2.3` becomes `1.2.4`).
+On a package whose version still has a Debian revision, `-i` increments
+that revision. First-party WLAN Pi packages are native; the version form
+is in [Source Format and Version](../architecture/PACKAGING.md#source-format-and-version).
 
 If you want to edit the changelog without changing the version or adding a new entry, use `-e` instead of `-i`.
 
@@ -33,6 +37,10 @@ If you want to edit the changelog without changing the version or adding a new e
 On version numbers, from the Debian maintainers guide:
 
 > One tricky case can occur when you make a local package, to experiment with the packaging before uploading the normal version to the official archive, e.g., 1.0.1-1. For smoother upgrades, it is a good idea to create a changelog entry with a version string such as 1.0.1-1~rc1. You may unclutter changelog by consolidating such local change entries into a single entry for the official package.
+
+That note is about a local experiment on a non-native version. A first-party
+WLAN Pi changelog version has no `-N` revision. See
+[Source Format and Version](../architecture/PACKAGING.md#source-format-and-version).
 
 ## debchange - environment variables
 

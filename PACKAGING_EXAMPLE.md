@@ -23,21 +23,23 @@ We'll create `wlanpi-hello` - a simple "Hello World" application that demonstrat
 wlanpi-hello/
 ├── debian/                    # Debian packaging files
 │   ├── changelog              # Version history
-│   ├── compat                 # Debhelper version
 │   ├── control                # Package metadata
 │   ├── copyright              # License info
-│   ├── wlanpi-hello.install   # File installation rules
 │   ├── postinst               # Post-install script
 │   ├── prerm                  # Pre-remove script
-│   └── rules                  # Build instructions
+│   ├── rules                  # Build instructions
+│   ├── source/
+│   │   └── format             # 3.0 (native)
+│   ├── wlanpi-hello.install   # File installation rules
+│   ├── wlanpi-hello.lintian-overrides
+│   └── wlanpi-hello.service   # Installed by dh_installsystemd
 ├── src/                       # Application source
 │   └── hello/
 │       ├── __init__.py
+│       ├── __version__.py
 │       └── main.py
 ├── config/                    # Configuration files
 │   └── hello.conf
-├── systemd/                   # Systemd service files
-│   └── wlanpi-hello.service
 ├── tests/                     # Test files
 │   └── test_hello.py
 ├── pyproject.toml             # Python package metadata
@@ -53,10 +55,7 @@ wlanpi-hello/
 Create the Python application in `src/hello/main.py`:
 
 ```python
-#!/usr/bin/env python3
-"""
-WLAN Pi hello world - A simple example
-"""
+"""WLAN Pi hello world - A simple example."""
 
 import argparse
 import logging
@@ -108,11 +107,22 @@ if __name__ == "__main__":
     sys.exit(main())
 ```
 
+Create `src/hello/__version__.py`. The deploy version gate reads this file.
+Its `major.minor.patch`, and its pre-release when there is one, match the
+changelog version:
+
+```python
+"""Package version. Keep major.minor.patch and any pre-release identical to debian/changelog."""
+__version__ = "1.0.0"
+```
+
 Create `src/hello/__init__.py`:
 
 ```python
 """WLAN Pi Hello package"""
-__version__ = "1.0.0"
+from hello.__version__ import __version__
+
+__all__ = ["__version__"]
 ```
 
 ## Step 2: Python package setup
@@ -160,15 +170,14 @@ python_functions = ["test_*"]
 addopts = "-v --tb=short"
 ```
 
-Create `requirements.txt`:
+Create `requirements.txt` for runtime dependencies only. `dh_virtualenv`
+runs `pip install -r requirements.txt` whenever the file exists, so a test
+tool listed here is unpacked into the `.deb`. This example has no runtime
+dependencies. Pytest stays in the `test` extra above.
 
-```
-# Production dependencies
-# Add any non-standard library packages here
-
-# Development dependencies
-pytest>=7.0.0
-pytest-cov>=4.0.0
+```text
+# Runtime Python dependencies for dh_virtualenv.
+# Keep test tools out of this file; they belong in the pyproject test extra.
 ```
 
 ## Step 3: Configuration
@@ -190,7 +199,12 @@ level = INFO
 
 ## Step 4: Systemd service
 
-Create `systemd/wlanpi-hello.service`:
+Create `debian/wlanpi-hello.service`. On Trixie, debhelper 13.24's
+`dh_installsystemd` installs a unit of that name into
+`/usr/lib/systemd/system` and wires enable/start/stop into `#DEBHELPER#`.
+Leave it out of the `.install` file. Bookworm's debhelper 13.11.4 still
+writes `lib/systemd/system`; see
+[debian/rules](architecture/PACKAGING.md#debianrules).
 
 ```ini
 [Unit]
@@ -225,7 +239,7 @@ Section: contrib/python
 Priority: optional
 Maintainer: Your Name <you@example.com>
 Build-Depends: debhelper-compat (= 13), python3, python3-venv, dh-virtualenv (>= 1.0)
-Standards-Version: 4.7.0
+Standards-Version: 4.7.2
 Homepage: https://github.com/wlan-pi/wlanpi-hello
 
 Package: wlanpi-hello
@@ -252,11 +266,24 @@ wlanpi-hello (1.0.0) unstable; urgency=medium
  -- Your Name <you@example.com>  Mon, 01 Jan 2024 00:00:00 +0000
 ```
 
-### debian/compat
+Do not add `debian/compat`. The compat level is the `debhelper-compat (= 13)`
+build dependency above. Shipping both makes `dh` fail:
 
+```text
+dh: error: debhelper compat level specified both in debian/compat and in debian/control
 ```
-13
+
+### debian/source/format
+
+```text
+3.0 (native)
 ```
+
+This package is native: `debian/` lives in the same git tree as the
+application, and the changelog version `1.0.0` has no Debian revision.
+The built file is `wlanpi-hello_1.0.0_<arch>.deb`. Details and the quilt
+exception are in
+[Source Format and Version](architecture/PACKAGING.md#source-format-and-version).
 
 ### debian/copyright
 
@@ -304,17 +331,38 @@ License: BSD-3-Clause
 
 export DH_VIRTUALENV_INSTALL_ROOT=/opt
 
+PACKAGE=$(shell dh_listpackages)
+DH_VENV_DIR=debian/$(PACKAGE)$(DH_VIRTUALENV_INSTALL_ROOT)/$(PACKAGE)
+
 %:
 	dh $@ --with python-virtualenv
 
 override_dh_virtualenv:
 	dh_virtualenv \
 		--python python3 \
-		--install-suffix wlanpi-hello
-
-override_dh_installsystemd:
-	dh_installsystemd --name=wlanpi-hello
+		--builtin-venv \
+		--install-suffix wlanpi-hello \
+		--extra-pip-arg "--no-compile"
+	# Bytecode and pip are not needed at runtime and lintian rejects them.
+	find $(DH_VENV_DIR) -type d -name '__pycache__' -print0 | xargs -0r rm -rf
+	find $(DH_VENV_DIR) -name '*.pyc' -delete
+	rm -rf $(DH_VENV_DIR)/bin/pip* \
+		$(DH_VENV_DIR)/bin/wheel \
+		$(DH_VENV_DIR)/.gitignore \
+		$(DH_VENV_DIR)/lib/python*/site-packages/pip \
+		$(DH_VENV_DIR)/lib/python*/site-packages/pip-*.dist-info \
+		$(DH_VENV_DIR)/lib/python*/site-packages/setuptools \
+		$(DH_VENV_DIR)/lib/python*/site-packages/setuptools-*.dist-info \
+		$(DH_VENV_DIR)/lib/python*/site-packages/wheel \
+		$(DH_VENV_DIR)/lib/python*/site-packages/wheel-*.dist-info
 ```
+
+`--builtin-venv` uses the stdlib `venv` module. On Trixie, `dh-virtualenv`
+depends on `virtualenv | python3-virtualenv | python3-venv`. This example
+build-depends on `python3-venv`. Without `--builtin-venv`, `dh_virtualenv`
+executes `virtualenv` and fails with `FileNotFoundError` when that binary
+is not installed. There is no `override_dh_installsystemd`: the default
+helper picks up `debian/wlanpi-hello.service`.
 
 Make it executable:
 
@@ -326,29 +374,36 @@ chmod +x debian/rules
 
 ```
 config/hello.conf etc/wlanpi-hello/
-systemd/wlanpi-hello.service lib/systemd/system/
+```
+
+### debian/wlanpi-hello.lintian-overrides
+
+`dir-or-file-in-opt` is an error. The override and the reason are in
+[Lintian and /opt](architecture/PACKAGING.md#lintian-and-opt).
+
+```text
+# dh_virtualenv installs this add-on application and its dependencies under
+# /opt/wlanpi-hello. /opt is reserved for add-on software; these packages
+# are not candidates for the Debian archive.
+wlanpi-hello: dir-or-file-in-opt
 ```
 
 ### debian/postinst
 
 ```bash
-#!/bin/bash
+#!/bin/sh
 set -e
 
 case "$1" in
     configure)
-        # Create log directory
+        if ! getent group wlanpi >/dev/null; then
+            groupadd --system wlanpi
+        fi
+        if ! id -u wlanpi >/dev/null 2>&1; then
+            useradd --system --gid wlanpi --shell /usr/sbin/nologin --comment "WLAN Pi service" wlanpi
+        fi
         mkdir -p /var/log/wlanpi-hello
         chown wlanpi:wlanpi /var/log/wlanpi-hello
-        
-        # Create user if doesn't exist
-        if ! id -u wlanpi > /dev/null 2>&1; then
-            useradd -r -s /bin/false wlanpi
-        fi
-        
-        # Enable and start service
-        deb-systemd-helper enable wlanpi-hello.service
-        deb-systemd-helper start wlanpi-hello.service
         ;;
 esac
 
@@ -356,6 +411,13 @@ esac
 
 exit 0
 ```
+
+Create the user before `chown`. The other order fails the install with
+`chown: invalid user: 'wlanpi:wlanpi'`. `#DEBHELPER#` comes after that,
+because it expands to the `dh_installsystemd` block that starts the
+service. `deb-systemd-helper` has no `start` or `stop` subcommand. From a
+maintainer script those arguments exit 0 and do not start or stop anything.
+`deb-systemd-invoke start` and `stop` are what the helper inserts.
 
 Make it executable:
 
@@ -366,20 +428,17 @@ chmod +x debian/postinst
 ### debian/prerm
 
 ```bash
-#!/bin/bash
+#!/bin/sh
 set -e
-
-case "$1" in
-    remove|upgrade|deconfigure)
-        deb-systemd-helper stop wlanpi-hello.service
-        deb-systemd-helper disable wlanpi-hello.service
-        ;;
-esac
 
 #DEBHELPER#
 
 exit 0
 ```
+
+`#DEBHELPER#` is required in every maintainer script you ship. It is where
+`dh_installsystemd` inserts `deb-systemd-invoke stop` for `prerm`. Use LF
+line endings. A CRLF shebang fails with `cannot execute: required file not found`.
 
 Make it executable:
 
@@ -396,8 +455,6 @@ Create `tests/test_hello.py`:
 
 import sys
 from unittest.mock import patch
-
-import pytest
 
 from hello.main import main
 
@@ -442,11 +499,9 @@ source venv/bin/activate
 Run tests with pytest:
 
 ```bash
-# Install test dependencies
-pip install -r requirements.txt
-
-# Install package editable
-pip install -e .
+# Install the package and its test extra. requirements.txt is the runtime
+# set shipped in the .deb.
+pip install -e ".[test]"
 
 # Run tests
 pytest
@@ -473,7 +528,10 @@ dpkg-buildpackage -us -uc -b
 ls ../*.deb
 ```
 
-You should see `wlanpi-hello_1.0.0-1_arm64.deb` in the parent directory.
+You should see `wlanpi-hello_1.0.0_<arch>.deb` in the parent directory.
+The version is the changelog version `1.0.0`, with no `-1`. On a WLAN Pi
+or the arm64 CI runner, `<arch>` is `arm64`. An amd64 build machine
+produces `wlanpi-hello_1.0.0_amd64.deb`.
 
 ## Step 8: GitHub actions workflows
 
@@ -511,6 +569,11 @@ does not run tests or lint. Repos wire those up as separate workflows (for
 example `test-python-package.yml`, `python-lint-police.yml`, and
 `python-format-police.yml`). Trigger paths differ between repos: some watch
 only `debian/changelog`, others ignore docs-only changes.
+
+Call these reusable workflows. Do not copy the `sbuild` or `package_cloud`
+steps into the repository. The `~gha` timestamp some older notes mention is
+part of the Actions artifact name inside `sbuild-pkg.yml`, not part of the
+`.deb` version. See [Release Process](RELEASE_PROCESS.md#4-deploy-to-packagecloud).
 
 Create `.github/workflows/deploy.yml`:
 
@@ -567,7 +630,7 @@ After installation, the package will create:
 /var/log/wlanpi-hello/         # Log files
 └── hello.log                  # Application logs
 
-/lib/systemd/system/           # Systemd service
+/usr/lib/systemd/system/       # Systemd service
 └── wlanpi-hello.service
 ```
 
@@ -577,13 +640,13 @@ Install and test on actual hardware:
 
 ```bash
 # Copy the .deb file to your WLAN Pi
-scp ../wlanpi-hello_1.0.0-1_arm64.deb wlanpi@your-device-ip:/tmp/
+scp ../wlanpi-hello_1.0.0_arm64.deb wlanpi@your-device-ip:/tmp/
 
 # SSH into the device
 ssh wlanpi@your-device-ip
 
 # Install the package
-sudo dpkg -i /tmp/wlanpi-hello_1.0.0-1_arm64.deb
+sudo dpkg -i /tmp/wlanpi-hello_1.0.0_arm64.deb
 
 # Check if service is running
 sudo systemctl status wlanpi-hello
@@ -641,10 +704,16 @@ Common causes:
 
 Check package for issues:
 ```bash
-lintian ../wlanpi-hello_1.0.0-1_arm64.deb
+lintian ../wlanpi-hello_1.0.0_*.deb
 ```
 
-Many `/opt` related warnings are expected and can be overridden.
+`dir-or-file-in-opt` is an error. The override in
+`debian/wlanpi-hello.lintian-overrides` suppresses it. With that override,
+and with bytecode and pip removed in `debian/rules`, a Trixie lintian run
+of this example reports one warning:
+`unusual-interpreter /opt/wlanpi-hello/bin/python` on the console script.
+That warning is expected. Installing the unit to `/lib/systemd/system`
+instead reports `aliased-location`, also an error.
 
 ## Next steps
 
