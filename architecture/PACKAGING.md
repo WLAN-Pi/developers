@@ -64,11 +64,13 @@ application. That is a native package:
   `wlanpi-yourapp (1.2.3) unstable; urgency=medium`.
 - The built filename is `wlanpi-yourapp_1.2.3_<arch>.deb`. `dpkg` uses the
   changelog version as-is. It does not append `-1`.
-- For a Python package, `__version__.py` is that same `major.minor.patch`.
-  `pyproject.toml`'s `version` matches it. The deploy gate
-  `check-py-deb-pkg-versions-match` compares `major.minor.patch` after
-  stripping an epoch and a `-revision`, so bump the changelog and
-  `__version__.py` together.
+- For a Python package, `__version__.py` is that same `major.minor.patch`,
+  and the same pre-release (`a`, `b`, or `rc` and its number) when there is
+  one. `pyproject.toml`'s `version` matches it. The deploy gate
+  `check-py-deb-pkg-versions-match` compares those two parts. Spellings are
+  normalized, so `1.1.0~beta3-1` matches `1.1.0b3`. An epoch, a Debian
+  revision, a `~dev` snapshot, and `.postN` are not compared. Bump the
+  changelog and `__version__.py` together.
 
 `dpkg-buildpackage -b` does not enforce this. The CI build runs
 `dpkg-source -b` (see

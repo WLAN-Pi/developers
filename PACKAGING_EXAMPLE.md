@@ -108,10 +108,11 @@ if __name__ == "__main__":
 ```
 
 Create `src/hello/__version__.py`. The deploy version gate reads this file.
-Its `major.minor.patch` is the changelog version:
+Its `major.minor.patch`, and its pre-release when there is one, match the
+changelog version:
 
 ```python
-"""Package version. Keep major.minor.patch identical to debian/changelog."""
+"""Package version. Keep major.minor.patch and any pre-release identical to debian/changelog."""
 __version__ = "1.0.0"
 ```
 
