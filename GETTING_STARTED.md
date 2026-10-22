@@ -18,8 +18,10 @@ This repository contains the documentation for developers who want to contribute
 ### 1. Install dependencies
 
 ```bash
-curl -fSL http://wlanpi.us/install | sudo bash
+curl -fSL https://raw.githubusercontent.com/WLAN-Pi/developers/main/install.sh | sudo bash
 ```
+
+That URL is `install.sh` in this repository, fetched over HTTPS.
 
 ### 2. Set up git
 
@@ -129,13 +131,15 @@ REPO_NAME/
 ├── debian/              # Debian packaging files
 │   ├── control          # Package metadata and dependencies
 │   ├── changelog        # Version history (managed via dch)
+│   ├── copyright        # DEP-5 copyright
 │   ├── rules            # Build instructions
+│   ├── source/format    # 3.0 (native) for first-party packages
 │   └── ...
 ├── wlanpi_yourapp/      # Python package source
 ├── tests/               # Test files
 ├── pyproject.toml       # Project metadata and tool config
 ├── requirements.in      # Direct dependencies (managed via pip-tools)
-├── requirements.txt     # Pinned dependencies (generated, do not edit by hand)
+├── requirements.txt     # Pinned runtime dependencies (generated, do not edit by hand)
 ├── tox.ini              # Tox environments for lint, format, test
 ├── README.md            # Project documentation
 └── LICENSE              # BSD-3-Clause License
@@ -144,6 +148,10 @@ REPO_NAME/
 This is the target, not a guarantee. Some older repos still use `setup.py`
 instead of `pyproject.toml`, or omit `requirements.in`/`tox.ini`. See
 [Repository Reference](REPOS.md) for the current state of each repo.
+
+`requirements.txt` is the runtime set that `dh_virtualenv` installs into the
+`.deb`. Test tools stay in a `pyproject.toml` extra. See
+[Debian Packaging](architecture/PACKAGING.md#runtime-and-test-dependencies).
 
 ## Your first contribution
 

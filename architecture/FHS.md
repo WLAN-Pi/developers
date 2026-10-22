@@ -39,7 +39,7 @@ Applications are installed in `/opt/wlanpi-{app}`. This includes:
 - Simplifies complete application removal
 - Consistent with "add-on software" definition in FHS 3.0
 
-**Note:** Using `/opt` will cause `dir-or-file-in-etc-opt` lintian warnings. These are expected and acceptable for our use case.
+**Note:** Installing under `/opt` makes lintian report `dir-or-file-in-opt`, and that tag is an error. WLAN Pi packages are add-on software, not candidates for the Debian archive, so each package ships a `debian/<package>.lintian-overrides` entry with that justification. The override is described in [Packaging](PACKAGING.md#lintian-and-opt). `dir-or-file-in-etc-opt` is a different error, for files under `/etc/opt`, and these packages do not install there.
 
 ### /etc/wlanpi-{app}
 
@@ -65,7 +65,7 @@ Packages also install into shared locations when they integrate with system
 services. Use the narrowest path that works and prefer a drop-in or an
 app-scoped directory over editing another package's files:
 
-- `/lib/systemd/system/` for unit files
+- `/usr/lib/systemd/system/` for unit files. On Trixie, `/lib` is a symlink to `/usr/lib`, and lintian reports `aliased-location` (an error) for a unit installed through that alias. `dh_installsystemd` in debhelper 13.24 installs units into `/usr/lib/systemd/system`. Debhelper 13.11.4 on Bookworm still installs those units into `lib/systemd/system`, and Bookworm lintian 2.116.3 accepts that path and `usr/lib/systemd/system`. A destination written in a `.install` file is `usr/lib/systemd/system/` on both suites. `/etc/systemd/system/` remains the place for local administrator overrides, not for files shipped by the package.
 - `/etc/systemd/system/<unit>.service.d/` for drop-ins to another package's units
 - `/etc/sudoers.d/` for sudoers fragments
 - `/etc/profile.d/` for login shell snippets
@@ -98,7 +98,7 @@ For a package named `wlanpi-example`:
 /var/lib/wlanpi-example/       # Variable data
 └── data.db
 
-/lib/systemd/system/           # Service files
+/usr/lib/systemd/system/       # Service files
 └── wlanpi-example.service
 ```
 
