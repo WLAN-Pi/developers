@@ -19,9 +19,14 @@ This repository contains the documentation for developers who want to contribute
 
 ```bash
 curl -fSL https://raw.githubusercontent.com/WLAN-Pi/developers/main/install.sh | sudo bash
+curl -fSL http://wlanpi.us/install | sudo bash
 ```
 
 That URL is `install.sh` in this repository, fetched over HTTPS.
+`http://wlanpi.us/install` is a short alias: a GET redirects to the same
+script. The first hop is plain HTTP, because Hover's forwarder is HTTP-only.
+The one-liner can move to `https://wlanpi.us/install` once that domain
+serves HTTPS, for example with Cloudflare redirect rules or GitHub Pages.
 
 ### 2. Set up git
 
