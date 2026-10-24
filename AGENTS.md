@@ -1,5 +1,8 @@
 # Guidance for coding agents
 
+This file is local guidance for editing the `developers` repository.
+Org-wide guidance for any WLAN Pi repo is in [agents/AGENTS.md](agents/AGENTS.md).
+
 This repository is documentation only. There is no application code here.
 
 ## Ground rules
