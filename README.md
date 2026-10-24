@@ -37,6 +37,7 @@ serves HTTPS, for example with Cloudflare redirect rules or GitHub Pages.
 | [Git Workflow Guide](GIT_WORKFLOW.md) | Git fundamentals for beginners |
 | [Contributing](CONTRIBUTING.md) | Detailed Git workflow, branch naming, PR guidelines, and code review |
 | [Packaging Example](PACKAGING_EXAMPLE.md) | Complete walkthrough of creating a Debian package from scratch |
+| [Agent Guidance](agents/AGENTS.md) | Org-wide guidance for agents working in any WLAN Pi repo |
 
 ### For Core Team
 
