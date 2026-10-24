@@ -151,8 +151,7 @@ REPO_NAME/
 ```
 
 This is the target, not a guarantee. Some older repos still use `setup.py`
-instead of `pyproject.toml`, or omit `requirements.in`/`tox.ini`. See
-[Repository Reference](REPOS.md) for the current state of each repo.
+instead of `pyproject.toml`, or omit `requirements.in`/`tox.ini`.
 
 `requirements.txt` is the runtime set that `dh_virtualenv` installs into the
 `.deb`. Test tools stay in a `pyproject.toml` extra. See
@@ -229,7 +228,7 @@ sudo journalctl -u wlanpi-service -f
 | Document | Purpose |
 |----------|---------|
 | [Contributing](CONTRIBUTING.md) | How to contribute code |
-| [Repository Reference](REPOS.md) | Current state of each repo (branch, packaging, tooling) |
+| [Repository Reference](REPOS.md) | Stable map of each repo: default branch, package, and how it builds and releases |
 | [Release Process](RELEASE_PROCESS.md) | Core team release procedures |
 | [Packaging Example](PACKAGING_EXAMPLE.md) | Complete packaging tutorial |
 | [Architecture](architecture/README.md) | System design and standards |

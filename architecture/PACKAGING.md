@@ -45,8 +45,7 @@ Declare the debhelper compatibility level once, in `debian/control`, as
 `debhelper-compat (= 13)`. Do not ship `debian/compat`. Debhelper 13.24
 errors if both are present (`debhelper compat level specified both in
 debian/compat and in debian/control`) and `dh clean` fails. A compat level
-of 13 in `debian/compat` alone is deprecated. Repos that still have the
-file are listed in [Repository Reference](../REPOS.md#packaging).
+of 13 in `debian/compat` alone is deprecated.
 
 Every package has `debian/copyright` (DEP-5) and `debian/source/format`.
 Maintainer scripts that you write yourself include a `#DEBHELPER#` line.
@@ -140,8 +139,7 @@ Description: Short description
 
 The `Architecture: any` example above applies to packages that bundle native
 dependencies. Packages that ship only interpreted code or data use
-`Architecture: all`; see [Repository Reference](../REPOS.md) for the current
-state of each repo.
+`Architecture: all`.
 
 Trixie is the development target. Suites that are still supported keep a
 `debian/<codename>` branch, including `debian/bookworm`
@@ -371,8 +369,8 @@ they `uses:` the shared workflows:
    Packagecloud `dev` repository.
 
 The full caller is in the [Packaging Example](../PACKAGING_EXAMPLE.md#step-8-github-actions-workflows).
-Repos that still inline the steps are listed in
-[Repository Reference](../REPOS.md#ci).
+How each repo builds and releases is in
+[Repository Reference](../REPOS.md).
 
 Releases are only cut when a `debian/changelog` change reaches `main`; pushing
 a git tag does not deploy. See [Release Process](../RELEASE_PROCESS.md) for details.

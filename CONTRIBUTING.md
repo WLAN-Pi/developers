@@ -29,7 +29,7 @@ branches from `main`, and open pull requests against `main`. The exception is
 - Maintained by the core team only. These preserve support for older Debian releases and are not targets for regular contributor PRs.
 - Build matrices on these branches are scoped to their specific suite only.
 
-See [Repository Reference](REPOS.md) for the branches each repo keeps today.
+See [Repository Reference](REPOS.md) for each repo's default branch.
 
 ## Branch naming
 
@@ -188,7 +188,7 @@ When possible, open an issue before opening a PR. This gives maintainers context
 - Respond to review feedback
 - Ensure CI checks pass before requesting review
 - Python repos include CodeQL scanning via `codeql-analysis.yml`. It runs on push, pull request, and on a weekly schedule. You do not need to configure it, but be aware that findings may be raised on your PR.
-- Repos run the shared lint gate (`lint.yml`, rollout status in [REPOS.md](REPOS.md#ci)): `shellcheck` over tracked shell scripts and `actionlint` over `.github/workflows/`. Keep both clean.
+- Repos run the shared lint gate (`lint.yml`): `shellcheck` over tracked shell scripts and `actionlint` over `.github/workflows/`. Keep both clean.
 - Create and link to related issues for history and context
 
 ### PR Size and Scope
@@ -231,8 +231,7 @@ Tests stay with the behavior they verify and count toward the size.
 
 #### Size Check
 
-The shared `pr-size` workflow (rollout status in [REPOS.md](REPOS.md#ci))
-reports each PR's size in the job summary. It is advisory: it never blocks a
+The shared `pr-size` workflow reports each PR's size in the job summary. It is advisory: it never blocks a
 merge, and maintainers decide whether a change is genuinely cohesive.
 
 | Changed lines | Without a `Review order` heading |
