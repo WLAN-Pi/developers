@@ -146,8 +146,9 @@ or already name `usr/lib/systemd/system` in the `.install` file
 
 ### CI
 
-- `wlanpi-profiler`: workflow is `python-style-police.yml`; other repos use
-  `python-format-police.yml` + `python-lint-police.yml`.
+- `wlanpi-ctx` and `wlanpi-profiler` use `python-style-police.yml`.
+  `wlanpi-core`, `wlanpi-fpms`, `wlanpi-mcp`, and `wlanpi-webui` use
+  `python-format-police.yml` and `python-lint-police.yml`.
 - Shell/action lint (`shellcheck` + `actionlint` via `lint.yml`): missing in
   `wlanpi-ctx`, `wlanpi-persistent-identity`, and `wlanpi-wipry`. Their shell
   scripts may need shellcheck fixes when it is added. `scandump` also has no
