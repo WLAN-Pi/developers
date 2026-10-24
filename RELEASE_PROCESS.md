@@ -93,7 +93,9 @@ deployment workflow. Pushing the version tag does not trigger it.
 2. Uploaded to [wlanpi/dev](https://packagecloud.io/wlanpi/dev). Packagecloud
    receives that `.deb` unchanged.
 3. Test the package
-4. Once verified, promote from `dev` to `main` in Packagecloud
+4. After that test, the maintainer promotes the package by hand from
+   `wlanpi/dev` to `wlanpi/main`. See
+   [Deploy to Packagecloud](#deploy-to-packagecloud).
 
 The `~gha<UTC timestamp>` suffix is only on the GitHub Actions artifact
 name, not on the package version. `sbuild-pkg` and `sbuild-deploy-pkg` set
@@ -122,6 +124,9 @@ git tag -a v1.2.3 -m "Release version 1.2.3"
 git push origin v1.2.3
 ```
 
+Which repos call `tag-release`, and which tags are missing or behind the
+changelog, is recorded in [REPOS.md](REPOS.md#release-tags).
+
 ## GitHub workflows
 
 ### Build and archive
@@ -147,9 +152,11 @@ Maintained by:
   `get-formatted-version-string`, `tag-release`)
 - Workflow files in each repo, which call the reusable workflows above
 
-Promotion from the Packagecloud `dev` repository to `main`: Manually done on
-Packagecloud (or, for repos that provide it, via a manual `promote-to-main.yml`
-workflow).
+Promotion from Packagecloud `wlanpi/dev` to `wlanpi/main` is a manual step.
+The maintainer does it after testing. Deploy workflows upload to `wlanpi/dev`
+only. `wlanpi-desktop` is the only repo with `promote-to-main.yml`, and that
+workflow runs only on `workflow_dispatch`. It builds the package and pushes
+the `.deb` to `wlanpi/main`. See [REPOS.md](REPOS.md#ci).
 
 ### Version gate
 
