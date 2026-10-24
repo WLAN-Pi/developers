@@ -61,7 +61,7 @@ install them. That removal is recorded in
 [pi-gen#108](https://github.com/WLAN-Pi/pi-gen/issues/108) records the same
 removal for `wlanpi-server`, and the `pi-gen` comments that still name it.
 
-`wlanpi-server` and `wlanpi-bridge` are archived. `wlanpi-wconsole` is not archived.
+`wlanpi-bridge`, `wlanpi-server`, and `wlanpi-wconsole` are archived.
 
 ## Deviations from target
 
