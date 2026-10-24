@@ -7,8 +7,9 @@ This document covers the release procedures for core WLAN Pi team members. For g
 ## Overview
 
 `main` is the only long-lived development branch. A release is a pull request into `main`
-that bumps the version. When it merges, the deploy workflow builds the package
-and uploads it to Packagecloud.
+that sets the version. Follow [Land a Fix and Cut a Release](RELEASING.md).
+
+Today, that merge uploads the package to Packagecloud `wlanpi/dev`. Promotion to `wlanpi/main` is still manual. The signed-off CI is not live yet. When it is, a final version with no `~` uploads to `wlanpi/main` and is tagged `v<version>`, with no manual promote.
 
 ## Branch strategy (Quick Reference)
 
@@ -38,7 +39,7 @@ General branching strategy. May vary per repo.
 **See [Contributing](CONTRIBUTING.md) for detailed workflow**, including:
 - Feature branch workflow and keeping branches in sync
 - Merge strategy (squash merge into `main`)
-- Version collision handling
+- A fix branch carries no version ([Land a Fix and Cut a Release](RELEASING.md))
 - Branch divergence recovery
 
 ## Creating a release
@@ -56,27 +57,7 @@ git checkout -b release/1.2.3
 
 ### 2. Update version and changelog
 
-Update `debian/changelog` with the new version:
-
-```bash
-dch -v <version> "Release version <version>"
-```
-
-Example:
-```bash
-dch -v 1.2.3 "Release version 1.2.3"
-```
-
-For a first-party package the changelog version is `major.minor.patch` with
-no Debian revision (`1.2.3`, not `1.2.3-1`). Set the same `major.minor.patch`
-and pre-release in `__version__.py` (see [Version gate](#version-gate) and
-[Source Format and Version](architecture/PACKAGING.md#source-format-and-version)).
-
-Commit these changes:
-```bash
-git add debian/changelog path/to/__version__.py
-git commit -m "Bump version to 1.2.3"
-```
+Follow [Publish a Release](RELEASING.md#publish-a-release). Use `dch -v <version>` with no Debian revision, then `dch -r ""`. Do not use `dch -i` while the changelog still has a Debian revision. Set `__version__.py` to the same `major.minor.patch` (see [Version gate](#version-gate) and [Source Format and Version](architecture/PACKAGING.md#source-format-and-version)).
 
 ### 3. Open and Merge the Release PR
 
@@ -152,12 +133,11 @@ Maintained by:
   `get-formatted-version-string`, `tag-release`)
 - Workflow files in each repo, which call the reusable workflows above
 
-Promotion from Packagecloud `wlanpi/dev` to `wlanpi/main` is a manual step.
-The maintainer does it after testing. Deploy workflows upload to `wlanpi/dev`
-only. `wlanpi-desktop` is the only repo with `promote-to-main.yml`, and that
+Promotion from Packagecloud `wlanpi/dev` to `wlanpi/main` is still a manual step.
+Deploy workflows upload to `wlanpi/dev` only. `wlanpi-desktop` is the only repo with `promote-to-main.yml`, and that
 workflow runs only on `workflow_dispatch`. It builds the package and pushes
 the `.deb` to `wlanpi/main`. See
-[REPOS.md](REPOS.md#packagecloud-promotion).
+[REPOS.md](REPOS.md#packagecloud-promotion). The signed-off replacement is [Publish a Release](RELEASING.md#publish-a-release).
 
 ### Version gate
 

@@ -2,13 +2,9 @@
 
 ## Releases
 
-Each release should contain appropriate git tagging and versioning.
+A fix does not change `debian/changelog`. Do not push a changelog change until the release is ready to deploy. The procedure is [Land a Fix and Cut a Release](../RELEASING.md).
 
-CI/CD will be setup and triggered by pushes to `{repo}/debian/changelog`.
-
-So, this means you should have some hope that your hotfix or feature works as intended. It would be a good idea to format, lint, and test the code at this stage.
-
-Thus, do not push changes to the `changelog` until you are ready to deploy.
+Today, a push of `debian/changelog` to `main` starts the deploy. Format, lint, and test before that push.
 
 ## Setup development environment
 
@@ -34,7 +30,7 @@ pip install .[testing]
 
 ## Debchange from devscripts
 
-Create a changelog entry for a new release: `dch -i`
+Create a changelog entry for a release with `dch -v <version>`, then `dch -r ""`. Do not use `dch -i` while the version still has a Debian revision.
 
 Describe what you changed, fixed, or enhanced.
 
@@ -44,7 +40,7 @@ See the [DCH](DCH.md) page for further reading.
 
 ## Versioning
 
-Each release requires versions to be updated in two locations:
+A fix updates neither file below. The release pull request updates both:
 
 1. `debian/changelog` via `debchange`
 2. The Python package version file (e.g. `wlanpi_yourapp/__version__.py`) via manual update
@@ -52,7 +48,7 @@ Each release requires versions to be updated in two locations:
 Deploy workflows for Python repos fail unless `debian/changelog` and
 `__version__.py` have the same `major.minor.patch` and the same pre-release
 (`a`, `b`, or `rc` and its number). The Debian revision, `~dev` snapshots, and
-`.postN` are not compared. Bump both in the same change.
+`.postN` are not compared. The release pull request changes both files together.
 
 Please note that Python package versioning should follow PEP 440. https://www.python.org/dev/peps/pep-0440/
 

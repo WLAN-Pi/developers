@@ -92,33 +92,9 @@ git push origin your-feature-branch
 
 ## Troubleshooting common scenarios
 
-### Version collision during feature development
+### A Fix Carries No Version
 
-If `main` releases a new version while you're still working on a feature branch:
-
-1. **Sync your feature branch with main first:**
-   ```bash
-   # First, update your local main to match remote
-   git checkout main
-   git pull origin main
-
-   # Then merge the updated main into your feature branch
-   git checkout your-feature-branch
-   git merge main --no-ff -m "Merge main to stay current"
-   ```
-
-2. **Check your branch's version** in any version files (e.g., `__version__.py` or `debian/changelog`)
-
-3. **If main already released that version**, bump to the next version in your branch:
-   ```bash
-   # Edit version files to next version
-   git add path/to/version/file
-   git commit -m "bump version to X.Y.Z+1"
-   ```
-
-4. **Then follow the normal merge workflow**: open or update your PR against `main`
-
-**Example:** If your feature branch says "2.1.8" but main already released 2.1.8, update your branch to "2.1.9". Unsure? One of the core maintainers will handle release management.
+Do not edit `debian/changelog` or `__version__.py` on a fix branch or a feature branch. The branch has no version to bump when `main` releases. If you need commits that landed on `main`, merge `main` into your branch. The release steps are in [Land a Fix and Cut a Release](RELEASING.md).
 
 ### Branch divergence recovery
 
@@ -160,7 +136,7 @@ If your local branch diverges from its remote (e.g., after a problematic rebase)
 
   Using these prefixes in your PR title makes it easier for maintainers to triage and label incoming work at a glance.
 
-- **Don't manually edit `debian/changelog`** - This is updated separately using `dch` from `devscripts`
+- **Do not edit `debian/changelog` or `__version__.py` on a fix.** The release pull request updates the changelog with `dch`. See [Land a Fix and Cut a Release](RELEASING.md) and [Debchange](style/DCH.md).
 
 ## Pull requests
 

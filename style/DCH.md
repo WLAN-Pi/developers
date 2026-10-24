@@ -24,11 +24,7 @@ You can run debchange from the root of the repository as debchange will climb th
 
 ### Update an existing version entry
 
-Use `dch -i` when adding a changelog entry for a new upload. On a native
-package, `-i` increments the upstream version (`1.2.3` becomes `1.2.4`).
-On a package whose version still has a Debian revision, `-i` increments
-that revision. First-party WLAN Pi packages are native; the version form
-is in [Source Format and Version](../architecture/PACKAGING.md#source-format-and-version).
+A fix does not run `dch`. A release uses `dch -v <version>` with no Debian revision, then `dch -r ""`. On a changelog that still says `2.4.12-1`, `dch -i` writes `2.4.12-2`. Do not use `dch -i` for a first-party release. The procedure is [Land a Fix and Cut a Release](../RELEASING.md). The version form is in [Source Format and Version](../architecture/PACKAGING.md#source-format-and-version).
 
 If you want to edit the changelog without changing the version or adding a new entry, use `-e` instead of `-i`.
 
