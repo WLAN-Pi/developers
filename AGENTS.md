@@ -7,7 +7,8 @@ This repository is documentation only. There is no application code here.
 - Do not invent behavior. Verify every technical claim against the actual
   repository before writing it. If you cannot verify it, say so or omit it.
 - Distinguish the target from the current state. Mark aspirational rules as
-  goals and point at [REPOS.md](REPOS.md) for what each repo does today.
+  goals. [REPOS.md](REPOS.md) is the stable map of each repo's default branch,
+  package, and build and release workflows.
 - Keep docs as the single source of truth. Do not duplicate the same guidance
   across files; link instead.
 - Prefer editing an existing file over adding a new one.
@@ -42,7 +43,10 @@ This repository is documentation only. There is no application code here.
 
 ## Keeping REPOS.md current
 
-`REPOS.md` is a snapshot of the other repositories. When you change a documented
-convention or a repo changes its branch, packaging, tooling, or license, update
-the matching row and, if the change resolves a deviation, move or remove that
-entry under "Deviations from target".
+`REPOS.md` is a stable map of the other repositories: default branch, package
+name, and how each one builds and releases. When a repo changes its default
+branch, package name, or build and release workflows, update the matching row.
+
+Do not record changelog versions, release tags, Dependabot status, or per-repo
+gaps in `REPOS.md`. Current versions live in each repo's `debian/changelog`
+and on its GitHub Releases page.

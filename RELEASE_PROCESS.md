@@ -124,8 +124,8 @@ git tag -a v1.2.3 -m "Release version 1.2.3"
 git push origin v1.2.3
 ```
 
-Which repos call `tag-release`, and which tags are missing or behind the
-changelog, is recorded in [REPOS.md](REPOS.md#release-tags).
+Which deploy workflows call `tag-release` is recorded in
+[REPOS.md](REPOS.md#applications).
 
 ## GitHub workflows
 
@@ -156,7 +156,8 @@ Promotion from Packagecloud `wlanpi/dev` to `wlanpi/main` is a manual step.
 The maintainer does it after testing. Deploy workflows upload to `wlanpi/dev`
 only. `wlanpi-desktop` is the only repo with `promote-to-main.yml`, and that
 workflow runs only on `workflow_dispatch`. It builds the package and pushes
-the `.deb` to `wlanpi/main`. See [REPOS.md](REPOS.md#ci).
+the `.deb` to `wlanpi/main`. See
+[REPOS.md](REPOS.md#packagecloud-promotion).
 
 ### Version gate
 
@@ -170,8 +171,7 @@ and `.postN` are not compared. Bump both files together. See
 
 ### Lint workflows
 
-Every repository should run the shared lint gate (rollout status in
-[REPOS.md](REPOS.md#ci)):
+Every repository should run the shared lint gate:
 
 - `shellcheck` over tracked shell scripts and shell-shebang executables
 - `actionlint` over `.github/workflows/`

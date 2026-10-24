@@ -2,10 +2,8 @@
 
 This document defines the org-wide standards for `README.md` files across all WLAN-Pi repositories. Apply these rules when creating a new README or updating an existing one.
 
-This is the target, not the current state. Only a handful of repos meet all of
-it today; see [Repository Reference](../REPOS.md) for which repos have badges
-and a link back to this repo. Bring a README up to standard when you touch it
-for another reason.
+This is the target, not the current state. Bring a README up to standard when
+you touch it for another reason.
 
 ## Structure
 

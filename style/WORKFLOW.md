@@ -89,8 +89,7 @@ Note that `tox -e lint` and `tox -e format` assume the repo has those environmen
 
 ### Shell and workflow linting
 
-Every repo should run a `lint.yml` workflow (rollout status in
-[REPOS.md](../REPOS.md#ci)) with two jobs:
+Every repo should run a `lint.yml` workflow with two jobs:
 
 - **shellcheck** over every tracked `*.sh` and every tracked executable with a
   shell shebang, at `-S warning`
