@@ -54,6 +54,8 @@ WLAN Pi ships Debian `.deb` packages. Follow [Packaging](https://github.com/WLAN
 
 Package names use the `wlanpi-` prefix. Set `debhelper-compat (= 13)`. Python apps use `dh_virtualenv` where that is how the app is installed. App files go under `/opt/wlanpi-{app}`, config under `/etc/wlanpi-{app}`, logs under `/var/log/wlanpi-{app}`, and variable data under `/var/lib/wlanpi-{app}`. Install systemd units where [FHS](https://github.com/WLAN-Pi/developers/blob/main/architecture/FHS.md#shared-system-paths) says to put them.
 
+Set `debian/source/format` to `3.0 (native)`. A version has no Debian revision, and `__version__.py`, `debian/changelog`, and the git tag carry the same version. See [Source Format and Version](https://github.com/WLAN-Pi/developers/blob/main/architecture/PACKAGING.md#source-format-and-version).
+
 ## Documentation
 
 Follow [README Standards](https://github.com/WLAN-Pi/developers/blob/main/style/README_STANDARDS.md).
@@ -62,9 +64,14 @@ Use Markdown, not reStructuredText. Open with a short What / Why section. Use Ti
 
 ## Git and releases
 
-Follow [Contributing](https://github.com/WLAN-Pi/developers/blob/main/CONTRIBUTING.md), [Git Workflow](https://github.com/WLAN-Pi/developers/blob/main/GIT_WORKFLOW.md), [Release Process](https://github.com/WLAN-Pi/developers/blob/main/RELEASE_PROCESS.md), and [debchange](https://github.com/WLAN-Pi/developers/blob/main/style/DCH.md).
+Follow [Contributing](https://github.com/WLAN-Pi/developers/blob/main/CONTRIBUTING.md), [Git Workflow](https://github.com/WLAN-Pi/developers/blob/main/GIT_WORKFLOW.md), [Land a Fix and Cut a Release](https://github.com/WLAN-Pi/developers/blob/main/RELEASING.md), [Release Process](https://github.com/WLAN-Pi/developers/blob/main/RELEASE_PROCESS.md), and [debchange](https://github.com/WLAN-Pi/developers/blob/main/style/DCH.md).
 
-`main` is the long-lived development branch. Open pull requests against it. Do not commit directly to `main`. Manage `debian/changelog` with `dch`.
+`main` is the long-lived development branch. Open pull requests against it. Do not commit directly to `main`. When `main` moves, merge `main` into your branch. Do not rebase or force-push a shared branch.
+
+- A fix or feature pull request does not change the version, `__version__.py`, or `debian/changelog`.
+- A separate release pull request sets the version and writes the changelog with `dch`.
+- Before you call a version released, check both [wlanpi/dev](https://packagecloud.io/wlanpi/dev) and [wlanpi/main](https://packagecloud.io/wlanpi/main).
+- pi-gen and the kernel follow their own release rules. See the Scope section of [Land a Fix and Cut a Release](https://github.com/WLAN-Pi/developers/blob/main/RELEASING.md#scope).
 
 ## Licensing
 
@@ -78,6 +85,8 @@ Do not copy the patterns below. They appear in old repos and old docs. They are 
 - A hardcoded `python3.9` or `python3.11` path on work that targets Trixie.
 - Bookworm, Bullseye, or Buster described as the current development target.
 - `setup.py` for a new package.
+- A Debian revision such as `-1` on a new version.
+- A version or changelog bump inside a fix pull request.
 - A pattern taken from an archived, abandoned, or legacy repo.
 
 When a local file and this guidance disagree, follow this file.
