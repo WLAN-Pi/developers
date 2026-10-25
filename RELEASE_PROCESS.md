@@ -9,7 +9,7 @@ This document covers the release procedures for core WLAN Pi team members. For g
 `main` is the only long-lived development branch. A release is a pull request into `main`
 that sets the version. Follow [Land a Fix and Cut a Release](RELEASING.md).
 
-Today, that merge uploads the package to Packagecloud `wlanpi/dev`. Promotion to `wlanpi/main` is still manual. The signed-off CI is not live yet. When it is, a final version with no `~` uploads to `wlanpi/main` and is tagged `v<version>`, with no manual promote.
+Today, that merge uploads the package to Packagecloud `wlanpi/dev`. Promotion to `wlanpi/main` is still manual. The planned CI is not live yet. When it is, a final version with no `~` uploads to `wlanpi/main` and is tagged `v<version>`, with no manual promote.
 
 ## Branch strategy (Quick Reference)
 
@@ -57,7 +57,7 @@ git checkout -b release/1.2.3
 
 ### 2. Update version and changelog
 
-Follow [Publish a Release](RELEASING.md#publish-a-release). Use `dch -v <version>` with no Debian revision, then `dch -r ""`. Do not use `dch -i` while the changelog still has a Debian revision. Set `__version__.py` to the same `major.minor.patch` (see [Version gate](#version-gate) and [Source Format and Version](architecture/PACKAGING.md#source-format-and-version)).
+Follow [Publish a Release](RELEASING.md#publish-a-release). Use `dch -v <version>` with no Debian revision, then `dch -a` once per subject, then `dch -r ""`. Do not use `dch -i` while the changelog still has a Debian revision. Set `__version__.py` to the same `major.minor.patch` (see [Version gate](#version-gate) and [Source Format and Version](architecture/PACKAGING.md#source-format-and-version)).
 
 ### 3. Open and Merge the Release PR
 
@@ -74,8 +74,8 @@ deployment workflow. Pushing the version tag does not trigger it.
 2. Uploaded to [wlanpi/dev](https://packagecloud.io/wlanpi/dev). Packagecloud
    receives that `.deb` unchanged.
 3. Test the package
-4. After that test, the maintainer promotes the package by hand from
-   `wlanpi/dev` to `wlanpi/main`. See
+4. After that test, ask a maintainer with Packagecloud access to copy the
+   package from `wlanpi/dev` to `wlanpi/main`. See
    [Deploy to Packagecloud](#deploy-to-packagecloud).
 
 The `~gha<UTC timestamp>` suffix is only on the GitHub Actions artifact
@@ -137,7 +137,7 @@ Promotion from Packagecloud `wlanpi/dev` to `wlanpi/main` is still a manual step
 Deploy workflows upload to `wlanpi/dev` only. `wlanpi-desktop` is the only repo with `promote-to-main.yml`, and that
 workflow runs only on `workflow_dispatch`. It builds the package and pushes
 the `.deb` to `wlanpi/main`. See
-[REPOS.md](REPOS.md#packagecloud-promotion). The signed-off replacement is [Publish a Release](RELEASING.md#publish-a-release).
+[REPOS.md](REPOS.md#packagecloud-promotion). The planned replacement is [Publish a Release](RELEASING.md#publish-a-release).
 
 ### Version gate
 
