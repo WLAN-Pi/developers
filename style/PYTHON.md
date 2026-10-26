@@ -32,11 +32,23 @@ When using abbreviations with `CamelCase`, capitalize all the letters of the abb
 
 ## Python version guidelines
 
-[Python 3.13](https://docs.python.org/3.13/) is the standard for new development. This aligns with the system Python in Debian Trixie, which is the active development target for WLAN Pi.
+Plan and test on [Python 3.13](https://docs.python.org/3.13/), the system
+`python3` in Debian Trixie. Declare `requires-python = ">=3.13"`. Do not pin
+`==3.13`. Do not target Python 3.14 or 3.15. Do not select a production
+interpreter with pyenv, conda, or uv.
 
-Bookworm (Python 3.11) may still receive bug fixes on existing packages. Bullseye (Python 3.9) is end-of-life for WLAN Pi.
+Suite defaults are Python 3.9 on Bullseye, Python 3.11 on Bookworm, and Python
+3.13 on Trixie. All new work targets 3.13. `debian/bookworm` and
+`debian/bullseye` exist only for a hotfix to an old release. That hotfix uses
+the suite branch and that suite's Python. New work never targets those
+branches.
 
-Existing repos may still carry older targets such as `py39` or `py311` in their `tox.ini` and `pyproject.toml`. These should be updated to include `py313` when the repo is next actively worked on.
+Existing repos may still carry `py39` or `py311` in `tox.ini` or
+`pyproject.toml`. Include `py313` when the repo is next actively worked on,
+unless the change is a hotfix on that old suite branch.
+
+When this policy changes, update this section and
+[agents/AGENTS.md](../agents/AGENTS.md) in the same change.
 
 ## Tests
 
