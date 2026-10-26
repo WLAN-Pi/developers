@@ -25,9 +25,9 @@ This guide covers how to contribute code to WLAN Pi projects. For setting up you
 branches from `main`, and open pull requests against `main`. The exception is
 `wlanpi-kernel`, which keeps one branch per kernel version.
 
-**Debian suite branches** (`debian/<codename>`, e.g. `debian/bullseye`):
-- Maintained by the core team only. These preserve support for older Debian releases and are not targets for regular contributor PRs.
-- Build matrices on these branches are scoped to their specific suite only.
+**Debian suite branches** (`debian/bookworm`, `debian/bullseye`):
+- These branches exist only for a hotfix to an old release. New work never targets them.
+- A hotfix uses that suite branch and that suite's Python. Bookworm is 3.11. Bullseye is 3.9.
 
 See [Repository Reference](REPOS.md) for each repo's default branch.
 
