@@ -1,6 +1,10 @@
 # Developers
 
-A collection of documentation for WLAN Pi developers and contributors.
+This repository states the standard for WLAN Pi work: how and why a thing is
+done, and what the result should be. It is not an inventory of what each
+repository currently is. When a repository differs, that is drift to fix in
+that repository, or a deliberate change to the standard here. It is not a
+documentation error.
 
 ## Quick Start
 

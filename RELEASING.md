@@ -18,7 +18,9 @@ Planned, and not live yet:
 
 ## Scope
 
-This page covers first-party packages that use `debian/changelog`. A repackaged third-party package that uses `3.0 (quilt)` keeps its Debian revision. See [Source Format and Version](architecture/PACKAGING.md#source-format-and-version).
+This page covers first-party packages that use `debian/changelog`. See [Source Format and Version](architecture/PACKAGING.md#source-format-and-version).
+
+A forked upstream project versions as `<upstream>+wlanpi<N>`, for example `2.3.0+wlanpi1`. The suffix marks our rebuild of that upstream version, so we do not take the number upstream will publish next.
 
 **pi-gen** and the **kernel** follow their own rules. They are out of scope.
 

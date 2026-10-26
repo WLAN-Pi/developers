@@ -1,5 +1,11 @@
 # Guidance for coding agents
 
+This repository states the standard for WLAN Pi work: how and why a thing is
+done, and what the result should be. It is not an inventory of what each
+repository currently is. When a repository differs, that is drift to fix in
+that repository, or a deliberate change to the standard here. It is not a
+documentation error.
+
 This file is local guidance for editing the `developers` repository.
 Org-wide guidance for any WLAN Pi repo is in [agents/AGENTS.md](agents/AGENTS.md).
 
@@ -9,9 +15,9 @@ This repository is documentation only. There is no application code here.
 
 - Do not invent behavior. Verify every technical claim against the actual
   repository before writing it. If you cannot verify it, say so or omit it.
-- Distinguish the target from the current state. Mark aspirational rules as
-  goals. [REPOS.md](REPOS.md) is the stable map of each repo's default branch,
-  package, and build and release workflows.
+- Write the standard, not a census of what repos do today. A difference in
+  another repo is drift to fix there, or a deliberate change to the standard
+  in this repo.
 - Keep docs as the single source of truth. Do not duplicate the same guidance
   across files; link instead.
 - Prefer editing an existing file over adding a new one.
@@ -46,10 +52,9 @@ This repository is documentation only. There is no application code here.
 
 ## Keeping REPOS.md current
 
-`REPOS.md` is a stable map of the other repositories: default branch, package
-name, and how each one builds and releases. When a repo changes its default
-branch, package name, or build and release workflows, update the matching row.
+`REPOS.md` says what each repository should be. When the standard for a
+repository changes, update the matching row.
 
-Do not record changelog versions, release tags, Dependabot status, or per-repo
-gaps in `REPOS.md`. Current versions live in each repo's `debian/changelog`
-and on its GitHub Releases page.
+Do not record changelog versions, which jobs a repo calls today, Dependabot
+status, or per-repo gaps. Current versions live in each repo's
+`debian/changelog` and on its GitHub Releases page.

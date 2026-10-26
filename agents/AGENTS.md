@@ -1,10 +1,19 @@
 # Agent Guidance
 
-Org-wide guidance for an agent working in any WLAN Pi repository. The linked
-documents are the source of truth. This file is a first cut maintainers can
-extend. It is not an exhaustive standard, and it does not replace human review.
+This repository states the standard for WLAN Pi work: how and why a thing is
+done, and what the result should be. It is not an inventory of what each
+repository currently is. When a repository differs, that is drift to fix in
+that repository, or a deliberate change to the standard here. It is not a
+documentation error.
 
-A per-repo stub, when one exists, should link here and add no rules of its own.
+The linked documents are the source of truth for their topics. This file does
+not replace human review.
+
+Org standards win on a cross-cutting rule: platform, packaging, versioning,
+CI, and issues. A repository's own `AGENTS.md` may add build, release, or test
+rules that apply only in that repository. `pi-gen`, `wlanpi-kernel`, and
+`wlanpi-core` are examples. If a local rule conflicts with a cross-cutting
+standard, raise the conflict. Do not silently follow either side.
 
 ## Authority
 
@@ -12,19 +21,22 @@ The [developers](https://github.com/WLAN-Pi/developers) repository is the
 source of truth for how WLAN Pi software is built.
 
 A README or an older branch shows what that repo did. It does not override
-this repository. Archived repos, legacy repos, and older Debian suite branches
-never override the current guidance here.
+this repository. Archived repos and legacy repos never override the current
+guidance here.
 
 ## Platform
 
-Current development targets Debian 13 Trixie and Python 3.13. That is the
-system `python3` package in Trixie. The version is 3.13, not "3.13+". Do not
-target Python 3.14 or 3.15. Do not select a production interpreter with
-pyenv, conda, or uv. Production apps ship as `.deb` packages and may use
-`dh_virtualenv` under `/opt/wlanpi-{app}`.
+Debian 13 Trixie is the development target. Plan and test on Python 3.13, the
+system `python3` in Trixie. Declare `requires-python = ">=3.13"`. Do not pin
+`==3.13`. Do not target Python 3.14 or 3.15. Do not select a production
+interpreter with pyenv, conda, or uv. Production apps ship as `.deb` packages
+and may use `dh_virtualenv` under `/opt/wlanpi-{app}`.
 
-Python 3.11 on Bookworm and Python 3.9 on Bullseye are valid only when the
-work is on that suite branch, or is a fix to an existing package. See
+Suite defaults are Python 3.9 on Bullseye, Python 3.11 on Bookworm, and Python
+3.13 on Trixie. All new work targets 3.13. `debian/bookworm` and
+`debian/bullseye` exist only for a hotfix to an old release. That hotfix uses
+the suite branch and that suite's Python. New work never targets those
+branches. See
 [Python version guidelines](https://github.com/WLAN-Pi/developers/blob/main/style/PYTHON.md#python-version-guidelines).
 
 When the target suite or Python version changes, update this section and
@@ -46,7 +58,7 @@ When the target suite or Python version changes, update this section and
 
 Follow [style/PYTHON.md](https://github.com/WLAN-Pi/developers/blob/main/style/PYTHON.md).
 
-For a new package, use `pyproject.toml`, not `setup.py`. The app should run as `python -m app`. Parse arguments with `argparse`. Test with `pytest`. Use `tox` for test, lint, and format.
+For a new package, use `pyproject.toml`, not `setup.py`. Declare `requires-python = ">=3.13"` and plan and test on 3.13. The app should run as `python -m app`. Parse arguments with `argparse`. Test with `pytest`. Use `tox` for test, lint, and format.
 
 ## Packaging
 
@@ -54,7 +66,13 @@ WLAN Pi ships Debian `.deb` packages. Follow [Packaging](https://github.com/WLAN
 
 Package names use the `wlanpi-` prefix. Set `debhelper-compat (= 13)`. Python apps use `dh_virtualenv` where that is how the app is installed. App files go under `/opt/wlanpi-{app}`, config under `/etc/wlanpi-{app}`, logs under `/var/log/wlanpi-{app}`, and variable data under `/var/lib/wlanpi-{app}`. Install systemd units where [FHS](https://github.com/WLAN-Pi/developers/blob/main/architecture/FHS.md#shared-system-paths) says to put them.
 
-Set `debian/source/format` to `3.0 (native)`. A version has no Debian revision, and `__version__.py`, `debian/changelog`, and the git tag carry the same version. See [Source Format and Version](https://github.com/WLAN-Pi/developers/blob/main/architecture/PACKAGING.md#source-format-and-version).
+Set `debian/source/format` to `3.0 (native)` for a first-party package. A version has no Debian revision. `__version__.py` and `debian/changelog` carry the same version. See [Source Format and Version](https://github.com/WLAN-Pi/developers/blob/main/architecture/PACKAGING.md#source-format-and-version).
+
+A forked upstream project versions as `<upstream>+wlanpi<N>`, for example `2.3.0+wlanpi1`. The suffix marks our rebuild of that upstream version, so we do not take the number upstream will publish next. See [Scope](https://github.com/WLAN-Pi/developers/blob/main/RELEASING.md#scope).
+
+## CI
+
+CI should keep Debian Trixie packaging jobs, plus compiler builds and tests. Do not add sid, Bookworm, Ubuntu, Arch, or Fedora jobs. WLAN Pi ships Debian packages, so do not maintain an Arch `PKGBUILD` or an RPM spec to track versions.
 
 ## Documentation
 
@@ -68,10 +86,28 @@ Follow [Contributing](https://github.com/WLAN-Pi/developers/blob/main/CONTRIBUTI
 
 `main` is the long-lived development branch. Open pull requests against it. Do not commit directly to `main`. When `main` moves, merge `main` into your branch. Do not rebase or force-push a shared branch.
 
+What is live today is [What Is Live](https://github.com/WLAN-Pi/developers/blob/main/RELEASING.md#what-is-live):
+
 - A fix or feature pull request does not change the version, `__version__.py`, or `debian/changelog`.
-- A separate release pull request sets the version and writes the changelog with `dch`.
-- Before you call a version released, check both [wlanpi/dev](https://packagecloud.io/wlanpi/dev) and [wlanpi/main](https://packagecloud.io/wlanpi/main).
-- pi-gen and the kernel follow their own release rules. See the Scope section of [Land a Fix and Cut a Release](https://github.com/WLAN-Pi/developers/blob/main/RELEASING.md#scope).
+- A release pull request sets the version and writes the changelog with `dch`.
+- A `debian/changelog` push to `main` uploads to [wlanpi/dev](https://packagecloud.io/wlanpi/dev).
+- Promotion to [wlanpi/main](https://packagecloud.io/wlanpi/main) is done by hand. Check both repos before you call a version released.
+- An upload to `wlanpi/main` when the release pull request merges, and an automatic tag, are planned. They are not live. Do not describe them as current behavior.
+
+pi-gen and the kernel follow their own release rules. See [Scope](https://github.com/WLAN-Pi/developers/blob/main/RELEASING.md#scope).
+
+## Images
+
+These are standards for image contents, not a reading of a current build.
+
+- WLAN Pi Go is BE200-only. Ship only BE200 firmware: every `iwlwifi-gl-c0-fm-c0-*` ucode file, plus `pnvm`. Other device firmware does not match that radio.
+- The Go image must not ship `wpa_supplicant` and must not run it. That supplicant is not part of the Go.
+- A person using the Go must be able to set the regulatory domain.
+- `wlanpi-desktop` is optional. Install it with apt when it is wanted. Do not preinstall it in the full image.
+
+## Issues
+
+An issue states the problem, the evidence, the impact, outcome-based done-when criteria, and the constraints. Put any approach in a Notes section. Notes are not binding. An agent briefed from an issue weighs alternatives. It does not treat Notes as the required design.
 
 ## Licensing
 
@@ -83,10 +119,8 @@ Do not copy the patterns below. They appear in old repos and old docs. They are 
 
 - A system-wide `sudo python3 -m pip install`.
 - A hardcoded `python3.9` or `python3.11` path on work that targets Trixie.
-- Bookworm, Bullseye, or Buster described as the current development target.
+- Bookworm, Bullseye, or Buster described as the target for new work.
 - `setup.py` for a new package.
-- A Debian revision such as `-1` on a new version.
+- A Debian revision such as `-1` on a new first-party version.
 - A version or changelog bump inside a fix pull request.
-- A pattern taken from an archived, abandoned, or legacy repo.
-
-When a local file and this guidance disagree, follow this file.
+- A pattern taken from an archived or legacy repo.

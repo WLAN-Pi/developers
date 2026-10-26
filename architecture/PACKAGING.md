@@ -89,11 +89,12 @@ Do not drop `-N` from a version that is already published. `1.2.3-1` sorts
 higher than `1.2.3`, so the next native upload has to be a higher upstream
 version, for example `1.2.4`.
 
-`3.0 (quilt)` is for a separate upstream tarball, such as a repackaged
-third-party tool. The changelog version is `<upstream>-<revision>` (for
-example `1.0.14-1wlanpi1`), and `dpkg-source` requires
+`3.0 (quilt)` is for a separate upstream tarball. `dpkg-source` requires
 `../<package>_<upstream>.orig.tar.*`. A quilt version with no revision fails
 with `no upstream tarball found`.
+
+A forked upstream project versions as `<upstream>+wlanpi<N>`, for example
+`2.3.0+wlanpi1`. See [Scope](../RELEASING.md#scope).
 
 ## Runtime and Test Dependencies
 
