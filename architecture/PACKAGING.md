@@ -20,6 +20,15 @@ If you want to create a new package for WLAN Pi:
 2. Review this guide and the Packaging Example
 3. Check [FHS Policy](FHS.md) for filesystem standards
 
+## Target Debian suite
+
+On `main`, WLAN Pi ships `.deb` packages built for Debian Trixie. CI runs
+packaging jobs for that suite. Dockerfiles, build scripts, and workflow inputs
+take the target suite as a parameter, with Trixie as the default (for example
+a `SUITE` build arg, `DEBIAN_RELEASE`, or a workflow `distros` input).
+Adopting the next Debian release updates that default, not the layout of the
+build.
+
 ## Package structure
 
 All WLAN Pi packages must follow this structure:

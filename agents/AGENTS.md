@@ -72,7 +72,7 @@ A forked upstream project versions as `<upstream>+wlanpi<N>`, for example `2.3.0
 
 ## CI
 
-CI should keep Debian Trixie packaging jobs, plus compiler builds and tests. Do not add sid, Bookworm, Ubuntu, Arch, or Fedora jobs. WLAN Pi ships Debian packages, so do not maintain an Arch `PKGBUILD` or an RPM spec to track versions.
+Packaging CI on `main` follows [Target Debian suite](https://github.com/WLAN-Pi/developers/blob/main/architecture/PACKAGING.md#target-debian-suite), plus compiler builds and tests.
 
 ## Documentation
 
