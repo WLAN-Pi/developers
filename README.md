@@ -37,7 +37,7 @@ serves HTTPS, for example with Cloudflare redirect rules or GitHub Pages.
 | Document | Description |
 |----------|-------------|
 | [Getting Started](GETTING_STARTED.md) | Development environment setup and first contribution guide |
-| [Repository Reference](REPOS.md) | Stable map of each repo: default branch, package, and how it builds and releases |
+| [Repository Reference](REPOS.md) | What each repo should be: role, package, and the build standard |
 | [Git Workflow Guide](GIT_WORKFLOW.md) | Git fundamentals for beginners |
 | [Contributing](CONTRIBUTING.md) | Detailed Git workflow, branch naming, PR guidelines, and code review |
 | [Packaging Example](PACKAGING_EXAMPLE.md) | Complete walkthrough of creating a Debian package from scratch |

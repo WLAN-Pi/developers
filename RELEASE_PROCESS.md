@@ -18,7 +18,7 @@ General branching strategy. May vary per repo.
 | Branch | Purpose |
 |--------|---------|
 | `main` | Only long-lived development branch; PRs target it |
-| `debian/<codename>` | Preserved support for older Debian suites (core team only) |
+| `debian/bookworm`, `debian/bullseye` | Hotfix to an old release only |
 | `feature/<desc>` | Shared long-term feature work |
 | `fix/<desc>` | Bug fix branches |
 | `chore/<desc>`, `docs/<desc>`, `ci/<desc>` | Non-feature maintenance |
@@ -26,11 +26,9 @@ General branching strategy. May vary per repo.
 | `hotfix/<desc>` | Urgent fixes against `main` |
 | `release/<version>` | Version bump for a release |
 
-> `debian/<codename>` branches (e.g. `debian/bullseye`)
-> are maintained by the core team. They are branched from a known-good commit
-> before trixie-targeted work began. Build matrices on these branches target
-> only their specific suite. Contributors should not open PRs against these
-> branches.
+> `debian/bookworm` and `debian/bullseye` exist only for a hotfix to an old
+> release. A hotfix uses that branch and that suite's Python. Bookworm is
+> 3.11. Bullseye is 3.9.
 
 ### Branch rules
 
@@ -105,8 +103,9 @@ git tag -a v1.2.3 -m "Release version 1.2.3"
 git push origin v1.2.3
 ```
 
-Which deploy workflows call `tag-release` is recorded in
-[REPOS.md](REPOS.md#applications).
+Application deploy workflows call `tag-release`. See
+[Standards](REPOS.md#standards). `pi-gen` and `wlanpi-kernel` follow
+[Scope](RELEASING.md#scope).
 
 ## GitHub workflows
 
@@ -134,10 +133,9 @@ Maintained by:
 - Workflow files in each repo, which call the reusable workflows above
 
 Promotion from Packagecloud `wlanpi/dev` to `wlanpi/main` is still a manual step.
-Deploy workflows upload to `wlanpi/dev` only. `wlanpi-desktop` is the only repo with `promote-to-main.yml`, and that
-workflow runs only on `workflow_dispatch`. It builds the package and pushes
-the `.deb` to `wlanpi/main`. See
-[REPOS.md](REPOS.md#packagecloud-promotion). The planned replacement is [Publish a Release](RELEASING.md#publish-a-release).
+Deploy workflows upload to `wlanpi/dev`. An upload to `wlanpi/main` when the
+release pull request merges is planned. See
+[REPOS.md](REPOS.md#standards) and [Publish a Release](RELEASING.md#publish-a-release).
 
 ### Version gate
 

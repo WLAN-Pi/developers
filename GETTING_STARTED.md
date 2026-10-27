@@ -228,7 +228,7 @@ sudo journalctl -u wlanpi-service -f
 | Document | Purpose |
 |----------|---------|
 | [Contributing](CONTRIBUTING.md) | How to contribute code |
-| [Repository Reference](REPOS.md) | Stable map of each repo: default branch, package, and how it builds and releases |
+| [Repository Reference](REPOS.md) | What each repo should be: role, package, and the build standard |
 | [Release Process](RELEASE_PROCESS.md) | Core team release procedures |
 | [Packaging Example](PACKAGING_EXAMPLE.md) | Complete packaging tutorial |
 | [Architecture](architecture/README.md) | System design and standards |
