@@ -13,6 +13,13 @@ WLAN Pi is a specialized platform for Wi-Fi professionals. It combines custom ha
 
 This repository contains the documentation for developers who want to contribute to WLAN Pi projects.
 
+## Debian target
+
+WLAN Pi ships Debian packages for Trixie. CI on `main` builds and tests those
+packages. Build scripts, Dockerfiles, and workflows keep the suite
+configurable, with Trixie as the default. See
+[Agent Guidance](agents/AGENTS.md#platform).
+
 ## Quick start 
 
 ### 1. Install dependencies

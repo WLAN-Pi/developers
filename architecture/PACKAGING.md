@@ -142,9 +142,11 @@ The `Architecture: any` example above applies to packages that bundle native
 dependencies. Packages that ship only interpreted code or data use
 `Architecture: all`.
 
-Trixie is the development target. Suites that are still supported keep a
-`debian/<codename>` branch, including `debian/bookworm`
-([branch strategy](../RELEASE_PROCESS.md#branch-strategy-quick-reference)).
+Trixie is the shipping target on `main`. CI packaging jobs build for Trixie.
+Dockerfiles and build scripts take the target suite as a parameter, defaulting
+to Trixie. Suites that remain supported on a `debian/<codename>` branch,
+including `debian/bookworm`, are described in
+[branch strategy](../RELEASE_PROCESS.md#branch-strategy-quick-reference).
 Bookworm's debhelper 13.11.4 provides `debhelper-compat (= 13)`, and its
 dh-virtualenv is 1.2.2-1.3, so the build-dependencies in the control file
 above are satisfiable there. `Standards-Version: 4.7.2` names the policy

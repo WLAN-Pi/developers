@@ -26,11 +26,17 @@ guidance here.
 
 ## Platform
 
-Debian 13 Trixie is the development target. Plan and test on Python 3.13, the
-system `python3` in Trixie. Declare `requires-python = ">=3.13"`. Do not pin
-`==3.13`. Do not target Python 3.14 or 3.15. Do not select a production
-interpreter with pyenv, conda, or uv. Production apps ship as `.deb` packages
-and may use `dh_virtualenv` under `/opt/wlanpi-{app}`.
+Debian 13 Trixie is the development target. WLAN Pi ships `.deb` packages
+built for Trixie. Plan and test on Python 3.13, the system `python3` in
+Trixie. Declare `requires-python = ">=3.13"`. Do not pin `==3.13`. Do not
+target Python 3.14 or 3.15. Do not select a production interpreter with
+pyenv, conda, or uv. Production apps ship as `.deb` packages and may use
+`dh_virtualenv` under `/opt/wlanpi-{app}`.
+
+Dockerfiles, build scripts, and workflow inputs keep the target Debian suite
+configurable, with Trixie as the default (for example a `SUITE` build arg,
+`DEBIAN_RELEASE`, or a workflow `distros` input). Adopting the next Debian
+release is a default change, not a rewrite.
 
 Suite defaults are Python 3.9 on Bullseye, Python 3.11 on Bookworm, and Python
 3.13 on Trixie. All new work targets 3.13. `debian/bookworm` and
@@ -72,7 +78,9 @@ A forked upstream project versions as `<upstream>+wlanpi<N>`, for example `2.3.0
 
 ## CI
 
-CI should keep Debian Trixie packaging jobs, plus compiler builds and tests. Do not add sid, Bookworm, Ubuntu, Arch, or Fedora jobs. WLAN Pi ships Debian packages, so do not maintain an Arch `PKGBUILD` or an RPM spec to track versions.
+CI on `main` builds and tests Debian Trixie packages, plus compiler builds and
+unit tests. Reuse the same suite parameter in workflows and build scripts,
+defaulting to Trixie.
 
 ## Documentation
 
@@ -119,7 +127,8 @@ Do not copy the patterns below. They appear in old repos and old docs. They are 
 
 - A system-wide `sudo python3 -m pip install`.
 - A hardcoded `python3.9` or `python3.11` path on work that targets Trixie.
-- Bookworm, Bullseye, or Buster described as the target for new work.
+- A `debian/<codename>` suite named as the target for new work on `main`.
+- `trixie` hardcoded through build scripts with no suite parameter.
 - `setup.py` for a new package.
 - A Debian revision such as `-1` on a new first-party version.
 - A version or changelog bump inside a fix pull request.
