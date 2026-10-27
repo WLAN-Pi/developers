@@ -32,7 +32,7 @@ the release pull request merges, and an automatic tag, are planned. See
 | [`wlanpi-common`](https://github.com/WLAN-Pi/wlanpi-common) | Common scripts and files for WLAN Pi RPi and CM4 hardware | `main` | `wlanpi-common` | |
 | [`wlanpi-core`](https://github.com/WLAN-Pi/wlanpi-core) | Shares data between core services and applications on the WLAN Pi | `main` | `wlanpi-core` | Repo-specific build and test rules belong in this repo's own `AGENTS.md`. |
 | [`wlanpi-ctx`](https://github.com/WLAN-Pi/wlanpi-ctx) | Wi-Fi continuous transmitter testing tool | `main` | `wlanpi-ctx` | |
-| [`wlanpi-desktop`](https://github.com/WLAN-Pi/wlanpi-desktop) | Desktop environment configuration for WLAN Pi | `main` | `wlanpi-desktop` | Optional apt package; install it when you need the desktop. |
+| [`wlanpi-desktop`](https://github.com/WLAN-Pi/wlanpi-desktop) | Desktop environment configuration for WLAN Pi | `main` | `wlanpi-desktop` | Optional apt package. The full image doesn't include it. |
 | [`wlanpi-fpms`](https://github.com/WLAN-Pi/wlanpi-fpms) | Front Panel Menu System for WLAN Pi RPi and CM4 hardware | `main` | `wlanpi-fpms` | |
 | [`wlanpi-grafana`](https://github.com/WLAN-Pi/wlanpi-grafana) | Grafana dashboards | `main` | `wlanpi-grafana` | |
 | [`wlanpi-hotspot`](https://github.com/WLAN-Pi/wlanpi-hotspot) | Hotspot mode for the WLAN Pi RPi/CM4 hardware | `main` | `wlanpi-hotspot` | |
@@ -56,7 +56,7 @@ the release pull request merges, and an automatic tag, are planned. See
 | [`pi-gen`](https://github.com/WLAN-Pi/pi-gen) | WLAN Pi OS image build tool for RPi based hardware | `trixie64` | none (OS image) | Fork of [`RPi-Distro/pi-gen`](https://github.com/RPi-Distro/pi-gen). Own release rules. New image work belongs here. |
 
 WLAN Pi Go is BE200-only. It ships every `iwlwifi-gl-c0-fm-c0-*` ucode file
-plus `pnvm`. The user sets the regulatory domain.
+plus `pnvm`, and no `wpa_supplicant`. The user can set the regulatory domain.
 
 ## Tooling
 
