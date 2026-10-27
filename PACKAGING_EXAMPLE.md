@@ -605,9 +605,9 @@ jobs:
 ```
 
 The deploy workflow fires when a `debian/changelog` change reaches `main`. A
-git tag on its own does not deploy. The `sbuild-deploy-pkg` reusable workflow builds for the suite or suites in
-its `distros` input (Trixie by default) and uploads to the Packagecloud
-`dev` repository.
+git tag on its own does not deploy. The `sbuild-deploy-pkg` reusable workflow builds for the suites in its
+`distros` input (default `["trixie"]`) and uploads to the Packagecloud `dev`
+repository.
 
 ## Step 9: Complete filesystem structure
 

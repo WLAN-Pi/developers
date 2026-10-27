@@ -26,9 +26,11 @@ General branching strategy. May vary per repo.
 | `hotfix/<desc>` | Urgent fixes against `main` |
 | `release/<version>` | Version bump for a release |
 
-> `debian/<codename>` branches let the core team preserve an older Debian
-> suite. CI on each branch builds for that suite. Open pull requests against
-> `main`, where Trixie is the shipping target and CI builds Trixie packages.
+> `debian/<codename>` branches (e.g. `debian/bullseye`)
+> are maintained by the core team. They are branched from a known-good commit
+> before trixie-targeted work began. Build matrices on these branches target
+> only their specific suite. Contributors should not open PRs against these
+> branches.
 
 ### Branch rules
 

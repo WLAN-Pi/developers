@@ -25,14 +25,9 @@ This guide covers how to contribute code to WLAN Pi projects. For setting up you
 branches from `main`, and open pull requests against `main`. The exception is
 `wlanpi-kernel`, which keeps one branch per kernel version.
 
-**Debian target on `main`:** WLAN Pi ships packages built for Debian Trixie.
-CI runs Trixie packaging jobs. Build scripts, Dockerfiles, and shared
-workflows keep the suite configurable, with Trixie as the default. See
-[Agent Guidance](agents/AGENTS.md#platform).
-
-**Debian suite branches** (`debian/<codename>`): Maintained by the core team
-only. Each branch preserves one older suite; its CI builds for that suite.
-These branches are not targets for regular contributor pull requests.
+**Debian suite branches** (`debian/<codename>`, e.g. `debian/bullseye`):
+- Maintained by the core team only. These preserve support for older Debian releases and are not targets for regular contributor PRs.
+- Build matrices on these branches are scoped to their specific suite only.
 
 See [Repository Reference](REPOS.md) for each repo's default branch.
 
