@@ -13,14 +13,12 @@ An application deploy workflow should call the shared workflows in
 [`gh-workflows`](https://github.com/WLAN-Pi/gh-workflows): `sbuild-pkg`,
 `sbuild-deploy-pkg`, and `tag-release`.
 
-CI should keep Debian Trixie packaging jobs, plus compiler builds and tests.
-Do not add sid, Bookworm, Ubuntu, Arch, or Fedora jobs. Do not maintain an
-Arch `PKGBUILD` or an RPM spec to track versions.
+CI builds and tests Debian Trixie packages, plus compiler builds and tests.
 
 A `debian/changelog` push to `main` uploads to Packagecloud `wlanpi/dev`.
 Promotion to `wlanpi/main` is done by hand. An upload to `wlanpi/main` when
-the release pull request merges, and an automatic tag, are planned and not
-live. See [What Is Live](RELEASING.md#what-is-live).
+the release pull request merges, and an automatic tag, are planned. See
+[What Is Live](RELEASING.md#what-is-live).
 
 `pi-gen` and `wlanpi-kernel` follow their own release rules. See
 [Scope](RELEASING.md#scope).
@@ -34,7 +32,7 @@ live. See [What Is Live](RELEASING.md#what-is-live).
 | [`wlanpi-common`](https://github.com/WLAN-Pi/wlanpi-common) | Common scripts and files for WLAN Pi RPi and CM4 hardware | `main` | `wlanpi-common` | |
 | [`wlanpi-core`](https://github.com/WLAN-Pi/wlanpi-core) | Shares data between core services and applications on the WLAN Pi | `main` | `wlanpi-core` | Repo-specific build and test rules belong in this repo's own `AGENTS.md`. |
 | [`wlanpi-ctx`](https://github.com/WLAN-Pi/wlanpi-ctx) | Wi-Fi continuous transmitter testing tool | `main` | `wlanpi-ctx` | |
-| [`wlanpi-desktop`](https://github.com/WLAN-Pi/wlanpi-desktop) | Desktop environment configuration for WLAN Pi | `main` | `wlanpi-desktop` | Optional apt package. Not preinstalled in the full image. |
+| [`wlanpi-desktop`](https://github.com/WLAN-Pi/wlanpi-desktop) | Desktop environment configuration for WLAN Pi | `main` | `wlanpi-desktop` | Optional apt package; install it when you need the desktop. |
 | [`wlanpi-fpms`](https://github.com/WLAN-Pi/wlanpi-fpms) | Front Panel Menu System for WLAN Pi RPi and CM4 hardware | `main` | `wlanpi-fpms` | |
 | [`wlanpi-grafana`](https://github.com/WLAN-Pi/wlanpi-grafana) | Grafana dashboards | `main` | `wlanpi-grafana` | |
 | [`wlanpi-hotspot`](https://github.com/WLAN-Pi/wlanpi-hotspot) | Hotspot mode for the WLAN Pi RPi/CM4 hardware | `main` | `wlanpi-hotspot` | |
@@ -57,9 +55,8 @@ live. See [What Is Live](RELEASING.md#what-is-live).
 | [`wlanpi-misc-packages`](https://github.com/WLAN-Pi/wlanpi-misc-packages) | Packages miscellaneous binaries, such as iwlwifi and iw | `main` | `hostapd`, `iperf`, `iperf3`, `iw`, `wavemon`, `wlanpi-linux-firmware`, `wpasupplicant` | |
 | [`pi-gen`](https://github.com/WLAN-Pi/pi-gen) | WLAN Pi OS image build tool for RPi based hardware | `trixie64` | none (OS image) | Fork of [`RPi-Distro/pi-gen`](https://github.com/RPi-Distro/pi-gen). Own release rules. New image work belongs here. |
 
-WLAN Pi Go is BE200-only. It ships only BE200 firmware: every
-`iwlwifi-gl-c0-fm-c0-*` ucode file plus `pnvm`. It must not ship or run
-`wpa_supplicant`. The user must be able to set the regulatory domain.
+WLAN Pi Go is BE200-only. It ships every `iwlwifi-gl-c0-fm-c0-*` ucode file
+plus `pnvm`. The user sets the regulatory domain.
 
 ## Tooling
 
@@ -77,8 +74,6 @@ WLAN Pi image using Debian Bookworm. Default branch `bookworm`. New image
 work belongs in [`pi-gen`](https://github.com/WLAN-Pi/pi-gen).
 
 ## Legacy candidates
-
-These repositories are not the current standard.
 
 | Repository | Default branch | Note |
 |------------|----------------|------|

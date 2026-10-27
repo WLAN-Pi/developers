@@ -26,7 +26,7 @@ branches from `main`, and open pull requests against `main`. The exception is
 `wlanpi-kernel`, which keeps one branch per kernel version.
 
 **Debian suite branches** (`debian/bookworm`, `debian/bullseye`):
-- These branches exist only for a hotfix to an old release. New work never targets them.
+- Use these branches only for a hotfix to an old release.
 - A hotfix uses that suite branch and that suite's Python. Bookworm is 3.11. Bullseye is 3.9.
 
 See [Repository Reference](REPOS.md) for each repo's default branch.
