@@ -70,11 +70,6 @@ WLAN Pi Go is BE200-only. It ships only BE200 firmware: every
 | [`sbuild-debian-package`](https://github.com/WLAN-Pi/sbuild-debian-package) | Builds a Debian package using sbuild | `main` | none | Fork of [`danielmundi/sbuild-debian-package`](https://github.com/danielmundi/sbuild-debian-package). |
 | [`.github`](https://github.com/WLAN-Pi/.github) | Community health files for the WLAN-Pi org | `main` | none | |
 
-## Also active
-
-[`wlanpi-app`](https://github.com/WLAN-Pi/wlanpi-app) and
-[`gitbook`](https://github.com/WLAN-Pi/gitbook) are active.
-
 ## Legacy
 
 [`pi-gen-bookworm`](https://github.com/WLAN-Pi/pi-gen-bookworm) builds the
@@ -95,14 +90,6 @@ These repositories are not the current standard.
 | [`armbian-build`](https://github.com/WLAN-Pi/armbian-build) | `wlanpi-neo2-6e` | Armbian Linux build framework. Fork of [`adriangranados/build`](https://github.com/adriangranados/build). |
 | [`rpi-linux`](https://github.com/WLAN-Pi/rpi-linux) | `rpi-5.14.y` | Kernel source tree for Raspberry Pi Foundation-provided kernel builds. Fork of [`raspberrypi/linux`](https://github.com/raspberrypi/linux). |
 | [`pidcodes.github.com`](https://github.com/WLAN-Pi/pidcodes.github.com) | `master` | Website for pid.codes. Fork of [`pidcodes/pidcodes.github.com`](https://github.com/pidcodes/pidcodes.github.com). |
-
-[`brand`](https://github.com/WLAN-Pi/brand),
-[`roadmap`](https://github.com/WLAN-Pi/roadmap),
-[`user-manuals`](https://github.com/WLAN-Pi/user-manuals),
-[`oss-attribution`](https://github.com/WLAN-Pi/oss-attribution),
-[`dev-docs`](https://github.com/WLAN-Pi/dev-docs),
-[`v2-migration-docs`](https://github.com/WLAN-Pi/v2-migration-docs),
-[`gitbook-backup`](https://github.com/WLAN-Pi/gitbook-backup).
 
 ## Retired
 
