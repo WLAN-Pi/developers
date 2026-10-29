@@ -48,11 +48,20 @@ When the target suite or Python version changes, update this section and
 - Do not use an em dash. Do not use `--` as punctuation. `--` belongs only in a CLI flag or a URL.
 - When the task is ambiguous, ask. Do not guess.
 - Build only what was asked. Do not add files, abstractions, dependencies, or features that were not requested.
+- Do not design for rare or future cases nobody asked about.
 - Use the least code that solves the problem. After it works, do a second pass that simplifies and deletes unused code.
 - Before you hand work off, review your own output. Read the change as a critic against the request, the platform rule above, and the linked docs. Fix what that review finds, then hand it off.
 - Prefer boring, well-understood tools. If you reach for something novel, say why.
 - Match the style of the file you are editing.
 - Keep each pull request small enough to review. The size policy is in [PR Size and Scope](https://github.com/WLAN-Pi/developers/blob/main/CONTRIBUTING.md#pr-size-and-scope).
+
+## Reviewing
+
+This section applies to agent reviewers, QA passes, and the self-review in How to work.
+
+- Report a finding only if it would materially prevent or mislead a user doing ordinary work, or could cause data loss, a security hole, or a crash. Write the scenario first: the task, the normal steps, and what the user loses. If you cannot write a concrete scenario, drop the finding.
+- After the scenario, label the finding with one word: Blocker (fix it in this change), Follow-up (file an issue and leave the code alone), or Drop (do not report it). A rare data-loss, security, or crash bug never drops below Blocker because it is rare.
+- Do not report style, naming, docs, or rare future cases nobody asked about. A review with no comments is fine.
 
 ## Python
 
