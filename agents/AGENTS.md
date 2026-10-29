@@ -59,9 +59,9 @@ When the target suite or Python version changes, update this section and
 
 This section applies to agent reviewers, QA passes, and the self-review in How to work.
 
-- Judge customer impact before you raise an implementation gap. Describe a realistic task, the normal steps a user takes, and what the user materially loses.
-- Report a finding only when it would materially prevent or mislead a customer doing ordinary work. Omit a low-impact finding. Do not include it at a lower priority.
-- Rate each reported finding from 1 to 10 for likelihood and from 1 to 10 for severity. When likelihood times severity is below 5, open an issue and leave the code unchanged. A repository may set its own threshold in its `AGENTS.md`.
+- Report a finding only if it would materially prevent or mislead a user doing ordinary work, or could cause data loss, a security hole, or a crash. Write the scenario first: the task, the normal steps, and what the user loses. If you cannot write a concrete scenario, drop the finding.
+- After the scenario, label the finding with one word: Blocker (fix it in this change), Follow-up (file an issue and leave the code alone), or Drop (do not report it). A rare data-loss, security, or crash bug never drops below Blocker because it is rare.
+- Do not report style, naming, docs, or rare future cases nobody asked about. A review with no comments is fine.
 
 ## Python
 
