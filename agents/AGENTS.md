@@ -48,11 +48,20 @@ When the target suite or Python version changes, update this section and
 - Do not use an em dash. Do not use `--` as punctuation. `--` belongs only in a CLI flag or a URL.
 - When the task is ambiguous, ask. Do not guess.
 - Build only what was asked. Do not add files, abstractions, dependencies, or features that were not requested.
+- Do not design for rare or future cases nobody asked about.
 - Use the least code that solves the problem. After it works, do a second pass that simplifies and deletes unused code.
 - Before you hand work off, review your own output. Read the change as a critic against the request, the platform rule above, and the linked docs. Fix what that review finds, then hand it off.
 - Prefer boring, well-understood tools. If you reach for something novel, say why.
 - Match the style of the file you are editing.
 - Keep each pull request small enough to review. The size policy is in [PR Size and Scope](https://github.com/WLAN-Pi/developers/blob/main/CONTRIBUTING.md#pr-size-and-scope).
+
+## Reviewing
+
+This section applies to agent reviewers, QA passes, and the self-review in How to work.
+
+- Judge customer impact before you raise an implementation gap. Describe a realistic task, the normal steps a user takes, and what the user materially loses.
+- Report a finding only when it would materially prevent or mislead a customer doing ordinary work. Omit a low-impact finding. Do not include it at a lower priority.
+- Rate each reported finding from 1 to 10 for likelihood and from 1 to 10 for severity. When likelihood times severity is below 5, open an issue and leave the code unchanged. A repository may set its own threshold in its `AGENTS.md`.
 
 ## Python
 
